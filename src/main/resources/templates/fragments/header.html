@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--sec:authorize="isAuthenticated()"-->
+
+<div th:fragment="header">
+    <header id="header" class="header-container">
+        <div class="header-template">
+            <div class="m-header"></div>
+            <div class="w-header">
+                <div class="header-wrapper">
+                    <div class="header-top">
+                        <div class="search-box">
+                            <div class="search-toggle" onclick="fnOpen();"><i class="material-symbols-outlined">search</i></div>
+                        </div>
+                        <div class="header-logo">
+                            <a href="/">gowine</a>
+                        </div>
+                        <div class="right-side-icon">
+                            <!-- // 로그인 전 -->
+                            <div class="login-header before-login" sec:authorize="isAnonymous()">
+                                <a href="/members/login" class="account-btn">Login</a>
+                            </div>
+                            <!-- 로그인 전 // -->
+
+                            <!-- //  일반 유저 로그인 후 -->
+                            <div class="login-header after-login" sec:authorize="hasAnyAuthority('ROLE_USER')">
+                                <h3 class="account-btn">Hi, 님</h3>
+                                <div class="dropdown-container login-after-layer">
+                                    <ul>
+                                        <li><a href="/members/my">마이페이지</a></li>
+                                        <li><a href="/members/favorite">찜 상품</a></li>
+                                        <li><a href="/members/logout">로그아웃</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- 일반 유저 로그인 후 // -->
+
+                            <!-- //  관리자 로그인 후 -->
+                            <div class="login-header after-login" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                                <h3 class="account-btn">안녕하세요, 관리자님</h3>
+                                <div class="dropdown-container login-after-layer">
+                                    <ul>
+                                        <li><a href="/admin/main">관리자 페이지로 이동</a></li>
+                                        <li><a href="/members/logout">로그아웃</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- //  관리자 로그인 후 -->
+
+                            <div class="cart-box clfix">
+                                <span class="cart-text">Cart</span>
+                                <span class="cart-count count-ico text-center">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-bottom">
+                        <div class="header-menu">
+                            <nav class="nav-center">
+                                <ul class="clfix">
+                                    <li><a href="#" class="info-link"></a>MARKET</li>
+                                    <li><a href="/list" class="info-link"></a>PRODUCTS</li>
+                                    <li><a href="#" class="info-link"></a>EVENT</li>
+                                    <li><a href="#" class="info-link"></a>COMMUNITY</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+</div>
+
+</html>

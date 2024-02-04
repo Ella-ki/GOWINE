@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/pageLayout}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(function(){
+            let thymeleaf = {
+                utility: {
+                    maskingName: function(strName) {
+                        if (strName.length > 2) {
+                            const originName = strName.split('');
+                            originName.forEach(function(name, i) {
+                                if (i === 0 || i === originName.length - 1) return;
+                                originName[i] = '*';
+                            });
+                            const joinName = originName.join();
+                            return joinName.replace(/,/g, '');
+                        } else {
+                            const pattern = /.$/; // 정규식
+                            return strName.replace(pattern, '*');
+                        }
+                    }
+                }
+            };
+
+            // 상품 스와이퍼 슬라이드 이벤트
+            let relatedProd = new Swiper('.related-item-cont .swiper-container', {
+                paginationClickable : true,
+                navigation: {
+                    nextEl: '.related-item-cont .swiper-button-next',
+                    prevEl: '.related-item-cont .swiper-button-prev',
+                },
+
+                slidesPerView: 4,
+                spaceBetween: 30,
+                //centeredSlides: true,
+                loop: true,
+                autoplayDisableOnInteraction: false,
+            });
+        })
+
+    </script>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="main-container">
+        <section class="section-com container">
+            <div class="product-detail-head side-layout">
+                <div class="product-image left-side">
+                    <div class="img-container">
+                        <div class="product-label sold-out">품절</div>
+                        <img th:src="@{/images/wine-2.png}" alt="">
+                    </div>
+                    <div class="review-container">
+                        <div class="heading-box">
+                            <h2 class="heading-tit">Reviews</h2>
+                        </div>
+
+                        <div class="review-cont">
+                            <dl class="star-dl">
+                                <dt>
+                                    <div class="review-star">
+                                        <img th:src="@{/images/star-icon-on.png}">
+                                        <img th:src="@{/images/star-icon-on.png}">
+                                        <img th:src="@{/images/star-icon-on.png}">
+                                        <img th:src="@{/images/star-icon-on.png}">
+                                        <img th:src="@{/images/star-icon-on.png}">
+                                    </div>
+                                    <div class="review-cont"><span id="total-count">65</span> reviews</div>
+                                </dt>
+                                <dd class="review-status">
+                                    <div>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="count-5">(25)</span></div>
+                                    </div>
+                                    <div>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="count-4">(20)</span></div>
+                                    </div>
+                                    <div>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="count-3">(0)</span></div>
+                                    </div>
+                                    <div>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="count-2">(0)</span></div>
+                                    </div>
+                                    <div>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/images/star-icon-off.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="count-1">(0)</span></div>
+                                    </div>
+                                </dd>
+                            </dl>
+
+                            <div class="common-btns">
+                                <div class="btn-full-default"><span>리뷰 작성하기</span></div>
+                            </div>
+
+                            <div class="review-txt">
+                                <dl class="review-dl">
+                                    <dt>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                        </div>
+                                        <span class="review-reg-date">25/09/2022</span>
+                                        <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 김교영 +')}'"></span>
+                                    </dt>
+                                    <dd>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                    </dd>
+                                </dl>
+                                <dl class="review-dl">
+                                    <dt>
+                                        <div class="review-star">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/images/star-icon-on.png}">
+                                        </div>
+                                        <span class="review-reg-date">25/09/2022</span>
+                                        <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 이황 +')}'"></span>
+                                    </dt>
+                                    <dd>
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-exp right-side">
+                    <div class="product-name txt-line-2">Carbonaione Alta 2011</div>
+                    <div class="exp-fun">
+                        <ul class="clfix">
+                            <li>
+                                <div class="number">
+                                    <span class="minus">-</span>
+                                    <input type="text" value="1"/>
+                                    <span class="plus">+</span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="product-price">
+                                    <del class="origin-price" aria-hidden="true">
+                                        <span class="amount"><bdi>90,000</bdi>원</span>
+                                    </del>
+                                    <div class="current-price">
+                                        <span class="amount"><bdi>63,000</bdi>원</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="order-btns common-btns">
+                            <div class="add-to-cart btn-border-default"><span>장바구니</span></div>
+                            <div class="go-to-order btn-full-default"><span>구매하기</span></div>
+                        </div>
+                    </div>
+                    <div class="exp-character char-list">
+                        <dl>
+                            <dt>Region</dt>
+                            <dd class="txt-line-2">Willamette Valley. OR</dd>
+                        </dl>
+                        <dl>
+                            <dt>Type</dt>
+                            <dd>Rose</dd>
+                        </dl>
+                        <dl>
+                            <dt>Grape</dt>
+                            <dd>Pinot Noir</dd>
+                        </dl>
+                        <dl>
+                            <dt>Value</dt>
+                            <dd>Pioneer</dd>
+                        </dl>
+                        <dl>
+                            <dt>Vivino</dt>
+                            <dd>3.7</dd>
+                        </dl>
+                    </div>
+                    <div class="exp-character char-input">
+                        <dl>
+                            <dt>Characteristics</dt>
+                            <dd>
+                                <div class="char-range" data-value="80">
+                                    <div class="label">
+                                        <div class="label-value">Acidity</div>
+                                        <div class="input-box">
+                                            <input class="input-range" type="range" min="0" max="100" value="80" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="char-range" data-value="50">
+                                    <div class="label">
+                                        <div class="label-value">Body</div>
+                                        <div class="input-box">
+                                            <input class="input-range" type="range" min="0" max="100" value="50" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="char-range" data-value="60">
+                                    <div class="label">
+                                        <div class="label-value">Tanins</div>
+                                        <div class="input-box">
+                                            <input class="input-range" type="range" min="0" max="100" value="60" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-detail-body">
+                <div class="related-item-cont">
+                    <div class="heading-box">
+                        <h2 class="heading-tit">연관 상품</h2>
+                    </div>
+                    <div class="content-box product-wrapper">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="products-entry">
+                                        <a href="/item/detail" class="info-link"></a>
+                                        <div class="products-thumb">
+                                            <div class="product-image">
+                                                <img th:src="@{/images/wine-1.png}" alt="">
+                                            </div>
+                                            <div class="add-cart-btn">ADD TO CART</div>
+                                        </div>
+                                        <div class="products-content">
+                                            <div class="product-subname">Poggio Scalette</div>
+                                            <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
+                                            <div class="product-price">
+                                                <del class="origin-price" aria-hidden="true">
+                                                    <span class="amount"><bdi>250,000</bdi>원</span>
+                                                </del>
+                                                <div class="current-price">
+                                                    <span class="amount"><bdi>175,000</bdi>원</span>
+                                                </div>
+                                                <div class="per">30%</div>
+                                            </div>
+                                            <div class="product-rate">
+                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
+                                            </div>
+                                            <div class="wishitem-btn">
+                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="products-entry">
+                                        <a href="/item/detail" class="info-link"></a>
+                                        <div class="products-thumb">
+                                            <div class="product-image">
+                                                <img th:src="@{/images/wine-2.png}" alt="">
+                                            </div>
+                                            <div class="add-cart-btn">ADD TO CART</div>
+                                        </div>
+                                        <div class="products-content">
+                                            <div class="product-subname">Hardys</div>
+                                            <div class="product-name txt-line-2">HRB Shiraz 2008 750ml</div>
+                                            <div class="product-price">
+                                                <del class="origin-price" aria-hidden="true">
+                                                    <span class="amount"><bdi>90,000</bdi>원</span>
+                                                </del>
+                                                <div class="current-price">
+                                                    <span class="amount"><bdi>63,000</bdi>원</span>
+                                                </div>
+                                                <div class="per">18%</div>
+                                            </div>
+                                            <div class="product-rate">
+                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
+                                            </div>
+                                            <div class="wishitem-btn">
+                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="products-entry">
+                                        <a href="/item/detail" class="info-link"></a>
+                                        <div class="products-thumb">
+                                            <div class="product-image">
+                                                <img th:src="@{/images/wine-3.png}" alt="">
+                                            </div>
+                                            <div class="add-cart-btn">ADD TO CART</div>
+                                        </div>
+                                        <div class="products-content">
+                                            <div class="product-subname">Château Couhdiv-Lurton</div>
+                                            <div class="product-name txt-line-2">Pessac-Léognan Blanc (Grand Cru Classé de Graves) 2011</div>
+                                            <div class="product-price">
+                                                <del class="origin-price" aria-hidden="true">
+                                                    <span class="amount"><bdi>132,000</bdi>원</span>
+                                                </del>
+                                                <div class="current-price">
+                                                    <span class="amount"><bdi>105,600</bdi>원</span>
+                                                </div>
+                                                <div class="per">22%</div>
+                                            </div>
+                                            <div class="product-rate">
+                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
+                                            </div>
+                                            <div class="wishitem-btn">
+                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="products-entry">
+                                        <a href="/item/detail" class="info-link"></a>
+                                        <div class="products-thumb">
+                                            <div class="product-label sold-out">품절</div>
+                                            <div class="product-image">
+                                                <img th:src="@{/images/wine-4.png}" alt="">
+                                            </div>
+                                            <div class="add-cart-btn">ADD TO CART</div>
+                                        </div>
+                                        <div class="products-content">
+                                            <div class="product-subname">Château Rabaud-Promis</div>
+                                            <div class="product-name txt-line-2">Sauternes (Premier Grand Cru Classé) 1955</div>
+                                            <div class="product-price">
+                                                <del class="origin-price" aria-hidden="true">
+                                                    <span class="amount"><bdi>468,000</bdi>원</span>
+                                                </del>
+                                                <div class="current-price">
+                                                    <span class="amount"><bdi>411,840</bdi>원</span>
+                                                </div>
+                                                <div class="per">15%</div>
+                                            </div>
+                                            <div class="product-rate">
+                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
+                                            </div>
+                                            <div class="wishitem-btn">
+                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-btn swiper-button-prev" th:style="'background-image: url(/images/slide-arrow.png)'"></div>
+                        <div class="swiper-btn swiper-button-next" th:style="'background-image: url(/images/slide-arrow.png)'"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+</html>

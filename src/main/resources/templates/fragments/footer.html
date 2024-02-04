@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footer" id="footer" class="footer-container">
+    <div class="container text-center">
+        <div class="footer-logo"><a href="/">gowine</a></div>
+        <address class="clfix">
+            <span><em>상호명</em>주식회사 고와인</span>
+            <span><em> 대표자</em>홍길동</span>
+            <span><em>사업자등록번호</em>152-15-457</span>
+            <span><em>통신판매업신고번호</em>제 2023-12154호&nbsp;<a href="#" class="fnShowBizInfo()">[사업자정보확인]</a></span>
+            <span><em>고객센터</em>1588-0000</span>
+            <span><em>주소</em>서울 강남구</span>
+        </address>
+
+        <ul class="footer-icon">
+            <li><a href="#" class="info-link"></a><img th:src="@{/img/instagram-logo.png}" alt="인스타그램로고"></li>
+            <li><a href="#" class="info-link"></a><img th:src="@{/img/facebook-logo.png}" alt="페이스북로고"></li>
+        </ul>
+
+        <h3 class="copyright">COPYRIGHT © 2023. ALL RIGHT RESERVED</h3>
+    </div>
+</footer>
+
+</html>

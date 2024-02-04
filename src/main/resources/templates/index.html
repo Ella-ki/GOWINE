@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/indexLayout}">
+
+<div layout:fragment="content" class="main-container">
+    <section class="main-banner">
+        <div class="banner-wrap">
+            <img th:src="@{/img/main-banner.jpg}" alt="">
+            <div class="banner-btn">
+                <a href="/list">SHOP WINES</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-com container">
+        <div class="product-wrapper sale-product">
+            <a href="#" class="product-more-btn">SEE ALL</a>
+            <div class="heading-box">
+                <h2 class="heading-tit">타임세일</h2>
+                <div class="counter-wrapper">
+                    <div class="days hide" data-days="00">
+                        <div class="number-wrapper">
+                            <span class="number">00</span>
+                        </div>
+                        <div class="ref-wrapper">days</div>
+                    </div>
+                    <div class="hours" data-hours="03">
+                        <div class="number-wrapper">
+                            <span class="number">03</span>
+                        </div>
+                        <div class="ref-wrapper">Hours</div>
+                    </div>
+                    <span class="dots">:</span>
+                    <div class="minutes" data-minutes="59">
+                        <div class="number-wrapper">
+                            <span class="number">45</span>
+                        </div>
+                        <div class="ref-wrapper">Mins</div>
+                    </div>
+                    <span class="dots">:</span>
+                    <div class="seconds" data-seconds="02">
+                        <div class="number-wrapper">
+                            <span class="number">11</span>
+                        </div>
+                        <div class="ref-wrapper">Secs</div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-box">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="products-entry">
+                                <a href="/item/detail" class="info-link"></a>
+                                <div class="products-thumb">
+                                    <div class="product-image">
+                                        <img th:src="@{/img/wine-1.png}" alt="">
+                                    </div>
+                                    <div class="add-cart-btn">ADD TO CART</div>
+                                </div>
+                                <div class="products-content">
+                                    <div class="product-subname">Poggio Scalette</div>
+                                    <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
+                                    <div class="product-price">
+                                        <del class="origin-price" aria-hidden="true">
+                                            <span class="amount"><bdi>250,000</bdi>원</span>
+                                        </del>
+                                        <div class="current-price">
+                                            <span class="amount"><bdi>175,000</bdi>원</span>
+                                        </div>
+                                        <div class="per">30%</div>
+                                    </div>
+                                    <div class="product-rate">
+                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
+                                    </div>
+                                    <div class="wishitem-btn">
+                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="products-entry">
+                                <a href="/item/detail" class="info-link"></a>
+                                <div class="products-thumb">
+                                    <div class="product-image">
+                                        <img th:src="@{/img/wine-2.png}" alt="">
+                                    </div>
+                                    <div class="add-cart-btn">ADD TO CART</div>
+                                </div>
+                                <div class="products-content">
+                                    <div class="product-subname">Hardys</div>
+                                    <div class="product-name txt-line-2">HRB Shiraz 2008 750ml</div>
+                                    <div class="product-price">
+                                        <del class="origin-price" aria-hidden="true">
+                                            <span class="amount"><bdi>90,000</bdi>원</span>
+                                        </del>
+                                        <div class="current-price">
+                                            <span class="amount"><bdi>63,000</bdi>원</span>
+                                        </div>
+                                        <div class="per">18%</div>
+                                    </div>
+                                    <div class="product-rate">
+                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
+                                    </div>
+                                    <div class="wishitem-btn">
+                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="products-entry">
+                                <a href="/item/detail" class="info-link"></a>
+                                <div class="products-thumb">
+                                    <div class="product-image">
+                                        <img th:src="@{/img/wine-3.png}" alt="">
+                                    </div>
+                                    <div class="add-cart-btn">ADD TO CART</div>
+                                </div>
+                                <div class="products-content">
+                                    <div class="product-subname">Château Couhdiv-Lurton</div>
+                                    <div class="product-name txt-line-2">Pessac-Léognan Blanc (Grand Cru Classé de Graves) 2011</div>
+                                    <div class="product-price">
+                                        <del class="origin-price" aria-hidden="true">
+                                            <span class="amount"><bdi>132,000</bdi>원</span>
+                                        </del>
+                                        <div class="current-price">
+                                            <span class="amount"><bdi>105,600</bdi>원</span>
+                                        </div>
+                                        <div class="per">22%</div>
+                                    </div>
+                                    <div class="product-rate">
+                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
+                                    </div>
+                                    <div class="wishitem-btn">
+                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="products-entry">
+                                <a href="/item/detail" class="info-link"></a>
+                                <div class="products-thumb">
+                                    <div class="product-label sold-out">품절</div>
+                                    <div class="product-image">
+                                        <img th:src="@{/img/wine-4.png}" alt="">
+                                    </div>
+                                    <div class="add-cart-btn">ADD TO CART</div>
+                                </div>
+                                <div class="products-content">
+                                    <div class="product-subname">Château Rabaud-Promis</div>
+                                    <div class="product-name txt-line-2">Sauternes (Premier Grand Cru Classé) 1955</div>
+                                    <div class="product-price">
+                                        <del class="origin-price" aria-hidden="true">
+                                            <span class="amount"><bdi>468,000</bdi>원</span>
+                                        </del>
+                                        <div class="current-price">
+                                            <span class="amount"><bdi>411,840</bdi>원</span>
+                                        </div>
+                                        <div class="per">15%</div>
+                                    </div>
+                                    <div class="product-rate">
+                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
+                                    </div>
+                                    <div class="wishitem-btn">
+                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-btn swiper-button-prev" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
+                <div class="swiper-btn swiper-button-next" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</html>
