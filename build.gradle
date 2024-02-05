@@ -49,6 +49,8 @@ dependencies {
 	// lombok
 	implementation 'org.projectlombok:lombok:1.18.22'
 	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+	testImplementation 'org.projectlombok:lombok:1.18.22'
 	compileOnly 'org.projectlombok:lombok'
 
 	// Querydsl
@@ -72,6 +74,9 @@ def querydslSrcDir = 'src/main/generated'
 clean {
 	delete file(querydslSrcDir)
 }
+
+compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
 	options.generatedSourceOutputDirectory = file(querydslSrcDir)
+	options.encoding = "UTF-8"
 }

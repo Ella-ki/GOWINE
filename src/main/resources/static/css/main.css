@@ -529,7 +529,6 @@
 
 .form-area .form-row .valid-failed p {
     position: relative;
-    margin-bottom: 12px;
     font-size: 14px;
     color: red;
     line-height: 24px;
@@ -547,16 +546,14 @@
     color: red;
 }
 
-.form-area .form-row .valid-failed .failed-link {
-    margin-bottom: flex;
+.form-area .form-row .valid-failed .failed-link > * {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 12px;
 }
 
 .form-area .form-row .valid-failed .failed-link .link-to-login {
     margin-right: 8px;
-}
-
-.form-area .form-row .valid-failed .failed-link .link-to-find {
-
 }
 
 .form-area .login-remember {

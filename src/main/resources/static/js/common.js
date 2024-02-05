@@ -1,7 +1,6 @@
 $(function() {
     // 로그인 버튼 마우스 오버
     $('.header-wrapper .login-header').on('mouseenter',function(){
-        console.log("ddd");
         $('.dropdown-container.login-after-layer').slideDown();
     });
 
