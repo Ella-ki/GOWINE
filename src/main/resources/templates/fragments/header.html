@@ -16,21 +16,22 @@
                             <a href="/">gowine</a>
                         </div>
                         <div class="right-side-icon">
-                            <!-- // 로그인 전 -->
+                            <!-- // 로그인 전  sec:authorize="isAnonymous()" -->
                             <div class="login-header before-login" sec:authorize="isAnonymous()">
                                 <a href="/members/login" class="account-btn">Login</a>
                             </div>
                             <!-- 로그인 전 // -->
 
-                            <!-- //  일반 유저 로그인 후 -->
-                            <div class="login-header after-login" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                                <h3 class="account-btn">Hi, 님</h3>
+                            <!-- //  일반 유저 로그인 후 sec:authorize="hasAnyAuthority('ROLE_USER')" -->
+                            <div class="login-header after-login" th:if="${#authorization.expression('isAuthenticated()')}">
+                                <h3 class="account-btn">Hi, <span th:text="${#authentication.principal}"></span>님</h3>
                                 <div class="dropdown-container login-after-layer">
                                     <ul>
                                         <li><a href="/members/my">마이페이지</a></li>
                                         <li><a href="/members/favorite">찜 상품</a></li>
                                         <li><a href="/members/logout">로그아웃</a></li>
                                     </ul>
+
                                 </div>
                             </div>
                             <!-- 일반 유저 로그인 후 // -->
