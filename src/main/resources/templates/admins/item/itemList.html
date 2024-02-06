@@ -38,18 +38,13 @@
     </script>
 </th:block>
 
-<!-- 사용자 CSS 추가 -->
-<th:block layout:fragment="css">
-    <style>
-        select {
-            margin-right: 10px;
-        }
-
-    </style>
-</th:block>
-
 <div layout:fragment="content">
-    <form th:action="@{'/admin/items/'+${items.number}}" role="form" method="get" th:object="${items}">
+    <div th:replace="~{fragments_admin/aside::aside}"></div>
+
+    <section class="section-cont">
+        <h3 class="section-title">상품 목록</h3>
+
+        <form th:action="@{'/admin/items/'+${items.number}}" role="form" method="get" th:object="${items}">
         <table class="table">
             <thead>
             <tr>
@@ -114,6 +109,8 @@
             <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
         </div>
     </form>
+
+    </section>
 </div>
 
 </html>
