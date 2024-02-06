@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ItemFormDto {
+public class ItemFormDto { // 입력 받은 아이템 DTO
     // Item
     private Long id;
 
@@ -21,23 +21,45 @@ public class ItemFormDto {
     private String itemNm;
 
     @NotNull(message = "가격은 필수 입력 값입니다.")
-    private Integer price;
+    private Integer regularPrice;
 
-    @NotBlank(message = "이름은 필수 입력 값입니다.")
-    private String itemDetail;
+    @NotNull(message = "와인의 종류를 선택해주세요.")
+    private Long wineType;
+
+    @NotNull(message = "와인의 품종을 선택해주세요.")
+    private Long wineGrape;
+
+    @NotNull(message = "와인의 원산지를 선택해주세요.")
+    private Long wineRegion;
+
+    @NotNull(message = "와이너리를 선택해주세요.")
+    private Long winery;
+
+    @NotNull(message = "와인의 스타일을 선택해주세요.")
+    private int sweetnessPercent;
+
+    @NotNull(message = "와인의 스타일을 선택해주세요.")
+    private int acidityPercent;
+
+    @NotNull(message = "와인의 스타일을 선택해주세요.")
+    private int bodyPercent;
+
+    @NotNull(message = "와인의 스타일을 선택해주세요.")
+    private int tanninPercent;
+
+    private Double vivinoRate;
 
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;
 
-    private ItemSellStatus itemSellStatus;
-
     // --------------------------------------------------------------------------------
     // ItemImg
-    private List<ItemImgDto> itemImgDtoList = new ArrayList<>(); // 상품 이미지 정보
+    private List<ReviewImgDto> reviewImgDtoList = new ArrayList<>();
 
-    private List<Long> itemImgIds = new ArrayList<>(); // 상품 이미지 아이디
+    private List<Long> reviewImgIds = new ArrayList<>();
 
     // --------------------------------------------------------------------------------
+
     // ModelMapper
     private static ModelMapper modelMapper = new ModelMapper();
 

@@ -10,8 +10,15 @@ import java.time.LocalDateTime;
 public class ItemDto {
     private Long id;
     private String itemNm;
-    private Integer price;
-    private String itemDetail;
+    private String winary;
+    private String wineType;
+    private String wineRegion;
+    private String wineGrape;
+    private String wineStyle;
+    private String vivinoRating;
+    private Integer regularPrice;
+    private Integer discountPrice; // 타임세일에 사용
+    private Double avgRating; // 평점 평균
     private String sellStatCd;
     private LocalDateTime regTime;
     private LocalDateTime updateTime;

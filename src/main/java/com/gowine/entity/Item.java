@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,28 +18,57 @@ import java.util.List;
 public class Item extends BaseEntity{
     @Id // 기본키
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO) // 자동으로 1씩 증가
-    private long id; // 상품코드
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column(nullable = false, length = 50)
-    private String itemNm; // 상품명
+    @Column(name = "wine_name", nullable = false, length = 50)
+    private String itemNm;
 
-    @Column(name="price", nullable = false)
-    private int price; // 가격
+    // 와인 타입 - 레드, 화이트 ...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id")
+    private WineType type;
+
+    // 와인 품종 - 말백, 쇼블 ...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "grape_id")
+    private WineGrape grape;
+
+    // 와인 지역 - Maipo Valley, Proto ...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private WineRegion region;
+
+    // 와이너리 - Domaine, Lafage ...
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "winery_id")
+    private Winery winery;
+
+    // 당도, 바디감, 탄닌, 산도
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "style_id")
+    private WineStyle wineStyle;
+
+    // 비비노 평점
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rating_id")
+    private VivinoRating vivinoRating;
+
+    @Column(name="regular_price", nullable = false)
+    private int regularPrice;
 
     @Column(nullable = false)
-    private int stockNumber; // 재고 수량
+    private int stockNumber;
 
-    @Lob
-    @Column(nullable = false)
-    private String itemDetail; // 상품 상세 설명
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
+    private List<Review> reviews; // 상품 리뷰 관계 추가
 
+    // 상품 평균 평점
+    @Column(name = "avg_rating")
+    private Double avgRating;
+    
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; // 상품 판매 상태
-
-    //private LocalDateTime regTime; // 등록 시간
-
-    //private LocalDateTime updateTime; // 수정 시간
 
     @ManyToMany(fetch = FetchType.LAZY) // 어떤 member_id 에게 팔렸는지 정의
     @JoinTable(
@@ -52,10 +80,9 @@ public class Item extends BaseEntity{
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();
-        this.price = itemFormDto.getPrice();
+        //this.price = itemFormDto.getPrice();
         this.stockNumber = itemFormDto.getStockNumber();
-        this.itemDetail = itemFormDto.getItemDetail();
-        this.itemSellStatus = itemFormDto.getItemSellStatus();
+        //this.itemSellStatus = itemFormDto.getItemSellStatus();
     }
 
     public void removeStock(int stockNumber){

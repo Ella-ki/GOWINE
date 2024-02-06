@@ -44,18 +44,58 @@
 
             <div class="form-area">
                 <dl>
+                    <dt>와인 종류 선택 <span class="required">*</span></dt>
+                    <dd>
+                        <select th:field="*{wineType}" class="input-select">
+                            <option value="1">레드</option>
+                            <option value="2">화이트</option>
+                            <option value="3">로제</option>
+                            <option value="4">디저트</option>
+                            <option value="5">포트</option>
+                            <option value="6">스파클링</option>
+                            <option value="7">기타</option>
+                        </select>
+                    </dd>
+                </dl>
+            </div>
+            <p th:if="${#fields.hasErrors('wineType')}" th:errors="*{wineType}" class="fieldError">Incorrect data</p>
+
+            <div class="form-area">
+                <dl>
+                    <dt>와인 품종 선택 <span class="required">*</span></dt>
+                    <dd>
+                        <select th:field="*{wineGrape}" class="input-select">
+                            <option value="1">쉬라즈</option>
+                            <option value="2">까베르네쇼비뇽</option>
+                            <option value="3">말백</option>
+                            <option value="4">멜롯</option>
+                            <option value="5">템프라니요</option>
+                            <option value="6">피노누아</option>
+                            <option value="7">진판델</option>
+                            <option value="8">퍼미티보</option>
+                            <option value="9">블론드</option>
+                            <option value="10">기타</option>
+                        </select>
+                    </dd>
+                </dl>
+            </div>
+            <p th:if="${#fields.hasErrors('wineGrape')}" th:errors="*{wineGrape}" class="fieldError">Incorrect data</p>
+
+            <div class="form-area">
+                <dl>
                     <dt>상품명 <span class="required">*</span></dt>
                     <dd>
                         <input type="text" th:field="*{itemNm}" class="input-field">
                     </dd>
                 </dl>
             </div>
+            <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError">Incorrect data</p>
 
             <div class="form-area">
                 <dl>
-                    <dt>가격 <span class="required">*</span></dt>
+                    <dt>판매 가격 <span class="required">*</span></dt>
                     <dd>
-                        <input type="number" th:field="*{price}" class="input-field">
+                        <input type="number" th:field="*{regularPrice}" class="input-field">
                     </dd>
                 </dl>
             </div>
@@ -68,8 +108,6 @@
                     </dd>
                 </dl>
             </div>
-
-
 
 
             <!-- 등록 :: S -->
