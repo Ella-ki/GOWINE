@@ -29,8 +29,6 @@ public class QItem extends EntityPathBase<Item> {
     //inherited
     public final StringPath createdBy = _super.createdBy;
 
-    public final QWineGrape grape;
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final StringPath itemNm = createString("itemNm");
@@ -44,25 +42,27 @@ public class QItem extends EntityPathBase<Item> {
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
-    public final QWineRegion region;
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
 
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
-    public final NumberPath<Integer> stockNumber = createNumber("stockNumber", Integer.class);
-
-    public final QWineType type;
+    public final NumberPath<Integer> stockNum = createNumber("stockNum", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateTime = _super.updateTime;
 
     public final QVivinoRating vivinoRating;
 
+    public final QWineGrape wineGrape;
+
+    public final QWineRegion wineRegion;
+
     public final QWinery winery;
 
     public final QWineStyle wineStyle;
+
+    public final QWineType wineType;
 
     public QItem(String variable) {
         this(Item.class, forVariable(variable), INITS);
@@ -82,12 +82,12 @@ public class QItem extends EntityPathBase<Item> {
 
     public QItem(Class<? extends Item> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.grape = inits.isInitialized("grape") ? new QWineGrape(forProperty("grape")) : null;
-        this.region = inits.isInitialized("region") ? new QWineRegion(forProperty("region")) : null;
-        this.type = inits.isInitialized("type") ? new QWineType(forProperty("type")) : null;
         this.vivinoRating = inits.isInitialized("vivinoRating") ? new QVivinoRating(forProperty("vivinoRating")) : null;
+        this.wineGrape = inits.isInitialized("wineGrape") ? new QWineGrape(forProperty("wineGrape")) : null;
+        this.wineRegion = inits.isInitialized("wineRegion") ? new QWineRegion(forProperty("wineRegion")) : null;
         this.winery = inits.isInitialized("winery") ? new QWinery(forProperty("winery")) : null;
         this.wineStyle = inits.isInitialized("wineStyle") ? new QWineStyle(forProperty("wineStyle")) : null;
+        this.wineType = inits.isInitialized("wineType") ? new QWineType(forProperty("wineType")) : null;
     }
 
 }

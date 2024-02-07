@@ -18,8 +18,9 @@
         function bindDomEvent(){
             $(".imgFile").on("change", function(){
                 // a.jpg
-                var fileName = $(this).val().split("\\").pop();
-                var fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+                let fileName = $(this).val().split("\\").pop();
+                let fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+                let fileInput = $(".upload-name");
                 // 확장자 추출
                 fileExt = fileExt.toLowerCase(); // 소문자 소환
 
@@ -28,6 +29,8 @@
                     $(this).val("");
                     return;
                 }
+
+                fileInput.val(fileName);
             });
         }
 
@@ -60,24 +63,19 @@
                 selectBox.appendChild(option);
             });
         }
- /*
+
         function updateSelect(obj) {
             const val = obj.value;
 
-            console.log(val);
-
             let inputHtml = "";
+            inputHtml += "<input type='text' th:field='*{" + obj.getAttribute('name') + "}' class='input-field etc-field'>";
 
-            inputHtml += "<input type="text"
-
-            if(val === 10) {
-
+            if(val == "기타") {
+                $(obj).parent().append(inputHtml);
+            } else {
+                $(obj).siblings(".etc-field").hide();
             }
-
         }
-  */
-
-
 
     </script>
 </th:block>
@@ -115,14 +113,15 @@
                 <dl>
                     <dt>와인 종류 <span class="required">*</span></dt>
                     <dd>
-                        <select th:field="*{wineType}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
-                            <option value="1">레드</option>
-                            <option value="2">화이트</option>
-                            <option value="3">로제</option>
-                            <option value="4">디저트</option>
-                            <option value="5">포트</option>
-                            <option value="6">스파클링</option>
-                            <option value="7">기타</option>
+                        <select th:field="*{wineType}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineType)">
+                            <option value="">선택하세요.</option>
+                            <option value="레드">레드</option>
+                            <option value="화이트">화이트</option>
+                            <option value="로제">로제</option>
+                            <option value="디저트">디저트</option>
+                            <option value="포트">포트</option>
+                            <option value="스파클링">스파클링</option>
+                            <option value="기타">기타</option>
                         </select>
                     </dd>
                 </dl>
@@ -133,17 +132,18 @@
                 <dl>
                     <dt>와인 품종 <span class="required">*</span></dt>
                     <dd>
-                        <select th:field="*{wineGrape}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(this)">
-                            <option value="1">쉬라즈</option>
-                            <option value="2">까베르네쇼비뇽</option>
-                            <option value="3">말백</option>
-                            <option value="4">멜롯</option>
-                            <option value="5">템프라니요</option>
-                            <option value="6">피노누아</option>
-                            <option value="7">진판델</option>
-                            <option value="8">퍼미티보</option>
-                            <option value="9">블론드</option>
-                            <option value="10">기타</option>
+                        <select th:field="*{wineGrape}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineGrape)">
+                            <option value="">선택하세요.</option>
+                            <option value="쉬라즈">쉬라즈</option>
+                            <option value="까베르네쇼비뇽">까베르네쇼비뇽</option>
+                            <option value="말백">말백</option>
+                            <option value="멜롯">멜롯</option>
+                            <option value="템프라니요">템프라니요</option>
+                            <option value="피노누아">피노누아</option>
+                            <option value="진판델">진판델</option>
+                            <option value="퍼미티보">퍼미티보</option>
+                            <option value="블론드">블론드</option>
+                            <option value="기타">기타</option>
                         </select>
                     </dd>
                 </dl>
@@ -154,19 +154,20 @@
                 <dl>
                     <dt>와인 지역 <span class="required">*</span></dt>
                     <dd>
-                        <select id="regionSelect" th:field="*{wineRegion}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
-                            <option value="1">프랑스</option>
-                            <option value="2">이탈리아</option>
-                            <option value="3">미국</option>
-                            <option value="4">남아공</option>
-                            <option value="5">호주</option>
-                            <option value="6">스페인</option>
-                            <option value="7">독일</option>
-                            <option value="8">칠레</option>
-                            <option value="9">아르헨티나</option>
-                            <option value="10">포르투갈</option>
-                            <option value="11">뉴질랜드</option>
-                            <option value="12">기타</option>
+                        <select id="regionSelect" th:field="*{wineRegion}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineRegion)">
+                            <option value="">선택하세요.</option>
+                            <option value="프랑스">프랑스</option>
+                            <option value="이탈리아">이탈리아</option>
+                            <option value="미국">미국</option>
+                            <option value="남아공">남아공</option>
+                            <option value="호주">호주</option>
+                            <option value="스페인">스페인</option>
+                            <option value="독일">독일</option>
+                            <option value="칠레">칠레</option>
+                            <option value="아르헨티나">아르헨티나</option>
+                            <option value="포르투갈">포르투갈</option>
+                            <option value="뉴질랜드">뉴질랜드</option>
+                            <option value="기타">기타</option>
                         </select>
                     </dd>
                 </dl>
@@ -247,7 +248,7 @@
                         <div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">
                             <input class="upload-name" value="첨부파일" placeholder="첨부파일">
                             <input type="file" class="form-control imgFile" name="itemImgFile" id="itemImgFile">
-                            <label class="custom-file-label" for="itemImgFile"></label>
+                            <label class="custom-file-label" for="itemImgFile">사진 선택</label>
                         </div>
                         <!-- 등록 :: E -->
 

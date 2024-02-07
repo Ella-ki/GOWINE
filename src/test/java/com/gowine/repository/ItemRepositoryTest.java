@@ -1,6 +1,7 @@
 package com.gowine.repository;
 
 import com.gowine.entity.Item;
+import com.gowine.entity.WineType;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

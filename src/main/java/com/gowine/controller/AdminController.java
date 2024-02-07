@@ -48,6 +48,10 @@ public class AdminController {
                           @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
 
         log.info(itemFormDto.getItemNm());
+        log.info(itemFormDto.getWineGrape());
+        log.info(itemFormDto.getWinery());
+        log.info(itemFormDto.getWineRegion());
+        log.info(itemFormDto.getVivinoRate());
 
         if(bindingResult.hasErrors()){
             return "admins/item/itemReg";
@@ -57,6 +61,7 @@ public class AdminController {
             model.addAttribute("errorMsg", "상품 이미지는 필수 입력 값입니다.");
             return "admins/item/itemReg";
         }
+
         try {
             itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e){

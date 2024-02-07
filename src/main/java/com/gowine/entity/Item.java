@@ -26,27 +26,27 @@ public class Item extends BaseEntity{
 
     // 와인 타입 - 레드, 화이트 ...
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_id")
-    private WineType type;
+    @JoinColumn(name = "type_name")
+    private WineType wineType;
 
     // 와인 품종 - 말백, 쇼블 ...
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grape_id")
-    private WineGrape grape;
+    @JoinColumn(name = "grape_name")
+    private WineGrape wineGrape;
 
     // 와인 지역 - Maipo Valley, Proto ...
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    private WineRegion region;
+    @JoinColumn(name = "region_name")
+    private WineRegion wineRegion;
 
     // 와이너리 - Domaine, Lafage ...
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winery_id")
+    @JoinColumn(name = "winery_name")
     private Winery winery;
 
     // 당도, 바디감, 탄닌, 산도
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "style_id")
+    @JoinColumn(name = "style_name")
     private WineStyle wineStyle;
 
     // 비비노 평점
