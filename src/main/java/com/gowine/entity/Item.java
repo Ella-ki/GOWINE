@@ -55,7 +55,7 @@ public class Item extends BaseEntity{
     private VivinoRating vivinoRating;
 
     @Column(name="regular_price", nullable = false)
-    private int regularPrice;
+    private int price;
 
     @Column(nullable = false)
     private int stockNumber;
@@ -80,7 +80,7 @@ public class Item extends BaseEntity{
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();
-        //this.price = itemFormDto.getPrice();
+        this.price = itemFormDto.getPrice();
         this.stockNumber = itemFormDto.getStockNumber();
         //this.itemSellStatus = itemFormDto.getItemSellStatus();
     }

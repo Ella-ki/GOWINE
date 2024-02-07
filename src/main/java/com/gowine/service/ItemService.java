@@ -32,18 +32,11 @@ public class ItemService {
         Item item = itemFormDto.createItem(); // modelMapper => item <-> itemFormDto
         itemRepository.save(item);
         // 이미지 등록
-
         for (int i = 0; i < itemImgFileList.size(); i++) {
             ItemImg itemImg = new ItemImg();
             itemImg.setItem(item);
-            if(i == 0) {
-                itemImg.setRepImgYn("Y"); // 대표 이미지 설정
-            } else {
-                itemImg.setRepImgYn("N");
-            }
             itemImgService.saveItemImg(itemImg,itemImgFileList.get(i));
         }
-
 
         // return 없이 void 로 해도되지만, 추후 어디에서 필요할지모르니 return 만듬
         // return 해놓고 안써도되니까..
@@ -88,11 +81,12 @@ public class ItemService {
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 
+    /*
     @Transactional(readOnly = true)
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
-
+    */
 
 
 }

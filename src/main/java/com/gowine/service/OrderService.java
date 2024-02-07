@@ -59,11 +59,11 @@ public class OrderService {
             List<OrderItem> orderItems = order.getOrderItems(); // Order <= List<OrderItem> 추출
             for (OrderItem orderItem : orderItems) { // orderItems -> orderItem 추출 null 될 때까지
                 // orderItem, id, Y => 이용해서 이미지 객체를 추출
-                ItemImg itemImg = itemImgRepository.findByItemIdAndRepImgYn(orderItem.getItem().getId(), "Y");
+                //ItemImg itemImg = itemImgRepository.findByItemIdAndRepImgYn(orderItem.getItem().getId(), "Y");
                 // 객체를 생성할 때 orderItem 객체와 itemImg URL을 매개변수로 받음
-                OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
+                //OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
                 // orderHistDto <- List<orderItemDto> <- orderItemDto를 추가
-                orderHistDto.addOrderItemDto(orderItemDto);
+                //orderHistDto.addOrderItemDto(orderItemDto);
             }
             // orderHistDtos(List<OrderHist>) 위에 orderHistDto를 추가
             orderHistDtos.add(orderHistDto);

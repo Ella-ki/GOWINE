@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,25 +23,48 @@ import java.util.Optional;
 
 @Slf4j
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
     @Autowired
     ItemService itemService;
 
-    @GetMapping("/main")
+    @GetMapping("/admin/main")
     public String adminMainPage() {
         return "admins/main";
     }
 
-    @GetMapping(value = "item/itemList")
+    @GetMapping(value = "/admin/item/itemList")
     public String itemDashbord(Model model) {
         return "admins/item/itemList";
     }
 
-    @GetMapping(value = "item/new")
+    @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
         return "admins/item/itemReg";
+    }
+
+    @PostMapping(value = "/admin/item/new")
+    public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model,
+                          @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
+
+        log.info(itemFormDto.getItemNm());
+
+        if(bindingResult.hasErrors()){
+            return "admins/item/itemReg";
+        }
+
+        if(itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null){
+            model.addAttribute("errorMsg", "상품 이미지는 필수 입력 값입니다.");
+            return "admins/item/itemReg";
+        }
+        try {
+            itemService.saveItem(itemFormDto, itemImgFileList);
+        } catch (Exception e){
+            model.addAttribute("errorMsg", "상품 등록 중 에러가 발생하였습니다.");
+            return "admins/item/itemReg";
+        }
+
+        return "admins/item/itemList";
     }
 
     /*

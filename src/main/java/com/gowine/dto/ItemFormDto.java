@@ -1,7 +1,7 @@
 package com.gowine.dto;
 
-import com.gowine.constant.ItemSellStatus;
 import com.gowine.entity.Item;
+import com.gowine.entity.ItemImg;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -21,7 +21,9 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
     private String itemNm;
 
     @NotNull(message = "가격은 필수 입력 값입니다.")
-    private Integer regularPrice;
+    private Integer price;
+
+    private Long winery;
 
     @NotNull(message = "와인의 종류를 선택해주세요.")
     private Long wineType;
@@ -29,11 +31,8 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
     @NotNull(message = "와인의 품종을 선택해주세요.")
     private Long wineGrape;
 
-    @NotNull(message = "와인의 원산지를 선택해주세요.")
+    @NotNull(message = "와인의 지역을 선택해주세요.")
     private Long wineRegion;
-
-    @NotNull(message = "와이너리를 선택해주세요.")
-    private Long winery;
 
     @NotNull(message = "와인의 스타일을 선택해주세요.")
     private int sweetnessPercent;
@@ -51,6 +50,12 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
 
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;
+
+    // --------------------------------------------------------------------------------
+    // ItemImg
+    private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
+
+    private List<Long> itemImgIds = new ArrayList<>();
 
     // --------------------------------------------------------------------------------
     // ItemImg

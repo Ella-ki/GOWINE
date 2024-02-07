@@ -83,13 +83,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%"+searchQuery+"%");
     }
 
+    /*
     @Override
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
         // QMainItemDto @QueryProjection을 허용하면 DTO 로 바로 조회 가능
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.itemDetail, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, itemImg.imgUrl, item.regularPrice))
                 // join 내부조인 .regImgYn.eq("Y") 대표이미지만 가져온다
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
@@ -98,5 +99,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
+    */
 }
 

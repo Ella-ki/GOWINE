@@ -11,8 +11,4 @@ public class Winery {
 
     @Column(name = "winery_name")
     private String wineryName;
-
-    @ManyToOne
-    @JoinColumn(name = "region_id")
-    private WineRegion region;
 }

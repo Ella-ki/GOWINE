@@ -43,8 +43,6 @@ public class QItemImg extends EntityPathBase<ItemImg> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> regTime = _super.regTime;
 
-    public final StringPath repImgYn = createString("repImgYn");
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateTime = _super.updateTime;
 
@@ -66,7 +64,7 @@ public class QItemImg extends EntityPathBase<ItemImg> {
 
     public QItemImg(Class<? extends ItemImg> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.item = inits.isInitialized("item") ? new QItem(forProperty("item")) : null;
+        this.item = inits.isInitialized("item") ? new QItem(forProperty("item"), inits.get("item")) : null;
     }
 
 }
