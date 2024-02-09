@@ -1,5 +1,6 @@
 package com.gowine.controller;
 
+import com.gowine.dto.CategoryDto;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.entity.Item;
@@ -32,44 +33,38 @@ public class AdminController {
         return "admins/main";
     }
 
-    @GetMapping(value = "/admin/item/itemList")
+    @GetMapping(value = "/admin/item/list")
     public String itemDashbord(Model model) {
-        return "admins/item/itemList";
+        return "admins/item/list";
     }
 
     @GetMapping(value = "/admin/item/new")
     public String itemForm(Model model) {
         model.addAttribute("itemFormDto", new ItemFormDto());
-        return "admins/item/itemReg";
+        return "admins/item/register";
     }
 
     @PostMapping(value = "/admin/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model,
                           @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
 
-        log.info(itemFormDto.getItemNm());
-        log.info(itemFormDto.getWineGrape());
-        log.info(itemFormDto.getWinery());
-        log.info(itemFormDto.getWineRegion());
-        log.info(itemFormDto.getVivinoRate());
-
         if(bindingResult.hasErrors()){
-            return "admins/item/itemReg";
+            return "admins/item/register";
         }
 
         if(itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null){
             model.addAttribute("errorMsg", "상품 이미지는 필수 입력 값입니다.");
-            return "admins/item/itemReg";
+            return "admins/item/register";
         }
 
         try {
             itemService.saveItem(itemFormDto, itemImgFileList);
         } catch (Exception e){
             model.addAttribute("errorMsg", "상품 등록 중 에러가 발생하였습니다.");
-            return "admins/item/itemReg";
+            return "admins/item/register";
         }
 
-        return "admins/item/itemList";
+        return "admins/item/list";
     }
 
     /*

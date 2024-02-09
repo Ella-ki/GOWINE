@@ -113,26 +113,26 @@
                 <dl>
                     <dt>와인 종류 <span class="required">*</span></dt>
                     <dd>
-                        <select th:field="*{wineType}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineType)">
+                        <select th:field="*{categoryId}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineType)">
                             <option value="">선택하세요.</option>
-                            <option value="레드">레드</option>
-                            <option value="화이트">화이트</option>
-                            <option value="로제">로제</option>
-                            <option value="디저트">디저트</option>
-                            <option value="포트">포트</option>
-                            <option value="스파클링">스파클링</option>
-                            <option value="기타">기타</option>
+                            <option value="1">레드</option>
+                            <option value="2">화이트</option>
+                            <option value="3">로제</option>
+                            <option value="4">디저트</option>
+                            <option value="5">포트</option>
+                            <option value="6">스파클링</option>
+                            <option value="7">기타</option>
                         </select>
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('wineType')}" th:errors="*{wineType}" class="fieldError">Incorrect data</p>
+<!--                <p th:if="${#fields.hasErrors('wineType')}" th:errors="*{wineType}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
                 <dl>
                     <dt>와인 품종 <span class="required">*</span></dt>
                     <dd>
-                        <select th:field="*{wineGrape}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineGrape)">
+                        <select class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineGrape)">
                             <option value="">선택하세요.</option>
                             <option value="쉬라즈">쉬라즈</option>
                             <option value="까베르네쇼비뇽">까베르네쇼비뇽</option>
@@ -147,14 +147,14 @@
                         </select>
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('wineGrape')}" th:errors="*{wineGrape}" class="fieldError">Incorrect data</p>
+<!--                <p th:if="${#fields.hasErrors('wineGrape')}" th:errors="*{wineGrape}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
                 <dl>
                     <dt>와인 지역 <span class="required">*</span></dt>
                     <dd>
-                        <select id="regionSelect" th:field="*{wineRegion}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineRegion)">
+                        <select id="regionSelect" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineRegion)">
                             <option value="">선택하세요.</option>
                             <option value="프랑스">프랑스</option>
                             <option value="이탈리아">이탈리아</option>
@@ -171,7 +171,7 @@
                         </select>
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('wineRegion')}" th:errors="*{wineRegion}" class="fieldError">Incorrect data</p>
+<!--                <p th:if="${#fields.hasErrors('wineRegion')}" th:errors="*{wineRegion}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
@@ -181,30 +181,30 @@
                         <div class="rangeInputArea">
                             <div class="range-slider">
                                 <label for="sweetness">당도</label>
-                                <input type="range" th:field="*{sweetnessPercent}" id="sweetness" name="sweetness" class="range-slider__range" min="0" max="100" step="10" value="">
+                                <input type="range" id="sweetness" name="sweetness" class="range-slider__range" min="0" max="100" step="10" value="">
                                 <output for="sweetness" class="range-slider__value">0</output>
-                                <p th:if="${#fields.hasErrors('sweetnessPercent')}" th:errors="*{sweetnessPercent}" class="fieldError">Incorrect data</p>
+<!--                                <p th:if="${#fields.hasErrors('sweetnessPercent')}" th:errors="*{sweetnessPercent}" class="fieldError">Incorrect data</p>-->
                             </div>
 
                             <div class="range-slider">
                                 <label for="acidity">산도</label>
-                                <input type="range" th:field="*{acidityPercent}" id="acidity" name="acidity" class="range-slider__range" min="0" max="100" step="10" value="">
+                                <input type="range" id="acidity" name="acidity" class="range-slider__range" min="0" max="100" step="10" value="">
                                 <output for="acidity" class="range-slider__value">0</output>
-                                <p th:if="${#fields.hasErrors('acidityPercent')}" th:errors="*{acidityPercent}" class="fieldError">Incorrect data</p>
+<!--                                <p th:if="${#fields.hasErrors('acidityPercent')}" th:errors="*{acidityPercent}" class="fieldError">Incorrect data</p>-->
                             </div>
 
                             <div class="range-slider">
                                 <label for="body">바디감</label>
-                                <input type="range" th:field="*{bodyPercent}" id="body" name="body" class="range-slider__range" min="0" max="100" step="10" value="">
+                                <input type="range"  id="body" name="body" class="range-slider__range" min="0" max="100" step="10" value="">
                                 <output for="body" class="range-slider__value">0</output>
-                                <p th:if="${#fields.hasErrors('bodyPercent')}" th:errors="*{bodyPercent}" class="fieldError">Incorrect data</p>
+<!--                                <p th:if="${#fields.hasErrors('bodyPercent')}" th:errors="*{bodyPercent}" class="fieldError">Incorrect data</p>-->
                             </div>
 
                             <div class="range-slider">
                                 <label for="tannin">탄닌</label>
-                                <input type="range" th:field="*{tanninPercent}" id="tannin" name="tannin" class="range-slider__range" min="0" max="100" step="10" value="">
+                                <input type="range" id="tannin" name="tannin" class="range-slider__range" min="0" max="100" step="10" value="">
                                 <output for="tannin" class="range-slider__value">0</output>
-                                <p th:if="${#fields.hasErrors('tanninPercent')}" th:errors="*{tanninPercent}" class="fieldError">Incorrect data</p>
+<!--                                <p th:if="${#fields.hasErrors('tanninPercent')}" th:errors="*{tanninPercent}" class="fieldError">Incorrect data</p>-->
                             </div>
                         </div>
                     </dd>
@@ -215,7 +215,7 @@
                 <dl>
                     <dt>비비노 평점</dt>
                     <dd>
-                        <input type="text" th:field="*{vivinoRate}" class="input-field">
+                        <input type="text" class="input-field">
                     </dd>
                 </dl>
             </div>
