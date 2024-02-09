@@ -1,7 +1,6 @@
 package com.gowine.repository;
 
 import com.gowine.entity.Item;
-import com.gowine.entity.WineType;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest // 스프링부트 테스트를 의미
 @TestPropertySource(locations = "classpath:application-test.properties") // 테스트에 사용하는 설정 소스
