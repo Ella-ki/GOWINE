@@ -14,8 +14,11 @@ public class ItemDto {
     private String wineType;
     private String wineRegion;
     private String wineGrape;
-    private String wineStyle;
-    private String vivinoRating;
+    private String vivinoRate;
+    private Integer sweetnessPercent;
+    private Integer acidityPercent;
+    private Integer bodyPercent;
+    private Integer tanninPercent;
     private Integer regularPrice;
     private Integer discountPrice; // 타임세일에 사용
     private Double avgRating; // 평점 평균

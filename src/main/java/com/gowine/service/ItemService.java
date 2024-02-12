@@ -1,9 +1,6 @@
 package com.gowine.service;
 
-import com.gowine.dto.ItemFormDto;
-import com.gowine.dto.ItemImgDto;
-import com.gowine.dto.ItemSearchDto;
-import com.gowine.dto.MainItemDto;
+import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.ItemImg;
 import com.gowine.repository.ItemImgRepository;
@@ -30,7 +27,9 @@ public class ItemService {
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
         // 상품 등록
         Item item = itemFormDto.createItem(); // modelMapper => item <-> itemFormDto
+
         itemRepository.save(item);
+
         // 이미지 등록
         for (int i = 0; i < itemImgFileList.size(); i++) {
             ItemImg itemImg = new ItemImg();
@@ -59,7 +58,6 @@ public class ItemService {
         ItemFormDto itemFormDto = ItemFormDto.of(item);
         itemFormDto.setItemImgDtoList(itemImgDtoList);
         return itemFormDto;
-
     }
 
     public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
@@ -76,9 +74,25 @@ public class ItemService {
         return item.getId();
     }
 
+    public Long updateStatus(Long itemId) throws Exception {
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+        item.updateStatus();
+        return item.getId();
+    }
+
     @Transactional(readOnly = true)
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+        return itemRepository.getAdminItemPage(itemSearchDto , pageable);
+    }
+
+    public void deleteItem(Long itemId) throws Exception {
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+        itemRepository.delete(item);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getListItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getListItemPage(itemSearchDto, pageable);
     }
 
     /*

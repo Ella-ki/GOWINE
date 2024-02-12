@@ -1,5 +1,6 @@
 package com.gowine.repository;
 
+import com.gowine.dto.ItemFormDto;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -56,9 +57,16 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     private BooleanExpression searchByLike(String searchBy, String searchQuery) {
         if(StringUtils.equals("itemNm", searchBy)){ // 상품명
             return QItem.item.itemNm.like("%"+searchQuery+"%");
-        } else if(StringUtils.equals("createdBy", searchBy)) { // 작성자
+        } else if(StringUtils.equals("winary", searchBy)){ // 와이너리
+            return QItem.item.winary.like("%"+searchQuery+"%");
+        }
+
+        /*
+        else if(StringUtils.equals("createdBy", searchBy)) { // 작성자
             return QItem.item.createdBy.like("%"+searchQuery+"%");
         }
+        */
+
         return null;
     }
 
@@ -81,6 +89,20 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     private BooleanExpression itemNmLike(String searchQuery){
         return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%"+searchQuery+"%");
+    }
+
+    @Override
+    public Page<MainItemDto> getListItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
+                .from(itemImg).join(itemImg.item, item)
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
     }
 
     /*

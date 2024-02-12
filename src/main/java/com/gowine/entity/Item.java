@@ -1,6 +1,9 @@
 package com.gowine.entity;
 
 import com.gowine.constant.ItemSellStatus;
+import com.gowine.constant.WineGrape;
+import com.gowine.constant.WineRegion;
+import com.gowine.constant.WineType;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.exception.OutOfStockException;
 import jakarta.persistence.*;
@@ -24,35 +27,30 @@ public class Item extends BaseEntity{
     @Column(name = "wine_name", nullable = false, length = 50)
     private String itemNm;
 
-    // 와인 타입 - 레드, 화이트 ...
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "type_name")
+    private String winary;
+
+    @Enumerated(EnumType.STRING)
     private WineType wineType;
 
-    // 와인 품종 - 말백, 쇼블 ...
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grape_name")
+    @Enumerated(EnumType.STRING)
     private WineGrape wineGrape;
 
-    // 와인 지역 - Maipo Valley, Proto ...
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_name")
+    @Enumerated(EnumType.STRING)
     private WineRegion wineRegion;
 
-    // 와이너리 - Domaine, Lafage ...
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "winery_name")
-    private Winery winery;
+    @Column(name="style_sweetness", nullable = false)
+    private int sweetnessPercent;
 
-    // 당도, 바디감, 탄닌, 산도
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "style_name")
-    private WineStyle wineStyle;
+    @Column(name="style_acidity", nullable = false)
+    private int acidityPercent;
 
-    // 비비노 평점
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rating_id")
-    private VivinoRating vivinoRating;
+    @Column(name="style_body", nullable = false)
+    private int bodyPercent;
+
+    @Column(name="style_tannin", nullable = false)
+    private int tanninPercent;
+
+    private String vivinoRate;
 
     @Column(name="regular_price", nullable = false)
     private int price;
@@ -81,8 +79,20 @@ public class Item extends BaseEntity{
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();
         this.price = itemFormDto.getPrice();
+        this.winary = itemFormDto.getWinary();
+        this.wineType = itemFormDto.getWineType();
+        this.wineGrape = itemFormDto.getWineGrape();
+        this.wineRegion = itemFormDto.getWineRegion();
+        this.acidityPercent = itemFormDto.getAcidityPercent();
+        this.bodyPercent = itemFormDto.getBodyPercent();
+        this.sweetnessPercent = itemFormDto.getSweetnessPercent();
+        this.tanninPercent = itemFormDto.getTanninPercent();
+        this.vivinoRate = itemFormDto.getVivinoRate();
         this.stockNumber = itemFormDto.getStockNumber();
-        //this.itemSellStatus = itemFormDto.getItemSellStatus();
+    }
+
+    public void updateStatus() {
+        this.itemSellStatus = ItemSellStatus.SOLD_OUT;
     }
 
     public void removeStock(int stockNumber){

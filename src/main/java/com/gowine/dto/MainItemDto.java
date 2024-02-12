@@ -9,15 +9,15 @@ import lombok.Setter;
 public class MainItemDto {
     private Long id;
     private String itemNm;
-    //private String itemDetail;
+    private String winary;
     private String imgUrl;
     private Integer price;
 
     @QueryProjection // Querydsl 결과 조회 시 MainItemDto 객체로 바로 오도록 활용, entity 없이 Q만 만들도록
-    public MainItemDto(Long id, String itemNm, String imgUrl, Integer price) {
+    public MainItemDto(Long id, String itemNm, String winary, String imgUrl, Integer price) {
         this.id = id;
         this.itemNm = itemNm;
-        //this.itemDetail = itemDetail;
+        this.winary = winary;
         this.imgUrl = imgUrl;
         this.price = price;
     }

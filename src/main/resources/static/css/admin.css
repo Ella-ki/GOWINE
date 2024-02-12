@@ -91,17 +91,47 @@ html {
 
 /***** 버튼 컴포넌트 *****/
 .common-btns {
+    display: flex;
+    justify-content: center;
     text-align: center;
     margin: 40px auto;
 }
 
 .btn-default {
-    padding: 11px 26px;
+    display: block;
+    padding: 11px 34px;
     cursor: pointer;
     width: auto;
     background-color: var(--main-black);
     color: var(--main-bg);
     font-size: 18px;
+    text-align: center;
+    font-family: 'Pretendard';
+}
+
+.btn-border {
+    display: block;
+    padding: 11px 26px;
+    cursor: pointer;
+    width: auto;
+    background-color: var(--main-bg);
+    color: var(--main-black);
+    border: 1px solid var(--main-black);
+    font-size: 18px;
+    text-align: center;
+    font-family: 'Pretendard';
+}
+
+.btn-active {
+    display: block;
+    padding: 11px 26px;
+    cursor: pointer;
+    width: auto;
+    background-color: var(--point-color);
+    color: var(--main-bg);
+    font-size: 18px;
+    text-align: center;
+    font-family: 'Pretendard';
 }
 
 .fieldError {
@@ -238,7 +268,11 @@ aside {
 }
 
 /***** input file  *****/
-.form-area .upload-name {
+.fileInputArea .file-box {
+    position: relative;
+}
+
+.fileInputArea .upload-name {
     display: inline-block;
     height: 40px;
     padding: 0 10px;
@@ -250,22 +284,50 @@ aside {
     border-radius: 6px;
 }
 
-.form-area label.custom-file-label {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    vertical-align: middle;
-    background-color: #999999;
+.fileInputArea .upload-display {
+    position: relative;
+    display: block;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
-    height: 38px;
-    margin-left: 10px;
-    font-size: 16px;
-    border-radius: 6px;
     line-height: 1.1;
     font-family: 'Pretendard';
+    background-color: #fff;
+    border: 2px dashed #ddd;
 }
 
-.form-area input[type="file"] {
+.fileInputArea .upload-display::before {
+    content: ' \254B';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fileInputArea .upload-display img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.fileInputArea label.custom-file-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.fileInputArea input[type="file"] {
     position: absolute;
     width: 0;
     height: 0;
@@ -274,6 +336,7 @@ aside {
     border: 0;
 }
 
+/***** input range slide  *****/
 .rangeInputArea {
     width: 100%;
     padding: 18px;
@@ -283,6 +346,7 @@ aside {
 
 .rangeInputArea > div {
     margin: 18px 0;
+    line-height: 36px;
 }
 
 .rangeInputArea label {
@@ -302,17 +366,107 @@ aside {
 }
 
 .rangeInputArea output {
-    border: 1px solid #ddd;
     width: 50px;
     display: inline-block;
-    border-radius: 6px;
     text-align: center;
-    padding: 8px 0;
 }
 
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 40px auto;
+    font-size: 15px;
+    font-family: 'Pretendard';
+}
 
+.table td {
+    padding: 8px 0;
+    text-align: center;
+}
 
+.table thead td {
+    background-color: #eee;
+    line-height: 24px;
+}
 
+.table tbody td {
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.table tbody td:first-child {
+    border-left: 1px solid #eee;
+}
+
+.table .btn-default,
+.table .btn-border {
+    width: 90px;
+    padding: 11px 0;
+    margin: 8px auto;
+    font-size: 15px;
+}
+
+.table .input-select {
+    display: block;
+    width: 90px;
+    height: 38px;
+    padding: 0 12px;
+    margin: 8px auto 0;
+    -webkit-appearance: none;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    background-size: 20px;
+    background-position: 88% center;
+    background-repeat: no-repeat;
+    font-family: 'Pretendard';
+}
+
+.sch-area {
+    margin-top: 40px;
+    text-align: right;
+}
+
+.sch-area.form-area > * {
+    display:inline-block;
+    font-size: 14px;
+    font-family: 'Pretendard';
+}
+
+.sch-area.form-area .input-select + .input-field {
+     width: 280px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin: 20px auto;
+}
+
+.pagination .page-item {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    font-weight: 600;
+}
+
+.pagination .page-item span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    cursor: pointer;
+}
+
+.pagination .page-item span.page-prev {
+    transform: rotate(-180deg);
+}
 
 
 

@@ -3,6 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/adminLayout}">
 
+<head>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+</head>
+
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -11,16 +16,78 @@
             if(errorMsg != null){
                 alert(errorMsg);  // controller 에서 파라미터로 보내는 errorMsg 노출
             }
+
             bindDomEvent();
             rangeSlider();
+
+            const submitBtn = document.querySelector(".btn-default");
+
+            submitBtn.onclick = function(){
+                const f = document.Frm;
+                const wineType = $("select[name='wineType']").val();
+                const wineGrape = $("select[name='wineGrape']").val();
+                const wineRegion = $("select[name='wineRegion']").val();
+
+                if(checkEmpty(f.itemNm)) {
+                    alert("상품명을 입력해주세요.");
+                    f.itemNm.focus();
+                    return false;
+                }
+
+                if(wineType == "none") {
+                    alert("와인 종류를 선택해주세요.");
+                    return false;
+                }
+
+                if(wineGrape == "none") {
+                    alert("와인 품종을 선택해주세요.");
+                    return false;
+                }
+
+                if(wineRegion == "none") {
+                    alert("와인 지역을 선택해주세요.");
+                    return false;
+                }
+
+                if(checkEmpty(f.price)) {
+                    alert("가격을 입력해주세요.");
+                    f.price.focus();
+                    return false;
+                }
+
+                if(checkEmpty(f.stockNumber)) {
+                    alert("상품 수량을 입력해주세요.");
+                    f.stockNumber.focus();
+                    return false;
+                }
+
+                if(!$(".upload-display").hasClass("imgOn")) {
+                    alert("이미지를 선택해주세요.");
+                    return false;
+                }
+            }
         });
 
         function bindDomEvent(){
             $(".imgFile").on("change", function(){
+                const file = $("#itemImgFile")[0].files[0];
+
+                // 자바스크립트의 FileReader 내장 객체를 생성
+                const reader = new FileReader();
+                // file 객체를 base64 방식으로 인코딩해서 result 속성에 저장
+                reader.readAsDataURL(file);
+                reader.onload = function() {
+                    $(".upload-display").html("<img src='"+reader.result+"'>");
+                    $(".upload-display").addClass("imgOn");
+                }
+
+                return true;
+
                 // a.jpg
                 let fileName = $(this).val().split("\\").pop();
                 let fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
                 let fileInput = $(".upload-name");
+
                 // 확장자 추출
                 fileExt = fileExt.toLowerCase(); // 소문자 소환
 
@@ -29,8 +96,6 @@
                     $(this).val("");
                     return;
                 }
-
-                fileInput.val(fileName);
             });
         }
 
@@ -51,32 +116,15 @@
             });
         };
 
-        function updateWinerySelect(wineryList) {
-            const selectBox = document.getElementById("regionSelect");
-
-            selectBox.innerHTML = "";
-
-            wineryList.forEach(function(winery) {
-                const option = document.createElement("option");
-                option.value = winery.id;
-                option.textContent = winery.wineryName;
-                selectBox.appendChild(option);
-            });
-        }
-
-        function updateSelect(obj) {
-            const val = obj.value;
-
-            let inputHtml = "";
-            inputHtml += "<input type='text' th:field='*{" + obj.getAttribute('name') + "}' class='input-field etc-field'>";
-
-            if(val == "기타") {
-                $(obj).parent().append(inputHtml);
-            } else {
-                $(obj).siblings(".etc-field").hide();
+        // 공백 확인 ##################################################
+        function checkEmpty(obj) {
+            if (obj.value.trim() == "") {
+                return true;
+            }
+            else {
+                return false;
             }
         }
-
     </script>
 </th:block>
 
@@ -86,9 +134,10 @@
     <section class="section-cont">
         <h3 class="section-title">상품 등록</h3>
 
-        <form role="form" method="post" enctype="multipart/form-data" th:object="${itemFormDto}" class="form-wrap">
+        <form role="form" name="Frm" method="post" enctype="multipart/form-data" th:object="${itemFormDto}" class="form-wrap">
             <!-- 상품 ID input hidden -->
             <input type="hidden" th:field="*{id}">
+            <input type="hidden" name="itemSellStatus" value="SELL">
 
             <div class="form-area">
                 <dl>
@@ -97,14 +146,13 @@
                         <input type="text" th:field="*{itemNm}" class="input-field">
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('itemNm')}" th:errors="*{itemNm}" class="fieldError">Incorrect data</p>
             </div>
 
             <div class="form-area">
                 <dl>
                     <dt>와이너리</dt>
                     <dd>
-                        <input type="text" th:field="*{winery}" class="input-field">
+                        <input type="text" th:field="*{winary}" class="input-field">
                     </dd>
                 </dl>
             </div>
@@ -113,65 +161,66 @@
                 <dl>
                     <dt>와인 종류 <span class="required">*</span></dt>
                     <dd>
-                        <select th:field="*{categoryId}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineType)">
-                            <option value="">선택하세요.</option>
-                            <option value="1">레드</option>
-                            <option value="2">화이트</option>
-                            <option value="3">로제</option>
-                            <option value="4">디저트</option>
-                            <option value="5">포트</option>
-                            <option value="6">스파클링</option>
-                            <option value="7">기타</option>
+                        <select th:field="*{wineType}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
+                            <option value="none">선택하세요.</option>
+<!--                            <option th:each="wineType : ${T(com.gowine.constant.WineType).values()}"-->
+<!--                                    th:value="${wineType}"-->
+<!--                                    th:text="${wineType}"></option>-->
+                            <option value="RED">레드</option>
+                            <option value="WHITE">화이트</option>
+                            <option value="ROSE">로제</option>
+                            <option value="DESSERT">디저트</option>
+                            <option value="SPARKLING">스파클링</option>
+                            <option value="PORT">포트</option>
+                            <option value="ETC">기타</option>
                         </select>
                     </dd>
                 </dl>
-<!--                <p th:if="${#fields.hasErrors('wineType')}" th:errors="*{wineType}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
                 <dl>
                     <dt>와인 품종 <span class="required">*</span></dt>
                     <dd>
-                        <select class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineGrape)">
-                            <option value="">선택하세요.</option>
-                            <option value="쉬라즈">쉬라즈</option>
-                            <option value="까베르네쇼비뇽">까베르네쇼비뇽</option>
-                            <option value="말백">말백</option>
-                            <option value="멜롯">멜롯</option>
-                            <option value="템프라니요">템프라니요</option>
-                            <option value="피노누아">피노누아</option>
-                            <option value="진판델">진판델</option>
-                            <option value="퍼미티보">퍼미티보</option>
-                            <option value="블론드">블론드</option>
-                            <option value="기타">기타</option>
+                        <select th:field="*{wineGrape}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
+                            <option value="none">선택하세요.</option>
+                            <option value="SHIRAZ">시라/쉬라즈</option>
+                            <option value="CABERNET_SAUVIGNON">까베르네쇼비뇽</option>
+                            <option value="SAUVIGNON_BLANC">쇼비뇽블랑</option>
+                            <option value="MALBAC">말백</option>
+                            <option value="MERLOT">멜롯</option>
+                            <option value="PINOT_NOIR">피노누아</option>
+                            <option value="TEMPRANILLO">템프라니요</option>
+                            <option value="ZINFANDEL">진판델</option>
+                            <option value="PRIMITIVO">퍼미티보</option>
+                            <option value="RIESLING">리즐링</option>
+                            <option value="ETC">기타</option>
                         </select>
                     </dd>
                 </dl>
-<!--                <p th:if="${#fields.hasErrors('wineGrape')}" th:errors="*{wineGrape}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
                 <dl>
                     <dt>와인 지역 <span class="required">*</span></dt>
                     <dd>
-                        <select id="regionSelect" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'" onchange="updateSelect(wineRegion)">
-                            <option value="">선택하세요.</option>
-                            <option value="프랑스">프랑스</option>
-                            <option value="이탈리아">이탈리아</option>
-                            <option value="미국">미국</option>
-                            <option value="남아공">남아공</option>
-                            <option value="호주">호주</option>
-                            <option value="스페인">스페인</option>
-                            <option value="독일">독일</option>
-                            <option value="칠레">칠레</option>
-                            <option value="아르헨티나">아르헨티나</option>
-                            <option value="포르투갈">포르투갈</option>
-                            <option value="뉴질랜드">뉴질랜드</option>
-                            <option value="기타">기타</option>
+                        <select th:field="*{wineRegion}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
+                            <option value="none">선택하세요.</option>
+                            <option value="FRANCE">프랑스</option>
+                            <option value="ITALIA">이탈리아</option>
+                            <option value="US">미국</option>
+                            <option value="SOUTH_AFRICA">남아공</option>
+                            <option value="AUSTRALIA">호주</option>
+                            <option value="SPAIN">스페인</option>
+                            <option value="GERMAN">독일</option>
+                            <option value="CHILE">칠레</option>
+                            <option value="ARGENTINA">아르헨티나</option>
+                            <option value="PORTUGAL">포르투갈</option>
+                            <option value="NEW_ZEALAND">뉴질랜드</option>
+                            <option value="ETC">기타</option>
                         </select>
                     </dd>
                 </dl>
-<!--                <p th:if="${#fields.hasErrors('wineRegion')}" th:errors="*{wineRegion}" class="fieldError">Incorrect data</p>-->
             </div>
 
             <div class="form-area">
@@ -181,30 +230,26 @@
                         <div class="rangeInputArea">
                             <div class="range-slider">
                                 <label for="sweetness">당도</label>
-                                <input type="range" id="sweetness" name="sweetness" class="range-slider__range" min="0" max="100" step="10" value="">
-                                <output for="sweetness" class="range-slider__value">0</output>
-<!--                                <p th:if="${#fields.hasErrors('sweetnessPercent')}" th:errors="*{sweetnessPercent}" class="fieldError">Incorrect data</p>-->
+                                <input type="range" th:field="*{sweetnessPercent}" id="sweetness" name="sweetness" class="range-slider__range" min="0" max="100" step="10">
+                                <output for="sweetness" class="range-slider__value" th:text="0">0</output>
                             </div>
 
                             <div class="range-slider">
                                 <label for="acidity">산도</label>
-                                <input type="range" id="acidity" name="acidity" class="range-slider__range" min="0" max="100" step="10" value="">
-                                <output for="acidity" class="range-slider__value">0</output>
-<!--                                <p th:if="${#fields.hasErrors('acidityPercent')}" th:errors="*{acidityPercent}" class="fieldError">Incorrect data</p>-->
+                                <input type="range" th:field="*{acidityPercent}" id="acidity" name="acidity" class="range-slider__range" min="0" max="100" step="10">
+                                <output for="acidity" class="range-slider__value" th:text="0">0</output>
                             </div>
 
                             <div class="range-slider">
                                 <label for="body">바디감</label>
-                                <input type="range"  id="body" name="body" class="range-slider__range" min="0" max="100" step="10" value="">
-                                <output for="body" class="range-slider__value">0</output>
-<!--                                <p th:if="${#fields.hasErrors('bodyPercent')}" th:errors="*{bodyPercent}" class="fieldError">Incorrect data</p>-->
+                                <input type="range" th:field="*{bodyPercent}" id="body" name="body" class="range-slider__range" min="0" max="100" step="10">
+                                <output for="body" class="range-slider__value" th:text="0">0</output>
                             </div>
 
                             <div class="range-slider">
                                 <label for="tannin">탄닌</label>
-                                <input type="range" id="tannin" name="tannin" class="range-slider__range" min="0" max="100" step="10" value="">
-                                <output for="tannin" class="range-slider__value">0</output>
-<!--                                <p th:if="${#fields.hasErrors('tanninPercent')}" th:errors="*{tanninPercent}" class="fieldError">Incorrect data</p>-->
+                                <input type="range" th:field="*{tanninPercent}" id="tannin" name="tannin" class="range-slider__range" min="0" max="100" step="10">
+                                <output for="tannin" class="range-slider__value" th:text="0">0</output>
                             </div>
                         </div>
                     </dd>
@@ -215,7 +260,7 @@
                 <dl>
                     <dt>비비노 평점</dt>
                     <dd>
-                        <input type="text" class="input-field">
+                        <input type="text" th:field="*{vivinoRate}" class="input-field">
                     </dd>
                 </dl>
             </div>
@@ -227,7 +272,6 @@
                         <input type="number" th:field="*{price}" class="input-field">
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError">Incorrect data</p>
             </div>
 
             <div class="form-area">
@@ -237,7 +281,6 @@
                         <input type="number" th:field="*{stockNumber}" class="input-field">
                     </dd>
                 </dl>
-                <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
             </div>
 
             <div class="form-area">
@@ -245,18 +288,21 @@
                     <dt>상품 이미지 <span class="required">*</span></dt>
                     <dd class="fileInputArea">
                         <!-- 등록 :: S -->
-                        <div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">
-                            <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+                        <div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}" class="file-box">
+                            <div class="upload-display"></div>
                             <input type="file" class="form-control imgFile" name="itemImgFile" id="itemImgFile">
-                            <label class="custom-file-label" for="itemImgFile">사진 선택</label>
+                            <label class="custom-file-label" for="itemImgFile"></label>
                         </div>
                         <!-- 등록 :: E -->
 
                         <!-- 수정 :: S -->
                         <div th:if="${not #lists.isEmpty(itemFormDto.itemImgDtoList)}">
-                            <input type="file" class="form-control imgFile" name="itemImgFile">
-                            <input type="hidden" name="itemImgIds" th:value="${itemImgDto.id}">
-                            <label class="input-group-text custom-file-label" th:text="${not #strings.isEmpty(itemImgDto.oriImgName)} ? ${itemImgDto.oriImgName} : '상품이미지' + ''"></label>
+                            <div th:each="itemImgDto, status: ${itemFormDto.itemImgDtoList}" class="file-box">
+                                <div class="upload-display imgOn"><img th:src="${itemImgDto.imgUrl}"></div>
+                                <input type="file" class="form-control imgFile" name="itemImgFile" id="itemImgFile">
+                                <input type="hidden" name="itemImgIds" th:value="${itemImgDto.id}">
+                                <label class="custom-file-label" for="itemImgFile"></label>
+                            </div>
                         </div>
                         <!-- 수정 :: E -->
                     </dd>
@@ -267,7 +313,6 @@
                 ${#strings.isEmpty(itemFormDto.id)} => String 문자열이 비어있으면 실행 => itemFormDto.id 현재 저장된 상품 X
             -->
             <div th:if="${#strings.isEmpty(itemFormDto.id)}" class="common-btns">
-                <!-- href mapping /admin/item/new , method="post" -->
                 <button th:formaction="@{/admin/item/new}" type="submit" class="btn-default">저장</button>
             </div>
 
@@ -275,7 +320,6 @@
                 위 조건이 아니면 실행 => 저장된 상품 O => 수정
             -->
             <div th:unless="${#strings.isEmpty(itemFormDto.id)}" class="common-btns">
-                <!-- /admin/item/' + ${itemFormDto.id} => /admin/item/3 -->
                 <button th:formaction="@{'/admin/item/' + ${itemFormDto.id}}" type="submit" class="btn-default">수정</button>
             </div>
 

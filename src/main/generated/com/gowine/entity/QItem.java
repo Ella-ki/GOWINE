@@ -18,13 +18,15 @@ public class QItem extends EntityPathBase<Item> {
 
     private static final long serialVersionUID = -1455518098L;
 
-    private static final PathInits INITS = PathInits.DIRECT2;
-
     public static final QItem item = new QItem("item");
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
+    public final NumberPath<Integer> acidityPercent = createNumber("acidityPercent", Integer.class);
+
     public final NumberPath<Double> avgRating = createNumber("avgRating", Double.class);
+
+    public final NumberPath<Integer> bodyPercent = createNumber("bodyPercent", Integer.class);
 
     //inherited
     public final StringPath createdBy = _super.createdBy;
@@ -47,47 +49,35 @@ public class QItem extends EntityPathBase<Item> {
 
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
-    public final NumberPath<Integer> stockNum = createNumber("stockNum", Integer.class);
+    public final NumberPath<Integer> stockNumber = createNumber("stockNumber", Integer.class);
+
+    public final NumberPath<Integer> sweetnessPercent = createNumber("sweetnessPercent", Integer.class);
+
+    public final NumberPath<Integer> tanninPercent = createNumber("tanninPercent", Integer.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateTime = _super.updateTime;
 
-    public final QVivinoRating vivinoRating;
+    public final StringPath vivinoRate = createString("vivinoRate");
 
-    public final QWineGrape wineGrape;
+    public final StringPath winary = createString("winary");
 
-    public final QWineRegion wineRegion;
+    public final EnumPath<com.gowine.constant.WineGrape> wineGrape = createEnum("wineGrape", com.gowine.constant.WineGrape.class);
 
-    public final QWinery winery;
+    public final EnumPath<com.gowine.constant.WineRegion> wineRegion = createEnum("wineRegion", com.gowine.constant.WineRegion.class);
 
-    public final QWineStyle wineStyle;
-
-    public final QWineType wineType;
+    public final EnumPath<com.gowine.constant.WineType> wineType = createEnum("wineType", com.gowine.constant.WineType.class);
 
     public QItem(String variable) {
-        this(Item.class, forVariable(variable), INITS);
+        super(Item.class, forVariable(variable));
     }
 
     public QItem(Path<? extends Item> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QItem(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QItem(PathMetadata metadata, PathInits inits) {
-        this(Item.class, metadata, inits);
-    }
-
-    public QItem(Class<? extends Item> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.vivinoRating = inits.isInitialized("vivinoRating") ? new QVivinoRating(forProperty("vivinoRating")) : null;
-        this.wineGrape = inits.isInitialized("wineGrape") ? new QWineGrape(forProperty("wineGrape")) : null;
-        this.wineRegion = inits.isInitialized("wineRegion") ? new QWineRegion(forProperty("wineRegion")) : null;
-        this.winery = inits.isInitialized("winery") ? new QWinery(forProperty("winery")) : null;
-        this.wineStyle = inits.isInitialized("wineStyle") ? new QWineStyle(forProperty("wineStyle")) : null;
-        this.wineType = inits.isInitialized("wineType") ? new QWineType(forProperty("wineType")) : null;
+        super(Item.class, metadata);
     }
 
 }

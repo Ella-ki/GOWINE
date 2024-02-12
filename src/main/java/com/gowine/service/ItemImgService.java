@@ -67,6 +67,21 @@ public class ItemImgService {
             // ※ 영속성 상태여야 사용가능
             savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
         }
+    }
 
+    public void deleteItemImg(Long itemImgId) throws Exception {
+        // 아이템 이미지 ID를 사용하여 해당 이미지를 조회합니다.
+        ItemImg itemImg = itemImgRepository.findById(itemImgId).orElseThrow(EntityNotFoundException::new);
+
+        // 아이템 이미지가 존재하는 경우에만 삭제 작업을 수행합니다.
+        if (itemImg != null) {
+            // 이미지 파일을 삭제합니다.
+            if (!StringUtils.isEmpty(itemImg.getImgName())) {
+                fileService.deleteFile(itemImgLocation + "/" + itemImg.getImgName());
+            }
+
+            // 아이템 이미지 엔티티를 삭제합니다.
+            itemImgRepository.delete(itemImg);
+        }
     }
 }

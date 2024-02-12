@@ -46,7 +46,7 @@ public class QRating extends EntityPathBase<Rating> {
 
     public QRating(Class<? extends Rating> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.item = inits.isInitialized("item") ? new QItem(forProperty("item"), inits.get("item")) : null;
+        this.item = inits.isInitialized("item") ? new QItem(forProperty("item")) : null;
     }
 
 }

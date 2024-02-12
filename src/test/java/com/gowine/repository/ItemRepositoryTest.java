@@ -1,5 +1,6 @@
 package com.gowine.repository;
 
+import com.gowine.constant.WineType;
 import com.gowine.entity.Item;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,7 @@ class ItemRepositoryTest {
         item.setPrice(10000);
         item.setAvgRating(4.5);
         item.setStockNumber(100);
+        item.setWineType(WineType.RED);
         item.setRegTime(LocalDateTime.now());
         item.setUpdateTime(LocalDateTime.now());
 
