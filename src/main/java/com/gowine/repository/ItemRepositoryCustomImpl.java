@@ -106,13 +106,13 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     }
 
     @Override
-    public List<MainItemDto> getSearchItemPage(ItemSearchDto itemSearchDto){
+    public List<MainItemDto> getSearchItemPage(String keyword){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
-                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .where(itemNmLike(keyword))
                 .orderBy(item.id.desc()).fetchResults();
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();

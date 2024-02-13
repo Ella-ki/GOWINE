@@ -97,7 +97,7 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public List<MainItemDto> getSearchItem(String keyword){
-        //return itemRepository.getSearchItemPage(itemSearchDto);
+        return itemRepository.getSearchItemPage(keyword);
     }
 
     /*

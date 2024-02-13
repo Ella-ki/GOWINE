@@ -8,141 +8,18 @@
 <!--            <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">-->
 
             <div class="title">
-                <p class="search-header-text">상품 검색 결과(0)</p>
+                <p class="search-header-text">상품 검색 결과(<span id="searchCount">0</span>)</p>
                 <div class="close-icon" onclick="fnClose(this);"><span class="material-symbols-outlined">close</span></div>
             </div>
 
             <div class="cont">
                 <div class="search-input-box">
-<!--                    <form th:action="@{/}" method="get">-->
-                        <input name="searchQuery" type="text" class="input-text" placeholder="검색어를 입력해주세요">
-<!--                        <button class="search-icon" type="submit"></button>-->
-<!--                    </form>-->
+                    <input name="searchQuery" type="text" class="input-text" placeholder="검색어를 입력해주세요">
                 </div>
 
-                <!--  검색했을 때 화면
-                <div class="center" th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}">
-                    <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery} + '검색결과'"></p>
-                </div>
-                -->
                 <div class="center">
-                    <ul class="search-resultGrid ">
-                        <li class="search-item">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-2.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">ADD TO CART</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Poggio Scalette</div>
-                                    <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>250,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>175,000</bdi>원</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-2.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">ADD TO CART</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Poggio Scalette</div>
-                                    <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>250,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>175,000</bdi>원</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-2.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">ADD TO CART</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Poggio Scalette</div>
-                                    <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>250,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>175,000</bdi>원</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="search-item">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-2.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">ADD TO CART</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Poggio Scalette</div>
-                                    <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>250,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>175,000</bdi>원</span>
-                                        </div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                    <ul class="search-resultGrid" id="searchResultBody">
+
                     </ul>
                 </div>
             </div>

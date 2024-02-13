@@ -573,6 +573,7 @@ to{
 .search-resultGrid {
     display: grid;
     grid-template-columns: repeat(2,1fr);
+    margin-top: 20px;
 }
 
 .search-resultGrid .search-item:nth-of-type(odd) {

@@ -4,50 +4,52 @@
       layout:decorate="~{layouts/pageLayout}">
 
 <div layout:fragment="content">
+    <div class="main-contaier">
+        <section class="section-com container">
+            <div class="list-box">
+                <div class="left-side" id="search-filter">
+                    <h2>검색 필터</h2>
 
-    <h2 class="content-title">상품 목록</h2>
-
-    <section class="product-container">
-        <th:block th:each="item, status: ${items.getContent()}">
-            <div class="product-item">
-                <div class="product-inner">
-                    <a th:href="'/item/' + ${item.id}" class="text-dark">
-
-                        <div class="product-img-wrap">
-                            <img th:src="${item.imgUrl}" class="product-img" th:alt="${item.itemNm}" height="400" />
-
-                        </div>
-                        <div class="product-exp">
-                            <h5 class="product-title">[[${item.winary}]]</h5>
-                            <h5 class="product-title">[[${item.itemNm}]]</h5>
-                            <h5 class="product-price" data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}">[[${item.price}]]원</h5>
-                        </div>
-                    </a>
+                </div>
+                <div class="right-side item-list">
+                    <section class="product-container">
+                        <ul th:each="item, status: ${items.getContent()}">
+                            <li>
+                                <div class="products-entry">
+                                    <a th:href="'/item/' + ${item.id}" class="info-link"></a>
+                                    <div class="products-thumb">
+                                        <div class="product-image">
+                                            <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
+                                        </div>
+                                        <div class="add-cart-btn">ADD TO CART</div>
+                                    </div>
+                                    <div class="products-content">
+                                        <div class="product-subname">[[${item.winary}]]</div>
+                                        <div class="product-name txt-line-2">[[${item.itemNm}]]</div>
+                                        <div class="product-price">
+<!--                                            <del class="origin-price" aria-hidden="true">-->
+<!--                                                <span class="amount"><bdi>250,000</bdi>원</span>-->
+<!--                                            </del>-->
+                                            <div class="current-price">
+                                                <span class="amount"><bdi data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></bdi></span>
+                                            </div>
+                                        </div>
+                                        <div class="product-rate">
+                                            <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
+                                        </div>
+                                        <div class="wishitem-btn">
+                                            <span class="like-icon material-symbols-outlined">favorite</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
                 </div>
             </div>
-        </th:block>
-    </section>
+        </section>
 
-    <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage-1) < items.totalPages ? start + (maxPage-1) : items.totalPages)})" class="wun-pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${items.number eq 0}? 'disabled'">
-                <a th:href="@{'/list' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label="Previous" class="page-link prev-btn">
-                    <span aria-hidden="true"> < </span>
-                </a>
-            </li>
-            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1} ? 'active' : ''">
-                <a th:href="@{'/list' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page-1}}" th:inline="text" class="page-link page-num">
-                    [[${page}]]
-                </a>
-            </li>
-            <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ? 'disabled'">
-                <a th:href="@{'/list' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number+1}}" aria-label="Next" class="page-link next-btn">
-                    <span aria-hidden="true"> > </span>
-                </a>
-            </li>
-        </ul>
     </div>
-</div>
 </div>
 
 </html>

@@ -6,6 +6,12 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(function(){
+            calculateTotalPrice();
+
+            $("#count").change(function(){
+                calculateTotalPrice();
+            });
+
             let thymeleaf = {
                 utility: {
                     maskingName: function(strName) {
@@ -41,6 +47,91 @@
             });
         })
 
+        function calculateTotalPrice(){
+            var count = $("#count").val();
+            var price = $("#price").val();
+            var totalPrice = price * count;
+            $("#totalPrice").html(totalPrice + '원');
+        }
+
+        function order(){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/order";
+            var paramData = {
+                itemId : $("#itemId").val(),
+                count : $("#count").val()
+            }
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function(xhr){
+                    /* 데이터 전송하기 전에 헤더에 csrf 값을 설정 */
+                    xhr.setRequestHeader(header,token);
+                },
+                dataType: "json",
+                cache: false, // 캐시여부 false
+                success: function(result, status){ // result = id
+                    alert("주문이 완료되었습니다.");
+                    location.href = "/";
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else { // 로그인 접근 에러 외의 모든 에러
+                        alert(jqXHR.responseText);
+                    }
+                }
+            });
+        }
+
+        function addCart(){
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            var url = "/cart";
+
+            var paramData = {
+                itemId : $("#itemId").val(),
+                count: $("#count").val()
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url: url,
+                type:"post",
+                contentType: "application/json",
+                data: param,
+                beforeSend: function(xhr){
+                    /* 데이터 전송하기 전에 헤더의 csrf 값을 설정*/
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType: "json",
+                cache: false,
+                success: function(result, status){
+                    alert("상품을 장바구니에 담았습니다.");
+                    location.href = "/";
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else {
+                        alert(jqXHR.responseText);
+                    }
+                }
+            })
+
+        }
+
     </script>
 </th:block>
 
@@ -51,8 +142,8 @@
             <div class="product-detail-head side-layout">
                 <div class="product-image left-side">
                     <div class="img-container">
-                        <div class="product-label sold-out">품절</div>
-                        <img th:src="@{/images/wine-2.png}" alt="">
+                        <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>
+                        <img th:src="${item.itemImgDtoList[0].imgUrl}" th:alt="${item.itemNm}">
                     </div>
                     <div class="review-container">
                         <div class="heading-box">
@@ -63,62 +154,62 @@
                             <dl class="star-dl">
                                 <dt>
                                     <div class="review-star">
-                                        <img th:src="@{/images/star-icon-on.png}">
-                                        <img th:src="@{/images/star-icon-on.png}">
-                                        <img th:src="@{/images/star-icon-on.png}">
-                                        <img th:src="@{/images/star-icon-on.png}">
-                                        <img th:src="@{/images/star-icon-on.png}">
+                                        <img th:src="@{/img/star-icon-on.png}">
+                                        <img th:src="@{/img/star-icon-on.png}">
+                                        <img th:src="@{/img/star-icon-on.png}">
+                                        <img th:src="@{/img/star-icon-on.png}">
+                                        <img th:src="@{/img/star-icon-on.png}">
                                     </div>
                                     <div class="review-cont"><span id="total-count">65</span> reviews</div>
                                 </dt>
                                 <dd class="review-status">
                                     <div>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
                                         </div>
                                         <div class="review-cont"><span id="count-5">(25)</span></div>
                                     </div>
                                     <div>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
                                         </div>
                                         <div class="review-cont"><span id="count-4">(20)</span></div>
                                     </div>
                                     <div>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
                                         </div>
                                         <div class="review-cont"><span id="count-3">(0)</span></div>
                                     </div>
                                     <div>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
                                         </div>
                                         <div class="review-cont"><span id="count-2">(0)</span></div>
                                     </div>
                                     <div>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
-                                            <img th:src="@{/images/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
+                                            <img th:src="@{/img/star-icon-off.png}">
                                         </div>
                                         <div class="review-cont"><span id="count-1">(0)</span></div>
                                     </div>
@@ -133,11 +224,11 @@
                                 <dl class="review-dl">
                                     <dt>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
                                         </div>
                                         <span class="review-reg-date">25/09/2022</span>
                                         <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 김교영 +')}'"></span>
@@ -149,11 +240,11 @@
                                 <dl class="review-dl">
                                     <dt>
                                         <div class="review-star">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
-                                            <img th:src="@{/images/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
                                         </div>
                                         <span class="review-reg-date">25/09/2022</span>
                                         <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 이황 +')}'"></span>
@@ -167,79 +258,87 @@
                     </div>
                 </div>
                 <div class="product-exp right-side">
-                    <div class="product-name txt-line-2">Carbonaione Alta 2011</div>
+                    <div class="product-name txt-line-2" th:text="${item.itemNm}"></div>
                     <div class="exp-fun">
                         <ul class="clfix">
                             <li>
                                 <div class="number">
                                     <span class="minus">-</span>
-                                    <input type="text" value="1"/>
+                                    <input type="number" name="count" id="count" class="form-control" value="1" min="1" />
                                     <span class="plus">+</span>
                                 </div>
                             </li>
                             <li>
                                 <div class="product-price">
-                                    <del class="origin-price" aria-hidden="true">
-                                        <span class="amount"><bdi>90,000</bdi>원</span>
-                                    </del>
+<!--                                    <del class="origin-price" aria-hidden="true">-->
+<!--                                        <span class="amount"><bdi>90,000</bdi>원</span>-->
+<!--                                    </del>-->
                                     <div class="current-price">
-                                        <span class="amount"><bdi>63,000</bdi>원</span>
+                                        <span class="amount"><bdi id="totalPrice"></bdi></span>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <div class="order-btns common-btns">
-                            <div class="add-to-cart btn-border-default"><span>장바구니</span></div>
-                            <div class="go-to-order btn-full-default"><span>구매하기</span></div>
+                        <div class="order-btns common-btns" th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">
+                            <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
+                            <div class="go-to-order btn-full-default" onclick="order()"><span>구매하기</span></div>
+                        </div>
+
+                        <div class="order-btns common-btns" th:unless="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">
+                            <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
                         </div>
                     </div>
                     <div class="exp-character char-list">
                         <dl>
                             <dt>Region</dt>
-                            <dd class="txt-line-2">Willamette Valley. OR</dd>
+                            <dd class="txt-line-2" th:text="${item.wineRegion}"></dd>
                         </dl>
                         <dl>
                             <dt>Type</dt>
-                            <dd>Rose</dd>
+                            <dd th:text="${item.wineType}"></dd>
                         </dl>
                         <dl>
                             <dt>Grape</dt>
-                            <dd>Pinot Noir</dd>
-                        </dl>
-                        <dl>
-                            <dt>Value</dt>
-                            <dd>Pioneer</dd>
+                            <dd th:text="${item.wineGrape}"></dd>
                         </dl>
                         <dl>
                             <dt>Vivino</dt>
-                            <dd>3.7</dd>
+                            <dd th:text="${item.vivinoRate}"></dd>
                         </dl>
                     </div>
                     <div class="exp-character char-input">
                         <dl>
                             <dt>Characteristics</dt>
                             <dd>
-                                <div class="char-range" data-value="80">
+                                <div class="char-range">
                                     <div class="label">
                                         <div class="label-value">Acidity</div>
                                         <div class="input-box">
-                                            <input class="input-range" type="range" min="0" max="100" value="80" disabled />
+                                            <input class="input-range" type="range" min="0" max="100" th:value="${item.acidityPercent}" disabled />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="char-range" data-value="50">
+                                <div class="char-range">
                                     <div class="label">
                                         <div class="label-value">Body</div>
                                         <div class="input-box">
-                                            <input class="input-range" type="range" min="0" max="100" value="50" disabled />
+                                            <input class="input-range" type="range" min="0" max="100" th:value="${item.bodyPercent}" disabled />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="char-range" data-value="60">
+                                <div class="char-range">
                                     <div class="label">
-                                        <div class="label-value">Tanins</div>
+                                        <div class="label-value">Tannins</div>
                                         <div class="input-box">
-                                            <input class="input-range" type="range" min="0" max="100" value="60" disabled />
+                                            <input class="input-range" type="range" min="0" max="100" th:value="${item.tanninPercent}" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="char-range">
+                                    <div class="label">
+                                        <div class="label-value">Sweetness</div>
+                                        <div class="input-box">
+                                            <input class="input-range" type="range" min="0" max="100" th:value="${item.sweetnessPercent}" disabled />
                                         </div>
                                     </div>
                                 </div>

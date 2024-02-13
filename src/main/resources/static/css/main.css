@@ -723,14 +723,10 @@
     padding-bottom: 2%;
 }
 
-.left-side {
-
-}
-
 .right-side {
     position: sticky;
     top: 125px;
-    height: 580px;
+    height: 655px;
 }
 
 /***** 상품 상세 *****/
@@ -906,6 +902,10 @@
 }
 
 /***** input range *****/
+.char-range {
+    line-height: 24px;
+}
+
 .char-range:not(:last-child) {
     margin-bottom: 12px;
 }
@@ -999,3 +999,17 @@
     margin-bottom: 0;
     margin-top: 52px;
 }
+
+/***** 상품 리스트 페이지 *****/
+.list-box {
+    display: flex;
+}
+
+.list-box .left-side {
+
+}
+
+.list-box .right-side {
+
+}
+

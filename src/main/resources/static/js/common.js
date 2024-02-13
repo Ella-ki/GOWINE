@@ -10,11 +10,11 @@ $(function() {
     });
 
     let schInput = $("input[name='searchQuery']");
-    schInput.on('keyup', function(){
+    schInput.on('keydown', function(){
         let keyword = $(this).val();
+        //let header = $("meta[name='_csrf_header']").attr('content');
+        //let token = $("meta[name='_csrf']").attr('content');
         console.log(keyword);
-        let header = $("meta[name='_csrf_header']").attr('content');
-        let token = $("meta[name='_csrf']").attr('content');
 
         $.ajax({
             url: "/searchResult",
@@ -25,10 +25,50 @@ $(function() {
             //    xhr.setRequestHeader(header, token);
             //},
             success: function(data) {
-                console.log("성공");
+                console.log(data);
+
+                console.log("keyword : " + keyword.length);
+                console.log("data : " + data.length);
+
+                $("#searchCount").text(data.length);
+
+                let itemHtml = "";
+                for(let i = 0; i < data.length; i++) {
+                    itemHtml += "<li class='search-item'>";
+                    itemHtml += "    <div class='products-entry'>";
+                    itemHtml += "        <a href='/item/" + data[i].id  + "' class='info-link'></a>";
+                    itemHtml += "        <div class='products-thumb'>";
+                    itemHtml += "            <div class='product-image'>";
+                    itemHtml += "                <img src='" + data[i].imgUrl + "' alt='" + data[i].id + "'>";
+                    itemHtml += "            </div>";
+                    itemHtml += "            <div class='add-cart-btn'>ADD TO CART</div>";
+                    itemHtml += "        </div>";
+                    itemHtml += "        <div class='products-content'>";
+                    itemHtml += "            <div class='product-subname'>" + data[i].winary + "</div>";
+                    itemHtml += "            <div class='product-name txt-line-2'>" + data[i].itemNm + "</div>";
+                    itemHtml += "            <div class='product-price'>";
+                    itemHtml += "                <del class='origin-price' aria-hidden='true'>";
+                    itemHtml += "                    <span class='amount'><bdi>250,000</bdi>원</span>";
+                    itemHtml += "                </del>";
+                    itemHtml += "                <div class='current-price'>";
+                    itemHtml += "                    <span class='amount'><bdi>" + data[i].price + "</bdi>원</span>";
+                    itemHtml += "                </div>";
+                    itemHtml += "            </div>";
+                    itemHtml += "            <div class='product-rate'>";
+                    itemHtml += "                <span class='star-review-icon' style='background-image: url(/img/star-icon-on.png)'>0.0 (0)</span>";
+                    itemHtml += "            </div>";
+                    itemHtml += "            <div class='wishitem-btn'>";
+                    itemHtml += "                <span class='like-icon material-symbols-outlined'>favorite</span>";
+                    itemHtml += "            </div>";
+                    itemHtml += "        </div>";
+                    itemHtml += "    </div>";
+                    itemHtml += "</li>";
+                }
+
+                $("#searchResultBody").append(itemHtml);
+
             },
             error: function(xhr, status, error) {
-                console.error(xhr, status);
                 console.error("Ajax 에러:", error);
             }
         });
@@ -56,7 +96,9 @@ function getCurrentScroll(){
 function fnClose(e){
     $('body').removeClass('_modalActive');
     $(e).parents('.modal-container').removeClass('active');
-    $('.modal-container').find('input[type=search]').val('');
+    $('.modal-container').find('input[name=searchQuery]').val('');
+    $("#searchCount").text(0);
+    $("#searchResultBody").children().remove();
 }
 
 function fnOpen(){
