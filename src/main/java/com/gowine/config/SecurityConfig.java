@@ -36,7 +36,8 @@ public class SecurityConfig {
             "/item/**",
             "/img/**",
             "/login/**",
-            "/list"
+            "/list",
+            "/searchResult"
     };
 
     @Bean

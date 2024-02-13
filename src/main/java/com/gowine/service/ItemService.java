@@ -95,6 +95,11 @@ public class ItemService {
         return itemRepository.getListItemPage(itemSearchDto, pageable);
     }
 
+    @Transactional(readOnly = true)
+    public List<MainItemDto> getSearchItem(String keyword){
+        //return itemRepository.getSearchItemPage(itemSearchDto);
+    }
+
     /*
     @Transactional(readOnly = true)
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){

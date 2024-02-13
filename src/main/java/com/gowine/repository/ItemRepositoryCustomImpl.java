@@ -105,6 +105,20 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         return new PageImpl<>(content, pageable, total);
     }
 
+    @Override
+    public List<MainItemDto> getSearchItemPage(ItemSearchDto itemSearchDto){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
+                .from(itemImg).join(itemImg.item, item)
+                .where(itemNmLike(itemSearchDto.getSearchQuery()))
+                .orderBy(item.id.desc()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return content;
+    }
+
     /*
     @Override
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){

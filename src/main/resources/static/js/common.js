@@ -8,6 +8,31 @@ $(function() {
         $('.dropdown-container.login-after-layer').slideUp();
 
     });
+
+    let schInput = $("input[name='searchQuery']");
+    schInput.on('keyup', function(){
+        let keyword = $(this).val();
+        console.log(keyword);
+        let header = $("meta[name='_csrf_header']").attr('content');
+        let token = $("meta[name='_csrf']").attr('content');
+
+        $.ajax({
+            url: "/searchResult",
+            type: "GET",
+            //dataType : "json",
+            data : {"keyword": keyword},
+            //beforeSend: function(xhr){
+            //    xhr.setRequestHeader(header, token);
+            //},
+            success: function(data) {
+                console.log("성공");
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr, status);
+                console.error("Ajax 에러:", error);
+            }
+        });
+    });
 });
 
 // 헤더 스크롤 이벤트

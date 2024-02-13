@@ -3,6 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <meta name="_csrf" th:content="${_csrf.token}">
     <title>GOWINE 관리자</title>
     <link rel="icon" th:href="@{/img/fa.png}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">

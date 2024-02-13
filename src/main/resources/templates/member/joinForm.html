@@ -3,11 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/pageLayout}">
 
-<head>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <meta name="_csrf" th:content="${_csrf.token}">
-</head>
-
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         //window.onclick = e => {
@@ -32,7 +27,6 @@
 
                  $(".valid-failed").css({"display":"none"});
                  $(".valid-failed").prev().css({"display":"block"});
-
              };
 
             // 중복 이메일 검사

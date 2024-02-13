@@ -36,17 +36,20 @@ public class AjaxControll {
     }
 
     @GetMapping(value = "/searchResult")
-    public String searchItem(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5); // 페이지 유무 확인
+    public void searchItem(ItemSearchDto itemSearchDto, Model model,@RequestParam("keyword") String keyword){
+        System.out.println("keyword : " + keyword);
+
         if(itemSearchDto.getSearchQuery() == null){ // 서치 데이터 x
             itemSearchDto.setSearchQuery(""); // 빈 문자열로 변환
         }
-        Page<MainItemDto> items = itemService.getListItemPage(itemSearchDto, pageable);
-        System.out.println(items.getNumber()+"!!!!!!!!!");
-        System.out.println(items.getTotalPages()+"##########");
+        List<MainItemDto> items = itemService.getSearchItem(itemSearchDto);
+        System.out.println(items.size()+"!!!!!!!!!");
+
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 5);
-        return "main";
+
+        System.out.println("items : " + items);
+        System.out.println("itemSearchDto : " + itemSearchDto);
+
     }
 }
