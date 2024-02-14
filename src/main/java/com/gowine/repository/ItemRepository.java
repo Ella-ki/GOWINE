@@ -9,9 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long>, QuerydslPredicateExecutor<Item>, ItemRepositoryCustom {
-    // find + (엔티티) + By + 변수이름(엔티티 클래스의)
-    // select * from item where item_nm = ?;
-    // String itemNm 이 변수의 값이 치환되서 실행
     List<Item> findByItemNm(String itemNm);
 
     List<Item> findByPriceLessThan(Integer price);

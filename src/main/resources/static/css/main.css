@@ -1013,3 +1013,30 @@
 
 }
 
+/***** mbti 페이지 *****/
+.question-page {
+    display: none;
+}
+
+.progress-bar {
+    display:none;
+    height: 8px;
+    width: 100%;
+    background-color: #ddd;
+}
+
+.progress-bar > span {
+    display: block;
+    height: 8px;
+}
+
+.question-page button {
+    display:block;
+}
+
+.mbtiItemList {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+}

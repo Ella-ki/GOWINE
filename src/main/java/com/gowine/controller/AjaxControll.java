@@ -28,12 +28,22 @@ public class AjaxControll {
 
     @GetMapping(value = "/searchResult")
     public List<MainItemDto> searchItem(@RequestParam("keyword") String keyword){
-        System.out.println("keyword : " + keyword);
-
         List<MainItemDto> items = itemService.getSearchItem(keyword);
+        return items;
+    }
 
-        System.out.println(items.size()+"!!!!!!!!!");
-
+    @GetMapping(value = "/searchMbtiItem")
+    public List<MainItemDto> mbtiItem(@RequestParam("mbti") String mbti) {
+        List<MainItemDto> items = itemService.getMbtiItem(mbti);
         return items;
     }
 }
+
+
+
+
+
+
+
+
+

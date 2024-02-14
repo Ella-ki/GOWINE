@@ -100,13 +100,15 @@ public class ItemService {
         return itemRepository.getSearchItemPage(keyword);
     }
 
-    /*
     @Transactional(readOnly = true)
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
-    */
 
+    @Transactional(readOnly = true)
+    public List<MainItemDto> getMbtiItem(String mbti) {
+        return itemRepository.getMbtiItemPage(mbti);
+    }
 
 }
 

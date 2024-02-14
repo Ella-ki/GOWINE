@@ -3,6 +3,88 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/indexLayout}">
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).on("click", ".goResult", function() {
+            let mbti = $("#mbtiRes").val();
+            //let header = $("meta[name='_csrf_header']").attr('content');
+            //let token = $("meta[name='_csrf']").attr('content');
+
+            console.log("before: " + mbti);
+
+            if(mbti == "ESTJ") {
+                mbti = "MALBAC";
+            } else if(mbti == "INFP") {
+                mbti = "MERLOT";
+            } else if(mbti == "ENTP") {
+                mbti = "ZINFANDEL";
+            } else if(mbti == "ESFP") {
+                mbti = "CABERNET_SAUVIGNON";
+            } else if(mbti == "ENFP") {
+                mbti = "ETC";
+            } else if(mbti == "ENFJ") {
+                mbti = "CABERNET_SAUVIGNON";
+            } else if(mbti == "ESTP") {
+                mbti = "ETC";
+            } else if(mbti == "INTJ") {
+                mbti = "TEMPRANILLO";
+            } else if(mbti == "INTP") {
+                mbti = "RIESLING";
+            } else if(mbti == "ISFJ") {
+                mbti = "PRIMITIVO";
+            } else if(mbti == "ENTJ") {
+                mbti = "PINOT_NOIR";
+            } else if(mbti == "ISFP") {
+                mbti = "BLEND";
+            } else if(mbti == "ESFJ") {
+                mbti = "SAUVIGNON_BLANC";
+            } else if(mbti == "ISTJ") {
+                mbti = "MERLOT";
+            } else if(mbti == "INFJ") {
+                mbti = "SHIRAZ";
+            } else if(mbti == "ISTP") {
+                mbti = "BLEND";
+            }
+
+            console.log("after: " + mbti);
+
+            $.ajax({
+                url: "/searchMbtiItem",
+                type: "GET",
+                data : {"mbti": mbti},
+                success: function(data) {
+                    console.log(data);
+                    $(".goResult").hide();
+
+                    let itemHtml = "";
+                    for(let i = 0; i < data.length; i++) {
+                        itemHtml += "<li class='search-item'>";
+                        itemHtml += "    <div class='products-entry'>";
+                        itemHtml += "        <a href='/item/" + data[i].id  + "' class='info-link'></a>";
+                        itemHtml += "        <div class='products-thumb'>";
+                        itemHtml += "            <div class='product-image'>";
+                        itemHtml += "                <img src='" + data[i].imgUrl + "' alt='" + data[i].id + "'>";
+                        itemHtml += "            </div>";
+                        itemHtml += "        </div>";
+                        itemHtml += "        <div class='products-content'>";
+                        itemHtml += "            <div class='product-subname'>" + data[i].winary + "</div>";
+                        itemHtml += "            <div class='product-name txt-line-2'>" + data[i].itemNm + "</div>";
+                        itemHtml += "        </div>";
+                        itemHtml += "    </div>";
+                        itemHtml += "</li>";
+                    }
+
+                    $("#mbtiResultBody").append(itemHtml);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Ajax 에러:", error);
+                }
+            });
+        });
+
+    </script>
+</th:block>
+
 <div layout:fragment="content" class="main-container">
     <section class="main-banner">
         <div class="banner-wrap">
@@ -180,5 +262,40 @@
         </div>
     </section>
 
+    <section class="section-com container">
+        <div class="mbti-wrap">
+            <input type="hidden" id="EI" value="0">
+            <input type="hidden" id="SN" value="0">
+            <input type="hidden" id="TF" value="0">
+            <input type="hidden" id="JP" value="0">
+            <input type="hidden" id="mbtiRes" value="">
+
+            <h2 class="title">와인 MBTI 테스트</h2>
+
+            <!-- progressbar -->
+            <div class="mbti-progress">
+                <div class="progress-text"></div>
+                <div class="progress-bar"><span></span></div>
+            </div>
+
+            <article class="start-page">
+                <p>내 성향별 추천 와인 알아보기</p>
+                <button type="button" onclick="testStart();">테스트 시작</button>
+            </article>
+
+            <article class="question-page">
+                <h2 id="title"></h2>
+                <input type="hidden" id="type" value="EI">
+                <button id="A" type="button"></button>
+                <button id="B" type="button"></button>
+            </article>
+
+            <article>
+                <ul id="mbtiResultBody" class="mbtiItemList">
+
+                </ul>
+            </article>
+        </div>
+    </section>
 </div>
 </html>
