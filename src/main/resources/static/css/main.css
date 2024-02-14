@@ -52,6 +52,162 @@
     height: 100%;
 }
 
+/***** mbti 페이지 *****/
+@font-face {
+    font-family: 'TTHakgyoansimSamulhamR';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimSamulhamR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.mbti-wrap {
+    position: relative;
+    width: 100%;
+    margin-top: 200px;
+    background-color: #40B773;
+}
+
+.mbti-wrap .container {
+    display: flex;
+    align-items: center;
+    height: 750px;
+    padding: 0 50px;
+    background-repeat: no-repeat;
+    background-size: 800px;
+    background-position: center right;
+}
+
+.mbti-wrap .content-wrap {
+    width: 680px;
+    margin-left: 150px;
+    min-height: 345px;
+}
+
+.mbti-wrap .mbti-progress .progress-text {
+    margin-bottom: 26px;
+    line-height: 26px;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'TTHakgyoansimSamulhamR';
+}
+
+.mbti-wrap .mbti-progress .progress-bar {
+    display:none;
+    height: 8px;
+    width: 100%;
+    background-color: var(--main-black);
+    border-radius: 8px;
+}
+
+.mbti-wrap .mbti-progress .progress-bar > span {
+    display: block;
+    height: 8px;
+    border-radius: 3px;
+}
+
+.mbti-wrap .start-page p {
+    display: inline-block;
+    font-size: 40px;
+    font-family: 'TTHakgyoansimSamulhamR';
+}
+
+.mbti-wrap .start-page button {
+    display: block;
+    margin-top: 38px;
+    padding: 16px 72px 16px 30px;
+    border-radius: 50rem;
+    font-size: 16px;
+    font-family: 'Pretendard';
+    background-color: var(--main-bg);
+    font-weight: bold;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 84% center;
+    transition: .3s;
+}
+
+.mbti-wrap .start-page button:hover {
+    background-position-x: 89%;
+}
+
+.mbti-wrap .question-page {
+    display: none;
+    margin-top: 20px;
+}
+
+.mbti-wrap .question-page h2 {
+    width: 100%;
+    background-color: var(--main-bg);
+    padding: 30px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.mbti-wrap .question-page button {
+    display:block;
+    width: 100%;
+    color: #fff;
+    margin: 8px 0;
+    border-radius: 8px;
+    padding: 30px 0;
+    background-color: var(--main-black);
+    font-family: 'Pretendard';
+}
+
+.mbti-wrap .goResult {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 30%;
+    font-family: 'TTHakgyoansimSamulhamR';
+    font-size: 26px;
+    cursor: pointer;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50rem;
+    padding: 18px 30px;
+}
+
+.mbti-wrap .mbtiItemList h2 {
+    font-family: 'TTHakgyoansimSamulhamR';
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.mbti-wrap .mbtiItemList .search-item {
+    width: 31.5%;
+    display: inline-block;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--main-bg);
+    box-shadow: 0 4px 7px 3px rgba(0,0,0,.2);
+}
+
+.mbti-wrap .mbtiItemList .search-item:not(:last-child) {
+    margin-right: 2%;
+}
+
+.mbti-wrap .mbtiItemList .products-entry {
+    position:relative;
+}
+
+.mbti-wrap .mbtiItemList .products-entry .products-thumb {
+    margin-bottom: 12px;
+}
+
+.mbti-wrap .mbtiItemList .products-entry .products-thumb .product-image {
+    z-index: initial;
+}
+
+.mbti-wrap .mbtiItemList .products-entry .products-thumb .product-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.mbti-wrap .mbtiItemList .products-entry .products-content .product-name {
+    min-height: 47px;
+}
+
 .section-com {
     margin-top: 100px;
 }
@@ -1002,41 +1158,73 @@
 
 /***** 상품 리스트 페이지 *****/
 .list-box {
-    display: flex;
-}
-
-.list-box .left-side {
 
 }
 
-.list-box .right-side {
-
+.list-box .list-filter {
+    width: 270px;
+    float: left;
 }
 
-/***** mbti 페이지 *****/
-.question-page {
-    display: none;
+.list-box .list-filter.fixed {
+    position: fixed;
+    top: 100px;
 }
 
-.progress-bar {
+.list-box .list-item {
+    width: calc(100% - 340px);
+    float: right;
+}
+
+.list-box .list-item .product-wrapper {
+    padding: 0;
+}
+
+.list-box .list-item .product-wrapper::before {
     display:none;
-    height: 8px;
-    width: 100%;
-    background-color: #ddd;
 }
 
-.progress-bar > span {
-    display: block;
-    height: 8px;
+.list-box .list-item ul {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 60px 30px;
 }
 
-.question-page button {
-    display:block;
+.search-pannel {
+    margin-bottom: 26px;
 }
 
-.mbtiItemList {
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 500px;
+.search-pannel article {
+    margin-top: 20px;
 }
+
+.search-pannel .filter-label {
+    width: auto;
+    display: inline-block;
+    padding: 8px 16px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border-radius: 50rem;
+    font-size: 15px;
+    font-family: 'Pretendard';
+    font-weight: 500;
+    border: 1px solid var(--point-color);
+    color: var(--point-color);
+    background-color: var(--main-bg);
+    cursor: pointer;
+}
+
+.search-pannel .filter-input {
+    position: absolute;
+    left: -9999999px;
+}
+
+.search-pannel .filter-txt {
+
+}
+
+.search-pannel .filter-label._active {
+    background-color: var(--point-color);
+    color: #fff;
+}
+

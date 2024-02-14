@@ -37,6 +37,8 @@ public class AjaxControll {
         List<MainItemDto> items = itemService.getMbtiItem(mbti);
         return items;
     }
+
+
 }
 
 

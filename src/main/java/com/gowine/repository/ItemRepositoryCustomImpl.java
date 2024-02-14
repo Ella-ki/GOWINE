@@ -145,6 +145,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
+        System.out.println(wineGrapeLike(mbti));
+
         QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
                 .where(wineGrapeLike(mbti))

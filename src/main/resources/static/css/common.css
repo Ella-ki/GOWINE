@@ -266,7 +266,7 @@ input.input-text {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 3;
     animation: fixed .4s ease-in-out;
     background-color: rgba(255,255,255,.8);
 }
@@ -300,7 +300,7 @@ to{
 }
 
 .header-wrapper .search-box {
-    z-index: 3;
+    z-index: 4;
     position: fixed;
     top: 20px;
     left: 16px;
@@ -312,6 +312,11 @@ to{
     font-family: 'Barriecito';
     text-align: center;
     transition: 0.6s;
+}
+
+.header-wrapper .right-side-icon {
+    position:relative;
+    z-index: 4;
 }
 
 .header-wrapper .login-header {

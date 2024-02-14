@@ -121,14 +121,14 @@ function next() {
         ($("#TF").val() < 2) ? mbti += "F" : mbti += "T";
         ($("#JP").val() < 2) ? mbti += "P" : mbti += "J";
         $(".question-page, .mbti-progress").hide();
-        $(".mbti-wrap").append('<div class="goResult">결과 확인하기</div>');
+        $(".mbti-wrap").append('<div class="goResult">결과 확인하기  🍇</div>');
         $("#mbtiRes").val(mbti);
     }
 
     else {
         $(".progress-text").html(num + ' / 12');
         $(".progress-bar").css({'display':'block'});
-        $(".progress-bar > span").attr('style', 'width: calc(100/12*' + num + '%);background-color:red;');
+        $(".progress-bar > span").attr('style', 'width: calc(100/12*' + num + '%);background-color:#ca8a7f;');
         $("#title").html(q[num]["title"]);
         $("#type").val(q[num]["type"]);
         $("#A").html(q[num]["A"]);

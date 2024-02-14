@@ -449,9 +449,10 @@ aside {
 .pagination .page-item {
     width: 32px;
     height: 32px;
+    margin: 0 4px;
     text-align: center;
     line-height: 32px;
-    font-weight: 600;
+    cursor: pointer;
 }
 
 .pagination .page-item span {
@@ -461,13 +462,15 @@ aside {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    cursor: pointer;
 }
 
 .pagination .page-item span.page-prev {
     transform: rotate(-180deg);
 }
 
+.pagination .page-item.active a {
+    font-weight: bold;
+}
 
 
 

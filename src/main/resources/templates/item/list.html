@@ -3,18 +3,248 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/pageLayout}">
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(function(){
+            $(".filter-label").on("click", function(){
+                $(".filter-label").removeClass("_active");
+                $(this).addClass("_active");
+            });
+        });
+
+        $(window).scroll(function() {
+            const scroll = getCurrentScroll();
+            console.log(scroll)
+            if (scroll >= 100) {
+                $("#search-filter").addClass('fixed');
+            }
+            else {
+               $("#search-filter").removeClass('fixed');
+            }
+        });
+
+    </script>
+</th:block>
+
 <div layout:fragment="content">
     <div class="main-contaier">
         <section class="section-com container">
-            <div class="list-box">
-                <div class="left-side" id="search-filter">
-                    <h2>검색 필터</h2>
+            <div class="list-box clfix">
+                <!-- 검색 필터 :: S -->
+                <div class="list-filter" id="search-filter">
+                    <div class="search-pannel">
+                        <h2>와인 종류</h2>
+                        <article>
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="RED" class="filter-input">
+                                <span class="filter-txt">레드</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="ROSE" class="filter-input">
+                                <span class="filter-txt">로제</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="DESSERT" class="filter-input">
+                                <span class="filter-txt">디저트</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="SPARKLING" class="filter-input">
+                                <span class="filter-txt">스파클링</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="PORT" class="filter-input">
+                                <span class="filter-txt">포트</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineType" th:value="ETC" class="filter-input">
+                                <span class="filter-txt">기타</span>
+                            </label>
+                        </article>
+                    </div>
+
+                    <div class="search-pannel">
+                        <h2>와인 품종</h2>
+                        <article>
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="SHIRAZ" class="filter-input">
+                                <span class="filter-txt">시라/쉬라즈</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="CABERNET_SAUVIGNON" class="filter-input">
+                                <span class="filter-txt">까베르네쇼비뇽</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="SAUVIGNON_BLANC" class="filter-input">
+                                <span class="filter-txt">쇼비뇽블랑</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="MALBAC" class="filter-input">
+                                <span class="filter-txt">말백</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="MERLOT" class="filter-input">
+                                <span class="filter-txt">멜롯</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="PINOT_NOIR" class="filter-input">
+                                <span class="filter-txt">피노누아</span>
+                            </label>
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="ZINFANDEL" class="filter-input">
+                                <span class="filter-txt">진판델</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="PRIMITIVO" class="filter-input">
+                                <span class="filter-txt">퍼미티보</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="RIESLING" class="filter-input">
+                                <span class="filter-txt">리즐링</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="블렌드" class="filter-input">
+                                <span class="filter-txt">블렌드</span>
+                            </label>
+                            <label class="filter-label">
+                                <input type="radio" name="wineGrape" th:value="ETC" class="filter-input">
+                                <span class="filter-txt">기타</span>
+                            </label>
+                        </article>
+                    </div>
+
+                    <div class="search-pannel">
+                        <h2>와인 지역</h2>
+                        <article>
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="FRANCE" class="filter-input">
+                                <span class="filter-txt">프랑스</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="ITALIA" class="filter-input">
+                                <span class="filter-txt">이탈리아</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="US" class="filter-input">
+                                <span class="filter-txt">미국</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="SOUTH_AFRICA" class="filter-input">
+                                <span class="filter-txt">남아공</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="AUSTRALIA" class="filter-input">
+                                <span class="filter-txt">호주</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="SPAIN" class="filter-input">
+                                <span class="filter-txt">스페인</span>
+                            </label>
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="GERMAN" class="filter-input">
+                                <span class="filter-txt">독일</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="CHILE" class="filter-input">
+                                <span class="filter-txt">칠레</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="ARGENTINA" class="filter-input">
+                                <span class="filter-txt">아르헨티나</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="PORTUGAL" class="filter-input">
+                                <span class="filter-txt">포르투갈</span>
+                            </label>
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="NEW_ZEALAND" class="filter-input">
+                                <span class="filter-txt">뉴질랜드</span>
+                            </label>
+                            <label class="filter-label">
+                                <input type="radio" name="wineRegion" th:value="ETC" class="filter-input">
+                                <span class="filter-txt">기타</span>
+                            </label>
+                        </article>
+                    </div>
+
+                    <div class="search-pannel">
+                        <h2>와인 가격</h2>
+                        <article>
+                            <label class="filter-label">
+                                <input type="radio" name="winePrice" th:value="1" class="filter-input">
+                                <span class="filter-txt">30,000원 미만</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="winePrice" th:value="2" class="filter-input">
+                                <span class="filter-txt">30,000원 ~ 50,000원</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="winePrice" th:value="3" class="filter-input">
+                                <span class="filter-txt">50,000원 ~ 100,000원</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="winePrice" th:value="4" class="filter-input">
+                                <span class="filter-txt">100,000원 이상</span>
+                            </label>
+                        </article>
+                    </div>
+
+                    <div class="search-pannel">
+                        <h2>비비노 평점</h2>
+                        <article>
+                            <label class="filter-label">
+                                <input type="radio" name="wineRate" th:value="1" class="filter-input">
+                                <span class="filter-txt">3.0 미만</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRate" th:value="2" class="filter-input">
+                                <span class="filter-txt">3.0 이상 ~ 3.5 미만</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRate" th:value="3" class="filter-input">
+                                <span class="filter-txt">3.5 이상 ~ 4.0 미만</span>
+                            </label>
+
+                            <label class="filter-label">
+                                <input type="radio" name="wineRate" th:value="4" class="filter-input">
+                                <span class="filter-txt">4.0 이상</span>
+                            </label>
+                        </article>
+                    </div>
+
 
                 </div>
-                <div class="right-side item-list">
-                    <section class="product-container">
-                        <ul th:each="item, status: ${items.getContent()}">
-                            <li>
+                <!-- 검색 필터 :: E -->
+
+                <div class="list-item">
+                    <section class="product-wrapper">
+                        <ul>
+                            <li th:each="item, status: ${items.getContent()}">
                                 <div class="products-entry">
                                     <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                     <div class="products-thumb">

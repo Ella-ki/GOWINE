@@ -7,10 +7,6 @@
     <script th:inline="javascript">
         $(document).on("click", ".goResult", function() {
             let mbti = $("#mbtiRes").val();
-            //let header = $("meta[name='_csrf_header']").attr('content');
-            //let token = $("meta[name='_csrf']").attr('content');
-
-            console.log("before: " + mbti);
 
             if(mbti == "ESTJ") {
                 mbti = "MALBAC";
@@ -46,8 +42,6 @@
                 mbti = "BLEND";
             }
 
-            console.log("after: " + mbti);
-
             $.ajax({
                 url: "/searchMbtiItem",
                 type: "GET",
@@ -57,8 +51,43 @@
                     $(".goResult").hide();
 
                     let itemHtml = "";
+
+                    if(mbti == "MALBAC") {
+                        itemHtml += "<h2>말백 - 겉은 평온 속은 불타는 휴화산 CEO 🍷</h2>";
+                    } else if(mbti == "MERLOT") {
+                        itemHtml += "<h2>멜롯 - 섬세한 예술가 타입 🍷</h2>";
+                    } else if(mbti == "ZINFANDEL") {
+                        itemHtml += "<h2>진판델 - 뜨거운 프로 직진러 🍾</h2>";
+                    } else if(mbti == "CABERNET_SAUVIGNON") {
+                        itemHtml += "<h2>까베르네 쇼비뇽 - 달콤 쌉싸름 당신은 파티피플 🍾</h2>";
+                    } else if(mbti == "ETC") {
+                        itemHtml += "<h2>피노누아 - 뜨거운 인싸 꿈나무 🍾</h2>";
+                    } else if(mbti == "CABERNET_SAUVIGNON") {
+                        itemHtml += "<h2>까베르네 쇼비뇽 - 시원 씁쓸한 맛을 즐기는 오지라퍼 🍷</h2>";
+                    } else if(mbti == "ETC") {
+                        itemHtml += "<h2>블렌드 - 트렌디 꿈나무 직진러 🍷</h2>";
+                    } else if(mbti == "TEMPRANILLO") {
+                        itemHtml += "<h2>템프라니요 - 포근함을 품은 인공지능 전자두뇌 🍷</h2>";
+                    } else if(mbti == "RIESLING") {
+                        itemHtml += "<h2>리슬링 - 미지근함이 어울리는 프로 미루기 왕 🍷</h2>";
+                    } else if(mbti == "PRIMITIVO") {
+                        itemHtml += "<h2>퍼미티보 - 츤데레 곁들인 착한 꼰대 🍷</h2>";
+                    } else if(mbti == "PINOT_NOIR") {
+                        itemHtml += "<h2>피노누아 - 따뜻한 카리스마의 야심가 🍾</h2>";
+                    } else if(mbti == "BLEND") {
+                        itemHtml += "<h2>블렌드 - 따뜻함과 부드러운 프로 긍정러 🍾</h2>";
+                    } else if(mbti == "SAUVIGNON_BLANC") {
+                        itemHtml += "<h2>쇼비뇽 블랑 - 시원시원한 핵인싸 🍾</h2>";
+                    } else if(mbti == "MERLOT") {
+                        itemHtml += "<h2>멜롯 - 내 인생은 FM 🍾</h2>";
+                    } else if(mbti == "SHIRAZ") {
+                        itemHtml += "<h2>쉬라즈 - 당신은 겉차속따 🍾</h2>";
+                    } else if(mbti == "BLEND") {
+                        itemHtml += "<h2>블렌드 - 뜨겁지만 쿨한 마이웨이 🍾</h2>";
+                    }
+
                     for(let i = 0; i < data.length; i++) {
-                        itemHtml += "<li class='search-item'>";
+                        itemHtml += "<div class='search-item'>";
                         itemHtml += "    <div class='products-entry'>";
                         itemHtml += "        <a href='/item/" + data[i].id  + "' class='info-link'></a>";
                         itemHtml += "        <div class='products-thumb'>";
@@ -71,7 +100,7 @@
                         itemHtml += "            <div class='product-name txt-line-2'>" + data[i].itemNm + "</div>";
                         itemHtml += "        </div>";
                         itemHtml += "    </div>";
-                        itemHtml += "</li>";
+                        itemHtml += "</div>";
                     }
 
                     $("#mbtiResultBody").append(itemHtml);
@@ -81,7 +110,6 @@
                 }
             });
         });
-
     </script>
 </th:block>
 
@@ -262,39 +290,38 @@
         </div>
     </section>
 
-    <section class="section-com container">
-        <div class="mbti-wrap">
+    <section class="mbti-wrap">
+        <div class="container" th:style="'background-image: url(/img/mbti-img.png)'">
             <input type="hidden" id="EI" value="0">
             <input type="hidden" id="SN" value="0">
             <input type="hidden" id="TF" value="0">
             <input type="hidden" id="JP" value="0">
             <input type="hidden" id="mbtiRes" value="">
 
-            <h2 class="title">와인 MBTI 테스트</h2>
+            <div class="content-wrap">
+                <div class="mbti-progress">
+                    <div class="progress-text"></div>
+                    <div class="progress-bar"><span></span></div>
+                </div>
 
-            <!-- progressbar -->
-            <div class="mbti-progress">
-                <div class="progress-text"></div>
-                <div class="progress-bar"><span></span></div>
+                <article class="start-page">
+                    <p>나와 닮은 와인은?🤔</p>
+                    <button type="button" th:style="'background-image: url(/img/slide-arrow.png)'" onclick="testStart();">알아보기</button>
+                </article>
+
+                <article class="question-page">
+                    <h2 id="title"></h2>
+                    <input type="hidden" id="type" value="EI">
+                    <button id="A" type="button"></button>
+                    <button id="B" type="button"></button>
+                </article>
+
+                <article class="mbtiResult-container">
+                    <div id="mbtiResultBody" class="mbtiItemList">
+
+                    </div>
+                </article>
             </div>
-
-            <article class="start-page">
-                <p>내 성향별 추천 와인 알아보기</p>
-                <button type="button" onclick="testStart();">테스트 시작</button>
-            </article>
-
-            <article class="question-page">
-                <h2 id="title"></h2>
-                <input type="hidden" id="type" value="EI">
-                <button id="A" type="button"></button>
-                <button id="B" type="button"></button>
-            </article>
-
-            <article>
-                <ul id="mbtiResultBody" class="mbtiItemList">
-
-                </ul>
-            </article>
         </div>
     </section>
 </div>

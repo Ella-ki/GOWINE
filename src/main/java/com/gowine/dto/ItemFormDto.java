@@ -49,7 +49,7 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
     @NotNull(message = "탄닌을 선택해주세요.")
     private Integer tanninPercent;
 
-    private String vivinoRate;
+    private Double vivinoRate;
 
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stockNumber;

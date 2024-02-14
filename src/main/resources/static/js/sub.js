@@ -64,8 +64,10 @@ $(function(){
     });
 });
 
+/*
 function getRangeValue(e){
     const value = $(e).val();
     $('.char-range').attr('data-value', value);
     input.attr('value', value);
 }
+*/

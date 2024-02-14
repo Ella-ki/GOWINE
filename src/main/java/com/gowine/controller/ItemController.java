@@ -22,13 +22,8 @@ public class ItemController {
     @GetMapping(value = "/list")
     public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
         Pageable pageable = PageRequest.of(page.orElse(0), 8);
-        if(itemSearchDto.getSearchQuery() == null){
-            itemSearchDto.setSearchQuery("");
-        }
 
         Page<MainItemDto> items = itemService.getListItemPage(itemSearchDto, pageable);
-        System.out.println(items.getNumber()+"!!!!!!!!!");
-        System.out.println(items.getTotalPages()+"##########");
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 8);

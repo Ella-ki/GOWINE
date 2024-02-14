@@ -50,7 +50,7 @@ public class Item extends BaseEntity{
     @Column(name="style_tannin", nullable = false)
     private int tanninPercent;
 
-    private String vivinoRate;
+    private Double vivinoRate;
 
     @Column(name="regular_price", nullable = false)
     private int price;

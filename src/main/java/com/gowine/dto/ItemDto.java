@@ -14,7 +14,7 @@ public class ItemDto {
     private String wineType;
     private String wineRegion;
     private String wineGrape;
-    private String vivinoRate;
+    private Double vivinoRate;
     private Integer sweetnessPercent;
     private Integer acidityPercent;
     private Integer bodyPercent;

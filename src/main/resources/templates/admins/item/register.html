@@ -157,16 +157,9 @@
                     <dd>
                         <select th:field="*{wineType}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
                             <option value="none">선택하세요.</option>
-<!--                            <option th:each="wineType : ${T(com.gowine.constant.WineType).values()}"-->
-<!--                                    th:value="${wineType}"-->
-<!--                                    th:text="${wineType}"></option>-->
-                            <option value="RED">레드</option>
-                            <option value="WHITE">화이트</option>
-                            <option value="ROSE">로제</option>
-                            <option value="DESSERT">디저트</option>
-                            <option value="SPARKLING">스파클링</option>
-                            <option value="PORT">포트</option>
-                            <option value="ETC">기타</option>
+                            <option th:each="type : ${T(com.gowine.constant.WineType).values()}"
+                                    th:value="${type}"
+                                    th:text="${type.getDisplayName}"></option>
                         </select>
                     </dd>
                 </dl>
@@ -178,17 +171,9 @@
                     <dd>
                         <select th:field="*{wineGrape}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
                             <option value="none">선택하세요.</option>
-                            <option value="SHIRAZ">시라/쉬라즈</option>
-                            <option value="CABERNET_SAUVIGNON">까베르네쇼비뇽</option>
-                            <option value="SAUVIGNON_BLANC">쇼비뇽블랑</option>
-                            <option value="MALBAC">말백</option>
-                            <option value="MERLOT">멜롯</option>
-                            <option value="PINOT_NOIR">피노누아</option>
-                            <option value="TEMPRANILLO">템프라니요</option>
-                            <option value="ZINFANDEL">진판델</option>
-                            <option value="PRIMITIVO">퍼미티보</option>
-                            <option value="RIESLING">리즐링</option>
-                            <option value="ETC">기타</option>
+                            <option th:each="grape : ${T(com.gowine.constant.WineGrape).values()}"
+                                    th:value="${grape}"
+                                    th:text="${grape.getDisplayName}"></option>
                         </select>
                     </dd>
                 </dl>
@@ -200,18 +185,9 @@
                     <dd>
                         <select th:field="*{wineRegion}" class="input-select" th:style="'background-image: url(/img/select-down-arrow.png)'">
                             <option value="none">선택하세요.</option>
-                            <option value="FRANCE">프랑스</option>
-                            <option value="ITALIA">이탈리아</option>
-                            <option value="US">미국</option>
-                            <option value="SOUTH_AFRICA">남아공</option>
-                            <option value="AUSTRALIA">호주</option>
-                            <option value="SPAIN">스페인</option>
-                            <option value="GERMAN">독일</option>
-                            <option value="CHILE">칠레</option>
-                            <option value="ARGENTINA">아르헨티나</option>
-                            <option value="PORTUGAL">포르투갈</option>
-                            <option value="NEW_ZEALAND">뉴질랜드</option>
-                            <option value="ETC">기타</option>
+                            <option th:each="region : ${T(com.gowine.constant.WineRegion).values()}"
+                                    th:value="${region}"
+                                    th:text="${region.getDisplayName}"></option>
                         </select>
                     </dd>
                 </dl>
