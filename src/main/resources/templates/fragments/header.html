@@ -23,21 +23,29 @@
                             <!-- 로그인 전 // -->
 
                             <!-- //  일반 유저 로그인 후 sec:authorize="hasAnyAuthority('ROLE_USER')" -->
-                            <div class="login-header after-login" th:if="${#authorization.expression('isAuthenticated()')}">
-                                <h3 class="account-btn">Hi, <span th:text="${#authentication.principal}"></span>님</h3>
-                                <div class="dropdown-container login-after-layer">
-                                    <ul>
-                                        <li><a href="/members/my">마이페이지</a></li>
-                                        <li><a href="/members/favorite">찜 상품</a></li>
-                                        <li><a href="/members/logout">로그아웃</a></li>
-                                    </ul>
-
+                            <!--  "${#authorization.expression('isAuthenticated()')}"-->
+                            <div sec:authorize="hasAnyAuthority('ROLE_USER')">
+                                <div class="login-header after-login _user">
+    <!--                                <h3 class="account-btn">Hi, <span th:text="${#authentication.principal.name}"></span>님</h3>-->
+                                    <h3 class="account-btn"><img th:src="@{/img/user.png}" alt="마이페이지" /></h3>
+                                    <div class="dropdown-container login-after-layer">
+                                        <ul>
+                                            <li><a href="/members/my">마이페이지</a></li>
+                                            <li><a href="/members/favorite">찜 상품</a></li>
+                                            <li><a href="/members/logout">로그아웃</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="cart-box clfix">
+                                    <a href="/cart" class="info-link"></a>
+                                    <span class="cart-text">Cart</span>
+                                    <span class="cart-count count-ico text-center">0</span>
                                 </div>
                             </div>
                             <!-- 일반 유저 로그인 후 // -->
 
                             <!-- //  관리자 로그인 후 -->
-                            <div class="login-header after-login" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                            <div class="login-header after-login _admin" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
                                 <h3 class="account-btn">안녕하세요, 관리자님</h3>
                                 <div class="dropdown-container login-after-layer">
                                     <ul>
@@ -48,11 +56,6 @@
                             </div>
                             <!-- //  관리자 로그인 후 -->
 
-                            <div class="cart-box clfix">
-                                <a href="/cart" class="info-link"></a>
-                                <span class="cart-text">Cart</span>
-                                <span class="cart-count count-ico text-center">0</span>
-                            </div>
                         </div>
                     </div>
                     <div class="header-bottom">

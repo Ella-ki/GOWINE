@@ -2,23 +2,38 @@ package com.gowine.controller;
 
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
+import com.gowine.dto.MemberFormDto;
+import com.gowine.dto.SocialUser;
+import com.gowine.entity.Member;
 import com.gowine.service.ItemService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.net.SocketAddress;
+import java.security.Principal;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MainController {
     private final ItemService itemService;
     @GetMapping(value = "/")
-    public String main(){
+    public String main(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        System.out.println("session: " + session.toString());
+        System.out.println("session: " + session.getId());
         return "index";
     }
 

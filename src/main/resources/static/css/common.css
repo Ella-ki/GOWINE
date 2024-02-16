@@ -322,16 +322,37 @@ to{
 .header-wrapper .login-header {
     z-index: 3;
     position: fixed;
-    right: 158px;
     top: 0;
     padding: 20px 0;
     cursor: pointer;
+}
+
+.header-wrapper .login-header.before-login {
+    right: 30px;
+}
+
+.header-wrapper .login-header.after-login._user {
+    top: 12px;
+    right: 136px;
+    padding: 0;
+}
+
+.header-wrapper .login-header.after-login._admin {
+    right: 30px;
 }
 
 .header-wrapper .login-header .account-btn {
     position: relative;
     padding-right: 24px;
     font-weight: 700;
+}
+
+.header-wrapper .login-header.after-login._user .account-btn {
+    padding:0;
+}
+
+.header-wrapper .login-header.after-login._user .account-btn img {
+    width: 30px;
 }
 
 .header-wrapper .login-header .account-btn::before {
@@ -366,6 +387,11 @@ to{
     top: 8px;
 }
 
+.header-wrapper .login-header.after-login._user .account-btn:before,
+ .header-wrapper .login-header.after-login._user .account-btn:after {
+    display: none;
+}
+
 .header-wrapper .login-header .dropdown-container {
     display: none;
     position: fixed;
@@ -375,6 +401,14 @@ to{
     padding: 16px 34px;
     background-color: var(--main-bg);
     box-shadow: 0px 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.header-wrapper .login-header.after-login._admin .dropdown-container {
+    right: 30px;
+}
+
+.header-wrapper .login-header.after-login._user .dropdown-container {
+    right: 100px;
 }
 
 .header-wrapper .login-header .dropdown-container ul {
