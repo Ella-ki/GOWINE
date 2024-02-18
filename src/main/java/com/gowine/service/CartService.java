@@ -52,17 +52,20 @@ public class CartService {
         // Cart id, item id 를 조회 CartItem을 결과 값 받기
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
+
         // CartItem 결과 값이 객체가 있는 경우 => 동일한 상품 있으면 수량만 증가
         if (savedCartItem != null) {
             // 수량만 증가 -> 변경감지
             savedCartItem.addCount(cartItemDto.getCount());
             return savedCartItem.getId();
         } else { // CartItem 결과 값이 객체가 없는 경우 => 동일한 상품 없으면 상품 객체 추가
+
             // CartItem 객체 생성 후 -> save DB에 저장
             CartItem cartItem = CartItem.createCartItem(cart, item, cartItemDto.getCount());
             cartItemRepository.save(cartItem);
             return cartItem.getId();
         }
+
     }
 
     @Transactional(readOnly = true)
@@ -81,8 +84,23 @@ public class CartService {
             return cartDetailDtoList;
         }
 
-        cartDetailDtoList = cartItemRepository.findCardDetailDtoList(cart.getId());
+        cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
+
         return cartDetailDtoList;
+    }
+
+
+    @Transactional(readOnly = true)
+    public int getCartCout(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow();
+        Cart cart = cartRepository.findByMemberId(member.getId());
+
+        if(cart == null) {
+            return 0;
+        }
+
+        int CartCount = cartItemRepository.getTotalCountByCartId(cart.getId());
+        return CartCount;
     }
 
     @Transactional(readOnly = true)

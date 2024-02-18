@@ -25,6 +25,8 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
             "where ci.cart.id = :cartId " +
             "and im.item.id = ci.item.id " +
             "order by ci.regTime desc")
-    List<CartDetailDto> findCardDetailDtoList(Long cartId);
+    List<CartDetailDto> findCartDetailDtoList(Long cartId);
 
+    @Query("select sum(ci.count) from CartItem ci where ci.cart.id = :cartId")
+    Integer getTotalCountByCartId(Long cartId);
 }

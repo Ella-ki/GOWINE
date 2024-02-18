@@ -113,12 +113,19 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/cart/orders";
+            var url = "/payment";
+
+            var checkedBoxes = $("input[name=cartChkBox]:checked");
+
+            if (checkedBoxes.length === 0) {
+                alert("주문할 상품을 선택해주세요.");
+                return;
+            }
 
             var dataList = new Array(); // 배열 []
             var paramData = new Object(); // 객체 {}
 
-            $("input[name=cartChkBox]:checked").each(function(){
+            checkedBoxes.each(function(){
                 var cartItemId = $(this).val();
                 var data = new Object();
                 data["cartItemId"] = cartItemId;
@@ -127,19 +134,9 @@
 
             paramData['cartOrderDtoList'] = dataList;
 
-            //   paramData {
-            //        cartOrderDtoList : [
-            //            {
-            //                cartItemId : 2
-            //            },
-            //            {
-            //                cartItemId : 3
-            //            }
-            //        ]
-            //    }
-            // CartOrderDto => List<CartOrderDto> cartOrderDtoList 여기에 paramData 들어감
-
             var param = JSON.stringify(paramData);
+
+            console.log(paramData);
 
             $.ajax({
                 url: url,
@@ -152,9 +149,11 @@
                 },
                 dataType: "json",
                 cache: false,
-                success: function(result, status){
-                    alert("주문이 완료 되었습니다.");
-                    location.href = "/orders";
+                success: function(response){
+                    console.log(response);
+                    if (response === "OK") {
+                        location.href = "/orderBefore";
+                    }
                 },
                 error: function(jqXHR, status, error){
                     if(jqXHR.state == '401'){
@@ -166,6 +165,7 @@
                 }
             })
         }
+
     </script>
 </th:block>
 
@@ -208,13 +208,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="cartItem : ${cartItems}">
+                    <tr th:unless="${cartItems.isEmpty()}" th:each="cartItem : ${cartItems}">
                         <td>
                             <input type="checkbox" name="cartChkBox" th:id="'chk_' + ${cartItem.cartItemId}" th:value="${cartItem.cartItemId}">
                             <label th:for="'chk_' + ${cartItem.cartItemId}"></label>
                         </td>
                         <td>
                             <dl class="item-list-row">
+<!--                                <a th:href="'/item/' + ${cartItem.ItemId}" class="info-link"></a>-->
                                 <dt><img th:src="${cartItem.imgUrl}" th:alt="${cartItem.itemNm}"></dt>
                                 <dd class="text-left">
                                     <span th:text="${cartItem.itemNm}"></span>
@@ -241,6 +242,9 @@
                                 <span aria-hidden="true" th:data-id="${cartItem.cartItemId}" onclick="deleteCartItem(this)"><i class="fa fa-trash-o"></i></span>
                             </button>
                         </td>
+                    </tr>
+                    <tr th:if="${cartItems.isEmpty()}">
+                        <td colspan="5">장바구니가 비어 있습니다.</td>
                     </tr>
                 </tbody>
             </table>

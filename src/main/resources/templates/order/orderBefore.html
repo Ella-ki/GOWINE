@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/pageLayout}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="page-container container">
+        <div class="page-title-wrapper">
+            <div class="page-title text-center cart-process">
+                <h2>장바구니</h2>
+                <h2 class="_active">결제</h2>
+            </div>
+        </div>
+
+        <div class="page-content cart-content clfix">
+            <table class="table cart-table">
+                <colgroup>
+                    <col width="370">
+                    <col>
+                    <col>
+                    <col width="120">
+                    <col width="60">
+                </colgroup>
+                <thead>
+                <tr class="text-center">
+                    <td class="text-left">상품정보</td>
+                    <td>상품금액</td>
+                    <td>수량</td>
+                    <td>합계</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartItem : ${cartItems}">
+                    <td>
+                        <dl class="item-list-row">
+                            <dt><img th:src="${cartItem.imgUrl}" th:alt="${cartItem.itemNm}"></dt>
+                            <dd class="text-left">
+                                <span th:text="${cartItem.itemNm}"></span>
+                            </dd>
+                        </dl>
+                    </td>
+                    <td>
+                        <span th:id="'price_' + ${cartItem.cartItemId}" th:data-price="${cartItem.price}" data-th-text="${#numbers.formatInteger(cartItem.price, 3, 'COMMA') + '원'}"></span>
+                    </td>
+                    <td>
+                        <!-- <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}" th:value="${cartItem.count}" min="1" onchange="changeCount(this)">-->
+
+                        <div class="number">
+                            <span class="minus">-</span>
+                            <input type="number" class="form-control" name="count" th:id="'count_' + ${cartItem.cartItemId}" th:value="${cartItem.count}" value="1" min="1" onchange="changeCount(this)"/>
+                            <span class="plus">+</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span th:id="'totalPrice_' + ${cartItem.cartItemId}" name="totalPrice" data-th-text="${#numbers.formatInteger(cartItem.price * cartItem.count, 3, 'COMMA') + '원'}"></span>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+</html>

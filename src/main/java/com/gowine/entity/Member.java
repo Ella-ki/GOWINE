@@ -10,6 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "member")
@@ -53,6 +56,8 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(nullable = true)
+    private int liked;
 
     // 일반 유저
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {

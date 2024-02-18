@@ -7,17 +7,20 @@ import com.gowine.constant.WineType;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.exception.OutOfStockException;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="item")
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item extends BaseEntity{
     @Id // 기본키
     @Column
@@ -75,6 +78,9 @@ public class Item extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
     private List<Member> member;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    Set<ItemLike> likes = new HashSet<>();
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();

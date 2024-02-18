@@ -1,6 +1,7 @@
 package com.gowine.controller;
 
 import com.gowine.dto.MainItemDto;
+import com.gowine.service.CartService;
 import com.gowine.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,6 @@ public class AjaxControll {
         List<MainItemDto> items = itemService.getMbtiItem(mbti);
         return items;
     }
-
 
 }
 

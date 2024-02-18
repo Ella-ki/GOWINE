@@ -139,10 +139,23 @@ function addCart(itemId){
         },
         dataType: "json",
         cache: false,
-        success: function(result, status){
-            alert("상품을 장바구니에 담았습니다.");
-            console.log(result);
-            console.log(status);
+        success: function(result, status, jqXHR){
+            let cartCount = jqXHR.getResponseHeader('cartCount');
+            $("#cart-count-text").text(cartCount);
+
+            let pop = '';
+            pop += '<div class="popupCustom">';
+            pop += '<div class="popDimmed"></div>';
+            pop += '<div class="popupCont text-center">';
+            pop += '<div class="pop-icon"><img src="/img/pop-icon.png" class="ico-image"></div>';
+            pop += '<h2>상품을 장바구니에 담았습니다.</h2>';
+            pop += '<h2>장바구니로 이동하시겠습니까?</h2>';
+            pop += '<div class="popupLink">';
+            pop += '<a href="/cart" class="btn-move">장바구니 이동</a>';
+            pop += '<span class="btn-confirm">쇼핑 계속하기</span>';
+            pop += '</div>';
+
+            $("body").append(pop);
         },
         error: function(jqXHR, status, error){
             if(jqXHR.status == '401'){
@@ -154,6 +167,10 @@ function addCart(itemId){
         }
     })
 }
+
+$(document).on("click", ".popupCustom .btn-confirm", function(){
+    $(".popupCustom").remove();
+});
 
 /*
 const maskingName = (strName) => {

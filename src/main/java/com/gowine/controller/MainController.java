@@ -2,6 +2,7 @@ package com.gowine.controller;
 
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
+import com.gowine.service.CartService;
 import com.gowine.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

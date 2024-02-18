@@ -4,6 +4,8 @@ import com.gowine.dto.CartDetailDto;
 import com.gowine.dto.CartItemDto;
 import com.gowine.dto.CartOrderDto;
 import com.gowine.service.CartService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ public class CartController {
 
     @PostMapping(value = "/cart")
     ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal) {
+
         if(bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -35,13 +38,20 @@ public class CartController {
 
         String email = principal.getName();
         Long cartItemId;
+        Integer cartCount;
 
         try{
             cartItemId = cartService.addCart(cartItemDto, email);
+            cartCount = cartService.getCartCout(email);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+        //return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+        ResponseEntity<Long> responseEntity = ResponseEntity
+                .status(HttpStatus.OK)
+                .header("cartCount", String.valueOf(cartCount)) // cartCount를 문자열로 변환하여 헤더에 추가합니다.
+                .body(cartItemId);
+        return responseEntity;
     }
 
     @GetMapping(value = "/cart")
@@ -76,28 +86,17 @@ public class CartController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 
-    // cartList -> CartController -> CartService -> OrderService
-    // -> CartService -> CartController -> cartList.html
-    @PostMapping(value = "/cart/orders")
-    public @ResponseBody ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal) {
-        System.out.println(cartOrderDto.getCartItemId());
-        List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+    @GetMapping(value = "/cart/getCartCount")
+    ResponseEntity getCartCount(Principal principal) {
+        String email = principal.getName();
+        Integer cartCount;
 
-        // 1. 유효성 검사 후
-        if(cartOrderDtoList == null || cartOrderDtoList.size() == 0){
-            return new ResponseEntity<String>("주문할 상품을 선택해주세요", HttpStatus.FORBIDDEN);
+        try{
+            cartCount = cartService.getCartCout(email);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        for(CartOrderDto cartOrder : cartOrderDtoList){
-            // 카트 안에 들어있는 cartId 와 로그인한 유저의 id 동일한지 유효성 검사
-            if(!cartService.validateCartItem(cartOrder.getCartItemId(), principal.getName())) {
-                return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
-            }
-        }
-
-        // 2. cartService
-        Long orderId = cartService.orderCartItem(cartOrderDtoList, principal.getName());
-        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+        return new ResponseEntity<Integer>(cartCount, HttpStatus.OK);
     }
 }
 

@@ -3,6 +3,26 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--sec:authorize="isAuthenticated()"-->
 
 <div th:fragment="header">
+    <script>
+        $(function(){
+            updateCartCount();
+        });
+
+        function updateCartCount() {
+            $.ajax({
+                url: "/cart/getCartCount", // 장바구니 정보를 가져오는 서버의 엔드포인트
+                method: "GET",
+                success: function(data) {
+                    $("#cart-count-text").text(data); // UI에 장바구니 수량을 반영
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error getting cart count:", error);
+                }
+            });
+        }
+
+    </script>
+
     <header id="header" class="header-container">
         <div class="header-template">
             <div class="m-header"></div>
@@ -39,7 +59,7 @@
                                 <div class="cart-box clfix">
                                     <a href="/cart" class="info-link"></a>
                                     <span class="cart-text">Cart</span>
-                                    <span class="cart-count count-ico text-center">0</span>
+                                    <span class="cart-count text-center" id="cart-count-text">0</span>
                                 </div>
                             </div>
                             <!-- 일반 유저 로그인 후 // -->
