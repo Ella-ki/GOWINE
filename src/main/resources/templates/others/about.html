@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/indexLayout}">
+
+<div layout:fragment="content">
+  <div class="page-container container">
+
+    <div class="page-title-wrapper">
+      <div class="page-title text-center">
+        <a href="/">Home</a>
+        <span class="brn_arrow">/</span>
+        <span class="current">매장 안내</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="list-container">
+        <ul class="map-list">
+          <li><a href="javascript:;" class="info-link" data-lat="37.4909875" data-lng="126.7205714"></a>Ak 분당</li>
+          <li>IFC몰</li>
+          <li>강남</li>
+          <li>갤러리아 광교</li>
+          <li>스타필드 고양</li>
+          <li>신세계타임스퀘어</li>
+          <li>롯데 광복</li>
+          <li>롯데 울산</li>
+          <li>신세계 대구</li>
+        </ul>
+      </div>
+      <div id="map" class="kakao-map"></div>
+
+      <!--    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>-->
+      <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5c38fa692deedb36fabd70b416941549"></script>
+      <script>
+        var container = document.getElementById('map');
+        var options = {
+           center: new kakao.maps.LatLng(37.4909875, 126.7205714),
+           level: 3
+        };
+
+        var map = new kakao.maps.Map(container, options);
+
+        var imageSrc = '../img/logo.png', // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(69, 37), // 마커이미지의 크기입니다
+        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+            markerPosition = new kakao.maps.LatLng(37.4909875, 126.7205714); // 마커가 표시될 위치입니다
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage // 마커이미지 설정
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+      </script>
+</div>
+</div>
+</div>
+</html>

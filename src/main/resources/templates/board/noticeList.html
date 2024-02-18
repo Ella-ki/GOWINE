@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/pageLayout}">
+
+<th:block layout:fragment="css">
+    <style>
+        .tab {
+            display: none;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="page-container container">
+
+        <div class="page-title-wrapper">
+            <div class="page-title-tap text-center">
+                <!--
+                <div class="tab-group">
+                    <li  class="tab active">공지사항</li>
+                    <li class="tab">FAQ</li>
+                    <th:block th:include="board/noticeList">공지사항(현재)</th:block>
+                    <th:block th:include="board/fapList">FAQ</th:block>
+                </div> -->
+
+                <ul>
+                    <li th:each="tab,iterStat : ${tabs}" th:class="${iterStat.index == 0 ? 'active' : ''}">
+                        <a th:href="'#tab-' + ${iterStat.index}" th:text="${tab.name}">Tab Name</a>
+                    </li>
+                </ul>
+
+                <div th:each="tab,iterStat : ${tabs}" th:id="'tab-' + ${iterStat.index}" th:class="${iterStat.index == 0 ? 'tab active' : 'tab'}">
+                    <h2 th:text="${tab.name}">Tab Nameddddd</h2>
+                    <p th:text="${tab.content}">Tab Content</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <div class="tab-content">
+                <div id="notice">
+
+                </div>
+                <div id="tab">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

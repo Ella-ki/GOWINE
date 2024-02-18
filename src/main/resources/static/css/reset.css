@@ -16,7 +16,7 @@ body {
 	line-height: 1;
 	overflow-x: hidden;
 	font-size: 1.8rem;
-	font-family: 'NanumSquare';
+	font-family: 'Pretendard';
 	font-weight: 400;
 }
 ol, ul {
@@ -24,7 +24,7 @@ ol, ul {
 }
 button, input:not([type="password"]), select, textarea {
     color: inherit;
-    font-family:'NanumSquare';
+    font-family: 'Pretendard';
     vertical-align: middle;
 }
 button, input[type="button"]{

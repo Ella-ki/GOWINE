@@ -38,7 +38,9 @@ public class SecurityConfig {
             "/login/**",
             "/list",
             "/searchResult",
-            "/searchMbtiItem"
+            "/searchMbtiItem",
+            "/about",
+            "/board/**"
     };
 
     @Bean

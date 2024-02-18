@@ -74,15 +74,15 @@ body._modalActive {
 
 /***** 텍스트 정렬 *****/
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 
 .text-left {
-    text-align: left;
+    text-align: left !important;
 }
 
 .text-right  {
-    text-align: right;
+    text-align: right !important;
 }
 
 /***** 링크 감싸는 css *****/
@@ -303,9 +303,20 @@ to{
     z-index: 4;
     position: fixed;
     top: 20px;
-    left: 16px;
+    left: 22px;
     cursor: pointer;
 }
+
+.header-wrapper .search-box  .ico-search {
+    font-size: 22px;
+    transition: 0.3s;
+}
+
+.header-wrapper .search-box  .search-toggle:hover .ico-search {
+    margin-top: -3px;
+    color: var(--point-color);
+}
+
 
 .header-wrapper .header-logo {
     font-size: 44px;
@@ -317,6 +328,7 @@ to{
 .header-wrapper .right-side-icon {
     position:relative;
     z-index: 4;
+    font-family: 'NanumSquare';
 }
 
 .header-wrapper .login-header {
@@ -332,9 +344,12 @@ to{
 }
 
 .header-wrapper .login-header.after-login._user {
-    top: 12px;
-    right: 136px;
+    right: 120px;
     padding: 0;
+    width: 60px;
+    height: 60px;
+    line-height: 67px;
+    text-align: center;
 }
 
 .header-wrapper .login-header.after-login._admin {
@@ -351,8 +366,10 @@ to{
     padding:0;
 }
 
-.header-wrapper .login-header.after-login._user .account-btn img {
-    width: 30px;
+.header-wrapper .login-header.after-login._user .account-btn .ico-user {
+    font-size: 25px;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 .header-wrapper .login-header .account-btn::before {
@@ -387,9 +404,14 @@ to{
     top: 8px;
 }
 
-.header-wrapper .login-header.after-login._user .account-btn:before,
- .header-wrapper .login-header.after-login._user .account-btn:after {
+.header-wrapper .login-header.after-login._user .account-btn::before,
+.header-wrapper .login-header.after-login._user .account-btn::after {
     display: none;
+}
+
+.header-wrapper .login-header.after-login._user .account-btn:hover .ico-user {
+    color: var(--point-color);
+    margin-top: -3px;
 }
 
 .header-wrapper .login-header .dropdown-container {
@@ -417,6 +439,10 @@ to{
     font-size: 17px;
 }
 
+.header-wrapper .login-header .dropdown-container ul li a:hover {
+    color: var(--point-color);
+}
+
 .header-wrapper .cart-box {
     z-index: 3;
     position: fixed;
@@ -429,7 +455,11 @@ to{
     float: left;
     margin-top: 21px;
     margin-right: 20px;
-    font-weight: 700;
+    font-weight: bold;
+}
+
+.header-wrapper .cart-box .cart-text:hover {
+    color: var(--point-color);
 }
 
 .header-wrapper .cart-box .cart-count {
@@ -462,7 +492,6 @@ to{
     padding: 20px 25px;
     cursor: pointer;
     font-weight: 500;
-    font-family: 'Manrope';
 }
 
 .login-after-layer {
@@ -602,6 +631,7 @@ to{
 
 .modal-container .modal-content .title .close-icon {
     cursor: pointer;
+    font-size: 25px;
 }
 
 .modal-container .modal-content .cont {

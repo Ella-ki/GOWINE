@@ -47,6 +47,7 @@ public class CartController {
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
         List<CartDetailDto> cartDetailDtoList = cartService.getCartList(principal.getName());
+
         model.addAttribute("cartItems", cartDetailDtoList);
         return "/cart/cartList";
     }
