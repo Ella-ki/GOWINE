@@ -23,6 +23,7 @@
             }
         });
 
+/*
         function fnLike(itemId){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
@@ -32,17 +33,16 @@
             $.ajax({
                 url: url,
                 type:"post",
-                contentType: "application/json",
-                data: {itemId: itemId},
                 beforeSend: function(xhr){
-                    /* 데이터 전송하기 전에 헤더의 csrf 값을 설정*/
                     xhr.setRequestHeader(header, token);
                 },
-                dataType: "json",
+                data: {itemId: itemId},
                 cache: false,
                 success: function(response){
+                    document.getElementById('is-already-like').style.display = 'block';
+                    document.getElementById('is-not-already-like').style.display = 'none';
                     return;
-                    console.log(xhr.responseText);
+                    console.log(response);
                 },
                 error: function(jqXHR, status, error){
                     if(jqXHR.status == 401){
@@ -64,13 +64,10 @@
             $.ajax({
                 url: url,
                 type:"delete",
-                contentType: "application/json",
-                data: {itemId: itemId},
                 beforeSend: function(xhr){
-                    /* 데이터 전송하기 전에 헤더의 csrf 값을 설정*/
                     xhr.setRequestHeader(header, token);
                 },
-                dataType: "json",
+                data: {itemId: itemId},
                 cache: false,
                 success: function(response){
                     document.getElementById('is-already-like').style.display = 'none';
@@ -88,6 +85,7 @@
                 }
             })
         }
+*/
 
     </script>
 </th:block>
@@ -310,7 +308,7 @@
                 <div class="list-item">
                     <section class="product-wrapper">
                         <ul>
-                            <li th:each="item, status: ${items.getContent()}">
+                            <li class="item-li" th:each="item, status: ${items.getContent()}">
                                 <input type="hidden" id="itemId" th:value="${item.id}">
                                 <input type="hidden" id="count" name="count" th:value="1">
                                 <div class="products-entry">
@@ -336,11 +334,13 @@
                                             <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
                                         </div>
 
-                                        <div class="wishitem-btn" id="is-not-already-like">
-                                            <i class="fa fa-heart-o like-icon" aria-hidden="true" th:onclick="fnLike([[${item.id}]]);"></i>
+                                        <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
+                                            <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
+                                            <span class="like-count hide">99</span>
                                         </div>
-                                        <div class="wishitem-btn" id="is-already-like" style="display: none">
-                                            <i class="fa fa-heart like-icon" aria-hidden="true" th:onclick="fnLikeDelete([[${item.id}]]);"></i>
+                                        <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
+                                            <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                            <span class="like-count hide">99</span>
                                         </div>
                                     </div>
                                 </div>
@@ -351,6 +351,7 @@
             </div>
         </section>
     </div>
+    <script src="/js/like.js"></script>
 </div>
 
 </html>

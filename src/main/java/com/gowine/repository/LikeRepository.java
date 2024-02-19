@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface LikeRepository extends JpaRepository<ItemLike, Long> {
-    Optional<Integer> countByItemId(Long itemId);
-    Optional<ItemLike> findByItemIdAndMemberId(Long itemId, Long memberId);
+    Optional<Integer> countByItem(Item item);
+    Optional<ItemLike> findByMemberAndItem(Member member, Item item);
 }

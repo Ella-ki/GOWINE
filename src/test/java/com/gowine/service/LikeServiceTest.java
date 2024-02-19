@@ -38,16 +38,4 @@ class LikeServiceTest {
     }
     */
 
-    @Test
-    @DisplayName("상품 좋아요 중복 테스트")
-    public boolean isNotAlreadyLike(){
-        Item item = new Item();
-        Member member = new Member();
-
-        item.setId(item.getId());
-        member.setId(member.getId());
-
-        return likeRepository.findByItemAndMember(item, member).isEmpty();
-
-    }
 }

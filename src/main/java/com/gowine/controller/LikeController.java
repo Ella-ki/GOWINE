@@ -24,44 +24,36 @@ public class LikeController {
     private final MemberRepository memberRepository;
 
     @GetMapping(value = "/like/{itemId}")
-    public ResponseEntity<List<String>> getLikeCount(@PathVariable Long itemId,
-                                                     String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow();
-        log.info("itemId : {} ", itemId);
-        log.info("loginMember : {} ", member);
-
-        List<String> resultData = likeService.count(itemId, String.valueOf(member.getId()));
-
-        log.info("likeCount : {} ", resultData);
+    public ResponseEntity<List<String>> getLikeCount(@PathVariable Long itemId, Principal principal) {
+        String email = principal.getName();
+        Member loginMember = memberRepository.findByEmail(email).orElse(null);
+        List<String> resultData = likeService.count(itemId, loginMember);
 
         return new ResponseEntity<>(resultData, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/like/{itemId}")
-    public ResponseEntity<String> cancelLike(@PathVariable Long itemId ,Principal principal) {
+    public ResponseEntity<String> cancelLike(@PathVariable Long itemId, Principal principal) {
         String email = principal.getName();
-        Member member = memberRepository.findByEmail(email).orElseThrow();
-        if (member != null) {
-            likeService.cancelLike(itemId, String.valueOf(member.getId()));
+        Member loginMember = memberRepository.findByEmail(email).orElseThrow();
+        if (loginMember != null) {
+            likeService.cancelLike(loginMember, itemId);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/like/{itemId}")
-    public ResponseEntity<String> addLike(@PathVariable Long itemId, Principal principal) {
-        String email = principal.getName();
-        Member member = memberRepository.findByEmail(email).orElseThrow();
-
-        log.info("itemId : " + itemId);
-        log.info("email : " + email);
-        log.info(String.valueOf(member));
-
+    public ResponseEntity<String> addLike(Principal principal,
+                                          @PathVariable Long itemId) {
         boolean result = false;
 
-        if (member.getId() != null)
-            result = likeService.addLike(itemId, String.valueOf(member.getId()));
+        String email = principal.getName();
+        Member loginMember = memberRepository.findByEmail(email).orElseThrow();
+
+        if (Objects.nonNull(loginMember))
+            result = likeService.addLike(loginMember, itemId);
 
         return result ?
-                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>("무슨 에러?",HttpStatus.BAD_REQUEST);
+                new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
