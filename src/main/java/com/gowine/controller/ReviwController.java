@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class BoardController {
+public class ReviwController {
     @GetMapping(value = "/board/community")
     public String boardList(){
         return "board/communityList";
