@@ -22,71 +22,6 @@
                $("#search-filter").removeClass('fixed');
             }
         });
-
-/*
-        function fnLike(itemId){
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            var url = "/like/" + itemId;
-
-            $.ajax({
-                url: url,
-                type:"post",
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                data: {itemId: itemId},
-                cache: false,
-                success: function(response){
-                    document.getElementById('is-already-like').style.display = 'block';
-                    document.getElementById('is-not-already-like').style.display = 'none';
-                    return;
-                    console.log(response);
-                },
-                error: function(jqXHR, status, error){
-                    if(jqXHR.status == 401){
-                        alert("로그인 후 이용해주세요.");
-                        location.href = "/members/login";
-                    } else {
-                        alert("서버에서 오류가 발생했습니다.");
-                    }
-                }
-            })
-        }
-
-        function fnLikeDelete(itemId){
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            var url = "/like/" + itemId;
-
-            $.ajax({
-                url: url,
-                type:"delete",
-                beforeSend: function(xhr){
-                    xhr.setRequestHeader(header, token);
-                },
-                data: {itemId: itemId},
-                cache: false,
-                success: function(response){
-                    document.getElementById('is-already-like').style.display = 'none';
-                    document.getElementById('is-not-already-like').style.display = '';
-                    return;
-                    console.log(xhr.responseText);
-                },
-                error: function(jqXHR, status, error){
-                    if(jqXHR.status == 401){
-                        alert("로그인 후 이용해주세요.");
-                        location.href = "/members/login";
-                    } else {
-                        alert("서버에서 오류가 발생했습니다.");
-                    }
-                }
-            })
-        }
-*/
-
     </script>
 </th:block>
 
@@ -308,7 +243,7 @@
                 <div class="list-item">
                     <section class="product-wrapper">
                         <ul>
-                            <li class="item-li" th:each="item, status: ${items.getContent()}">
+                            <li class="item-element" th:each="item, status: ${items.getContent()}">
                                 <input type="hidden" id="itemId" th:value="${item.id}">
                                 <input type="hidden" id="count" name="count" th:value="1">
                                 <div class="products-entry">

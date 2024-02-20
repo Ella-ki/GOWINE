@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface LikeRepository extends JpaRepository<ItemLike, Long> {
+public interface ItemLikeRepository extends JpaRepository<ItemLike, Long> {
     Optional<Integer> countByItem(Item item);
     Optional<ItemLike> findByMemberAndItem(Member member, Item item);
 }

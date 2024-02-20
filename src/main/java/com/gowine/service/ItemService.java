@@ -3,6 +3,7 @@ package com.gowine.service;
 import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.ItemImg;
+import com.gowine.entity.Member;
 import com.gowine.repository.ItemImgRepository;
 import com.gowine.repository.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -108,6 +109,11 @@ public class ItemService {
     @Transactional(readOnly = true)
     public List<MainItemDto> getMbtiItem(String mbti) {
         return itemRepository.getMbtiItemPage(mbti);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getLikeItemPage(Member loginMember, Pageable pageable) {
+        return itemRepository.getLikeItemPage(loginMember, pageable);
     }
 
 }

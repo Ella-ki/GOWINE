@@ -95,7 +95,6 @@
 </th:block>
 
 <div layout:fragment="content">
-    <input type="hidden" id="itemId" th:value="${item.id}">
     <div class="main-container">
         <section class="section-com container">
             <div class="product-detail-head side-layout">
@@ -216,7 +215,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="product-exp right-side">
+                <div class="product-exp right-side item-element">
+                    <input type="hidden" id="itemId" th:value="${item.id}">
                     <div class="product-name txt-line-2" th:text="${item.itemNm}"></div>
                     <div class="exp-fun">
                         <ul class="clfix">
@@ -239,11 +239,27 @@
                             </li>
                         </ul>
                         <div class="order-btns common-btns" th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">
+                            <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
+                                <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
+                                <span class="like-count hide">99</span>
+                            </div>
+                            <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
+                                <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                <span class="like-count hide">99</span>
+                            </div>
                             <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
                             <div class="go-to-order btn-full-default" onclick="order()"><span>구매하기</span></div>
                         </div>
 
                         <div class="order-btns common-btns" th:unless="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">
+                            <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
+                                <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
+                                <span class="like-count hide">99</span>
+                            </div>
+                            <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
+                                <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                <span class="like-count hide">99</span>
+                            </div>
                             <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
                         </div>
                     </div>

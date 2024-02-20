@@ -4,6 +4,7 @@ import com.gowine.dto.ItemFormDto;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
 import com.gowine.entity.Item;
+import com.gowine.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +20,6 @@ public interface ItemRepositoryCustom {
     Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable);
 
     List<MainItemDto> getMbtiItemPage(String mbti);
+
+    Page<MainItemDto> getLikeItemPage(Member loginMember, Pageable pageable);
 }

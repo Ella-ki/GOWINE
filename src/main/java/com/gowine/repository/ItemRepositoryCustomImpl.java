@@ -157,5 +157,25 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         return content;
     }
 
+    @Override
+    public Page<MainItemDto> getLikeItemPage(Member loginMember, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+        QItemLike itemLike = QItemLike.itemLike;
+        QMember member = QMember.member;
+
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,item.winary, itemImg.imgUrl, item.price))
+                .from(itemImg).join(itemImg.item, item)
+                .leftJoin(itemLike.item, item)
+                .leftJoin(itemLike.member, member)
+                .where(member.eq(loginMember))
+                .orderBy(itemLike.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
+
+
 }
 

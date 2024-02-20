@@ -58,6 +58,10 @@ body._modalActive {
     padding: 0 50px;
 }
 
+.w100 {
+    width: 1000px;
+}
+
 .hide {
     position: absolute !important;
     left: -99999px !important;

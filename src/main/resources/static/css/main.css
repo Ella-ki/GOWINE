@@ -521,11 +521,11 @@
     height: 50px;
 }
 
-.page-container .page-title.cart-process {
+.page-container .page-title.title-process {
 
 }
 
-.page-container .page-title.cart-process h2 {
+.page-container .page-title.title-process h2 {
     position:relative;
     margin:0 23px;
     padding: 0 6px 6px;
@@ -533,12 +533,12 @@
     cursor:pointer;
 }
 
-.page-container .page-title.cart-process h2._active {
+.page-container .page-title.title-process h2._active {
     color: var(--point-color);
     border-bottom: 2px solid var(--point-color);
 }
 
-.page-container .page-title.cart-process h2:not(._active)::before {
+.page-container .page-title.title-process h2:not(._active)::before {
     content: '';
     width: 0;
     height: 2px;
@@ -549,7 +549,7 @@
     transition: 0.3s;
 }
 
-.page-container .page-title.cart-process h2:not(._active)::after {
+.page-container .page-title.title-process h2:not(._active)::after {
     content: '';
     width: 0;
     height: 2px;
@@ -560,16 +560,16 @@
     transition: 0.3s;
 }
 
-.page-container .page-title.cart-process h2:hover {
+.page-container .page-title.title-process h2:hover {
     color: var(--point-color);
 }
 
-.page-container .page-title.cart-process h2:hover::before {
+.page-container .page-title.title-process h2:hover::before {
     color: var(--point-color);
     width: 50%;
 }
 
-.page-container .page-title.cart-process h2:hover::after {
+.page-container .page-title.title-process h2:hover::after {
     color: var(--point-color);
     width: 50%;
 }
@@ -1072,6 +1072,29 @@
     justify-content: space-between;
     margin-top: 32px;
     overflow: hidden;
+}
+
+.product-detail-head .product-exp .exp-fun .order-btns .wishitem-btn {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border: 1px solid var(--point-color);
+    margin-right: 12px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.product-detail-head .product-exp .exp-fun .order-btns .wishitem-btn .like-icon {
+    width: 100%;
+    height: 100%;
+    line-height: 48px;
+    text-align: center;
+}
+
+.product-detail-head .product-exp .exp-fun .order-btns .wishitem-btn .like-icon:before {
+    font-size: 26px;
+    color: var(--point-color);
 }
 
 .product-detail-head .product-exp .exp-fun .order-btns .add-to-cart {

@@ -1,15 +1,12 @@
 package com.gowine.controller;
 
-import com.gowine.config.LoginMember;
 import com.gowine.entity.Member;
 import com.gowine.repository.MemberRepository;
-import com.gowine.service.LikeService;
-import com.gowine.service.MemberService;
+import com.gowine.service.ItemLikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -19,8 +16,8 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class LikeController {
-    private final LikeService likeService;
+public class ItemLikeController {
+    private final ItemLikeService likeService;
     private final MemberRepository memberRepository;
 
     @GetMapping(value = "/like/{itemId}")
