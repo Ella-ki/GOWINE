@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -38,7 +39,13 @@ public class ItemController {
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+
+        // 관련 상품 리스트
+        List<MainItemDto> relatedItems = itemService.getRelatedItem(itemId, itemId);
+
         model.addAttribute("item", itemFormDto);
+        model.addAttribute("relatedItems", relatedItems);
+
         return "item/itemDtl";
     }
 

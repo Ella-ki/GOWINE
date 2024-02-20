@@ -4,7 +4,7 @@ let header = $("meta[name='_csrf_header']").attr("content");
 const eventHandler = {
     init: function () {
         const _this = this;
-        const likeItems = document.querySelectorAll('.item-li');
+        const likeItems = document.querySelectorAll('.item-element');
 
         likeItems.forEach(function(item) {
             const itemIdInput = item.querySelector('#itemId');

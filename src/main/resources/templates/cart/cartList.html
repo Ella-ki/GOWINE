@@ -89,7 +89,6 @@
                     url: url,
                     type:"delete",
                     beforeSend: function(xhr){
-                        /* 데이터 전송하기 전에 헤더의 csrf 값을 설정*/
                         xhr.setRequestHeader(header, token);
                     },
                     dataType: "json",
@@ -188,7 +187,7 @@
             <table class="table cart-table">
                 <colgroup>
                     <col>
-                    <col width="370">
+                    <col width="350">
                     <col>
                     <col>
                     <col width="120">

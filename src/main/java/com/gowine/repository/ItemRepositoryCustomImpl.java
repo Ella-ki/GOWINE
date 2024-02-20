@@ -1,8 +1,12 @@
 package com.gowine.repository;
 
 import com.gowine.constant.WineGrape;
+import com.gowine.constant.WineRegion;
+import com.gowine.constant.WineType;
 import com.gowine.dto.ItemFormDto;
+import com.gowine.entity.*;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,9 +14,6 @@ import com.gowine.constant.ItemSellStatus;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
 import com.gowine.dto.QMainItemDto;
-import com.gowine.entity.Item;
-import com.gowine.entity.QItem;
-import com.gowine.entity.QItemImg;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -102,7 +103,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
@@ -116,7 +118,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemNmLike(keyword))
                 .orderBy(item.id.desc()).fetchResults();
@@ -131,7 +134,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItemImg itemImg = QItemImg.itemImg;
 
         // QMainItemDto @QueryProjection을 허용하면 DTO 로 바로 조회 가능
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,item.winary, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
@@ -145,9 +149,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
-        System.out.println(wineGrapeLike(mbti));
-
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
                 .from(itemImg).join(itemImg.item, item)
                 .where(wineGrapeLike(mbti))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
@@ -164,18 +167,51 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItemLike itemLike = QItemLike.itemLike;
         QMember member = QMember.member;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm,item.winary, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
-                .leftJoin(itemLike.item, item)
-                .leftJoin(itemLike.member, member)
-                .where(member.eq(loginMember))
-                .orderBy(itemLike.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .leftJoin(item.likes, itemLike)
+                .where(itemLike.member.eq(loginMember))
+                .orderBy(itemLike.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
 
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
 
+    @Override
+    public List<MainItemDto> getRelatedItemPage(Long itemId, Long excludedItemId){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        Tuple itemInfo = queryFactory.select(item.wineGrape, item.wineRegion, item.wineType)
+                .from(item)
+                .where(item.id.eq(itemId))
+                .fetchOne();
+
+        WineGrape wineGrape = itemInfo.get(item.wineGrape);
+        WineRegion wineRegion = itemInfo.get(item.wineRegion);
+        WineType wineType = itemInfo.get(item.wineType);
+
+        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                        item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
+                .from(itemImg).join(itemImg.item, item)
+                .where(item.wineGrape.eq(wineGrape)
+                        .or(item.wineRegion.eq(wineRegion))
+                        .or(item.wineType.eq(wineType))
+                        .and(item.id.ne(excludedItemId)))
+                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                .limit(10)
+                .fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return content;
+    }
 
 }
 

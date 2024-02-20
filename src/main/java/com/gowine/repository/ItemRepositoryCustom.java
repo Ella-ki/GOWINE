@@ -22,4 +22,6 @@ public interface ItemRepositoryCustom {
     List<MainItemDto> getMbtiItemPage(String mbti);
 
     Page<MainItemDto> getLikeItemPage(Member loginMember, Pageable pageable);
+
+    List<MainItemDto> getRelatedItemPage(Long itemid, Long excludedItemId);
 }

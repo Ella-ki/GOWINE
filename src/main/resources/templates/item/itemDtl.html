@@ -217,6 +217,7 @@
                 </div>
                 <div class="product-exp right-side item-element">
                     <input type="hidden" id="itemId" th:value="${item.id}">
+                    <div class="product-sub-name" th:text="${item.winary}"></div>
                     <div class="product-name txt-line-2" th:text="${item.itemNm}"></div>
                     <div class="exp-fun">
                         <ul class="clfix">
@@ -266,19 +267,19 @@
                     <div class="exp-character char-list">
                         <dl>
                             <dt>Region</dt>
-                            <dd class="txt-line-2" th:text="${item.wineRegion}"></dd>
+                            <dd class="txt-line-2" th:text="${item.wineRegion.getDisplayName()}"></dd>
                         </dl>
                         <dl>
                             <dt>Type</dt>
-                            <dd th:text="${item.wineType}"></dd>
+                            <dd th:text="${item.wineType.getDisplayName()}"></dd>
                         </dl>
                         <dl>
                             <dt>Grape</dt>
-                            <dd th:text="${item.wineGrape}"></dd>
+                            <dd th:text="${item.wineGrape.getDisplayName()}"></dd>
                         </dl>
                         <dl>
                             <dt>Vivino</dt>
-                            <dd th:text="${item.vivinoRate}"></dd>
+                            <dd th:text="${item.vivinoRate == null ? '-' : item.vivinoRate}"></dd>
                         </dl>
                     </div>
                     <div class="exp-character char-input">
@@ -328,126 +329,42 @@
                     <div class="heading-box">
                         <h2 class="heading-tit">연관 상품</h2>
                     </div>
+
                     <div class="content-box product-wrapper">
                         <div class="swiper-container">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
+                                <div class="swiper-slide item-element" th:each="item : ${relatedItems}">
+                                    <input type="hidden" id="itemId" th:value="${item.id}">
                                     <div class="products-entry">
-                                        <a href="/item/detail" class="info-link"></a>
+                                        <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                         <div class="products-thumb">
                                             <div class="product-image">
-                                                <img th:src="@{/images/wine-1.png}" alt="">
+                                                <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
                                             </div>
-                                            <div class="add-cart-btn">ADD TO CART</div>
+                                            <div class="add-cart-btn" th:onclick="addCart([[${item.id}]]);">장바구니 담기</div>
                                         </div>
                                         <div class="products-content">
-                                            <div class="product-subname">Poggio Scalette</div>
-                                            <div class="product-name txt-line-2">Il Carbonaione Alta Valle della Greve 2011 750ml</div>
+                                            <div class="product-subname" th:text="${item.winary}"></div>
+                                            <div class="product-name txt-line-2" th:text="${item.itemNm}"></div>
                                             <div class="product-price">
-                                                <del class="origin-price" aria-hidden="true">
-                                                    <span class="amount"><bdi>250,000</bdi>원</span>
-                                                </del>
+<!--                                                <del class="origin-price" aria-hidden="true">-->
+<!--                                                    <span class="amount"><bdi>250,000</bdi>원</span>-->
+<!--                                                </del>-->
                                                 <div class="current-price">
-                                                    <span class="amount"><bdi>175,000</bdi>원</span>
+                                                    <span class="amount"><bdi data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></bdi></span>
                                                 </div>
-                                                <div class="per">30%</div>
+<!--                                                <div class="per">30%</div>-->
                                             </div>
                                             <div class="product-rate">
-                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
+                                                <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
                                             </div>
-                                            <div class="wishitem-btn">
-                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
+                                                <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
+                                                <span class="like-count hide">99</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="products-entry">
-                                        <a href="/item/detail" class="info-link"></a>
-                                        <div class="products-thumb">
-                                            <div class="product-image">
-                                                <img th:src="@{/images/wine-2.png}" alt="">
-                                            </div>
-                                            <div class="add-cart-btn">ADD TO CART</div>
-                                        </div>
-                                        <div class="products-content">
-                                            <div class="product-subname">Hardys</div>
-                                            <div class="product-name txt-line-2">HRB Shiraz 2008 750ml</div>
-                                            <div class="product-price">
-                                                <del class="origin-price" aria-hidden="true">
-                                                    <span class="amount"><bdi>90,000</bdi>원</span>
-                                                </del>
-                                                <div class="current-price">
-                                                    <span class="amount"><bdi>63,000</bdi>원</span>
-                                                </div>
-                                                <div class="per">18%</div>
-                                            </div>
-                                            <div class="product-rate">
-                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
-                                            </div>
-                                            <div class="wishitem-btn">
-                                                <span class="like-icon material-symbols-outlined">favorite</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="products-entry">
-                                        <a href="/item/detail" class="info-link"></a>
-                                        <div class="products-thumb">
-                                            <div class="product-image">
-                                                <img th:src="@{/images/wine-3.png}" alt="">
-                                            </div>
-                                            <div class="add-cart-btn">ADD TO CART</div>
-                                        </div>
-                                        <div class="products-content">
-                                            <div class="product-subname">Château Couhdiv-Lurton</div>
-                                            <div class="product-name txt-line-2">Pessac-Léognan Blanc (Grand Cru Classé de Graves) 2011</div>
-                                            <div class="product-price">
-                                                <del class="origin-price" aria-hidden="true">
-                                                    <span class="amount"><bdi>132,000</bdi>원</span>
-                                                </del>
-                                                <div class="current-price">
-                                                    <span class="amount"><bdi>105,600</bdi>원</span>
-                                                </div>
-                                                <div class="per">22%</div>
-                                            </div>
-                                            <div class="product-rate">
-                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
-                                            </div>
-                                            <div class="wishitem-btn">
-                                                <span class="like-icon material-symbols-outlined">favorite</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="products-entry">
-                                        <a href="/item/detail" class="info-link"></a>
-                                        <div class="products-thumb">
-                                            <div class="product-label sold-out">품절</div>
-                                            <div class="product-image">
-                                                <img th:src="@{/images/wine-4.png}" alt="">
-                                            </div>
-                                            <div class="add-cart-btn">ADD TO CART</div>
-                                        </div>
-                                        <div class="products-content">
-                                            <div class="product-subname">Château Rabaud-Promis</div>
-                                            <div class="product-name txt-line-2">Sauternes (Premier Grand Cru Classé) 1955</div>
-                                            <div class="product-price">
-                                                <del class="origin-price" aria-hidden="true">
-                                                    <span class="amount"><bdi>468,000</bdi>원</span>
-                                                </del>
-                                                <div class="current-price">
-                                                    <span class="amount"><bdi>411,840</bdi>원</span>
-                                                </div>
-                                                <div class="per">15%</div>
-                                            </div>
-                                            <div class="product-rate">
-                                                <span class="star-review-icon" th:style="'background-image: url(/images/star-icon-on.png)'">0.0 (0)</span>
-                                            </div>
-                                            <div class="wishitem-btn">
-                                                <span class="like-icon material-symbols-outlined">favorite</span>
+                                            <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
+                                                <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                                <span class="like-count hide">99</span>
                                             </div>
                                         </div>
                                     </div>
@@ -461,5 +378,6 @@
             </div>
         </section>
     </div>
+    <script src="/js/like.js"></script>
 </div>
 </html>

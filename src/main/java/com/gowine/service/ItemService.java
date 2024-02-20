@@ -61,6 +61,11 @@ public class ItemService {
         return itemFormDto;
     }
 
+    @Transactional(readOnly = true)
+    public List<MainItemDto> getRelatedItem(Long itemId, Long excludedItemId){
+        return itemRepository.getRelatedItemPage(itemId, excludedItemId);
+    }
+
     public Long updateItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
         // 상품 변경
         Item item = itemRepository.findById(itemFormDto.getId()).orElseThrow(EntityNotFoundException::new);
