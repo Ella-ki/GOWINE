@@ -14,6 +14,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, QuerydslPredi
     List<Item> findByPriceLessThan(Integer price);
     List<Item> findByPriceLessThanOrderByPriceDesc(Integer price);
 
+
     // select i from Item i  :: 테이블 Item 을 i로 치환해서 출력
     // i.itemDetail like     :: like 뒤에 선언된 값을 포함되면 출력
     // %:itemDetail% => @Param("itemDetail") String itemDetail :: String itemDetail like 를 할 값

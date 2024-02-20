@@ -62,7 +62,7 @@ public class Item extends BaseEntity{
     private int stockNumber;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
-    private List<Review> reviews; // 상품 리뷰 관계 추가
+    Set<Review> reviews = new HashSet<>();
 
     // 상품 평균 평점
     @Column(name = "avg_rating")

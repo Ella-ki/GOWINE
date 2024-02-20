@@ -61,13 +61,6 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 
     private List<Long> itemImgIds = new ArrayList<>();
-
-    // --------------------------------------------------------------------------------
-    // ItemImg
-    private List<ReviewImgDto> reviewImgDtoList = new ArrayList<>();
-
-    private List<Long> reviewImgIds = new ArrayList<>();
-
     // --------------------------------------------------------------------------------
 
     // ModelMapper

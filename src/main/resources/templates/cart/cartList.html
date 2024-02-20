@@ -23,7 +23,7 @@
                 orderTotalPrice += price * count;
             });
 
-             transPrice = comma(orderTotalPrice);
+            transPrice = comma(orderTotalPrice);
             $("#orderTotalPrice").html(transPrice+'원');
         }
 
@@ -134,8 +134,6 @@
             paramData['cartOrderDtoList'] = dataList;
 
             var param = JSON.stringify(paramData);
-
-            console.log(paramData);
 
             $.ajax({
                 url: url,

@@ -25,14 +25,21 @@ public class ItemController {
     private final ItemService itemService;
     private final MemberRepository memberRepository;
 
-    @GetMapping(value = "/list")
-    public String itemList(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
+    @GetMapping(value = "/product/list")
+    public String itemList(@RequestParam(name = "wineType", required = false) String wineType,
+                           @RequestParam(name = "wineGrape", required = false) String wineGrape,
+                           @RequestParam(name = "wineRegion", required = false) String wineRegion,
+                           @RequestParam(name = "winePrice", required = false) Integer winePrice,
+                           @RequestParam(name = "vivinoRate", required = false) Double vivinoRate,
+                           Optional<Integer> page, Model model){
+
         Pageable pageable = PageRequest.of(page.orElse(0), 8);
 
-        Page<MainItemDto> items = itemService.getListItemPage(itemSearchDto, pageable);
+        // wineType, wineGrape, wineRegion, winePrice, wineRate 등을 활용하여 필터링된 상품 리스트를 가져옴
+        Page<MainItemDto> items = itemService.getFilteredItem(wineType, wineGrape, wineRegion, winePrice, vivinoRate, pageable);
         model.addAttribute("items", items);
-        model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 8);
+
         return "item/list";
     }
 

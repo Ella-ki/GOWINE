@@ -1,11 +1,15 @@
 package com.gowine.service;
 
+import com.gowine.constant.WineGrape;
+import com.gowine.constant.WineRegion;
+import com.gowine.constant.WineType;
 import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.ItemImg;
 import com.gowine.entity.Member;
 import com.gowine.repository.ItemImgRepository;
 import com.gowine.repository.ItemRepository;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.gowine.entity.QItem.item;
 
 @Service
 @Transactional
@@ -59,6 +65,12 @@ public class ItemService {
         ItemFormDto itemFormDto = ItemFormDto.of(item);
         itemFormDto.setItemImgDtoList(itemImgDtoList);
         return itemFormDto;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getFilteredItem(String wineType, String wineGrape, String wineRegion,
+                                             Integer winePrice, Double vivinoRate, Pageable pageable) {
+        return itemRepository.getFilteredItemPage(wineType, wineGrape, wineRegion, winePrice, vivinoRate, pageable);
     }
 
     @Transactional(readOnly = true)

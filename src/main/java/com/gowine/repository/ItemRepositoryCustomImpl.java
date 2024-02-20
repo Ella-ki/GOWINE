@@ -5,6 +5,7 @@ import com.gowine.constant.WineRegion;
 import com.gowine.constant.WineType;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.entity.*;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
 
+import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -108,6 +110,64 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 .from(itemImg).join(itemImg.item, item)
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
                 .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion,
+                                                 Integer winePrice, Double vivinoRate, Pageable pageable) {
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        BooleanBuilder predicate = new BooleanBuilder();
+
+        // wineType 필터 추가
+        if (wineType != null) {
+            predicate.and(item.wineType.eq(WineType.valueOf(wineType)));
+        }
+
+        // wineGrape 필터 추가
+        if (wineGrape != null) {
+            predicate.and(item.wineGrape.eq(WineGrape.valueOf(wineGrape)));
+        }
+
+        // wineRegion 필터 추가
+        if (wineRegion != null) {
+            predicate.and(item.wineRegion.eq(WineRegion.valueOf(wineRegion)));
+        }
+
+        // winePrice 필터 추가
+        if (winePrice != null) {
+            // 가격 필터링 조건에 따라 변경 필요
+            if (winePrice == 1) {
+                predicate.and(item.price.lt(30000)); // 30,000원 미만
+            } else if (winePrice == 2) {
+                predicate.and(item.price.between(30000, 50000)); // 30,000원 이상 ~ 50,000원 미만
+            } else if (winePrice == 3) {
+                predicate.and(item.price.between(50000, 100000)); // 50,000원 이상 ~ 100,000원 미만
+            } else if (winePrice == 4) {
+                predicate.and(item.price.goe(100000)); // 100,000원 이상
+            }
+        }
+
+        // vivinoRate 필터 추가
+        if (vivinoRate != null) {
+            predicate.and(item.vivinoRate.goe(vivinoRate));
+        }
+
+        QueryResults<MainItemDto> results = queryFactory
+                .select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
+                        item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .where(predicate) // 생성한 predicate를 where 절에 적용
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
@@ -212,6 +272,8 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         long total = results.getTotal();
         return content;
     }
+
+
 
 }
 

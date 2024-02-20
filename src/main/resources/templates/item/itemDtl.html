@@ -6,12 +6,6 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(function(){
-            calculateTotalPrice();
-
-            $("#count").change(function(){
-                calculateTotalPrice();
-            });
-
             let thymeleaf = {
                 utility: {
                     maskingName: function(strName) {
@@ -47,21 +41,32 @@
             });
         })
 
-        function calculateTotalPrice(){
-            var count = $("#count").val();
-            var price = $("#price").val();
-            var totalPrice = price * count;
-            $("#totalPrice").html(totalPrice + '원');
+        function changeCount(obj){
+            var count = obj.value;
+            var totalPrice = 0;
+            var itemId = obj.id.split('_')[1];
+            var price = $("#totalPrice").data("price");
+
+            totalPrice += price * count;
+            transPrice = comma(totalPrice);
+
+            $("#totalPrice").html(transPrice+'원');
         }
 
         function order(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
+            var itemId = $(".go-to-order").data("id");
+            console.log(itemId);
+            var count = $("#count_" + itemId);
+
+            console.log(count.val());
+
             var url = "/order";
             var paramData = {
-                itemId : $("#itemId").val(),
-                count : $("#count").val()
+                itemId : itemId,
+                count : count.val()
             }
 
             var param = JSON.stringify(paramData);
@@ -88,6 +93,18 @@
                     } else { // 로그인 접근 에러 외의 모든 에러
                         alert(jqXHR.responseText);
                     }
+                }
+            });
+        }
+
+        function reviewLayer() {
+            var itemId = itemId;
+
+            $.ajax({
+                url : "reviewLayer.html",
+                data: { itemId: itemId },
+                success : function(result) {
+                    $("#layerPop").html(result);
                 }
             });
         }
@@ -175,7 +192,7 @@
                             </dl>
 
                             <div class="common-btns">
-                                <div class="btn-full-default"><span>리뷰 작성하기</span></div>
+                                <div class="btn-full-default" th:onclick="reviewLayer([[${item.id}]]);"><span>리뷰 작성하기</span></div>
                             </div>
 
                             <div class="review-txt">
@@ -224,7 +241,7 @@
                             <li>
                                 <div class="number">
                                     <span class="minus">-</span>
-                                    <input type="number" name="count" id="count" class="form-control" value="1" min="1" />
+                                    <input type="number" name="count" th:id="'count_' + ${item.id}" class="form-control" value="1" min="1" onchange="changeCount(this)"/>
                                     <span class="plus">+</span>
                                 </div>
                             </li>
@@ -234,7 +251,7 @@
 <!--                                        <span class="amount"><bdi>90,000</bdi>원</span>-->
 <!--                                    </del>-->
                                     <div class="current-price">
-                                        <span class="amount"><bdi id="totalPrice"></bdi></span>
+                                        <span class="amount"><bdi id="totalPrice" th:data-price="${item.price}" data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></bdi></span>
                                     </div>
                                 </div>
                             </li>
@@ -248,8 +265,8 @@
                                 <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
                                 <span class="like-count hide">99</span>
                             </div>
-                            <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
-                            <div class="go-to-order btn-full-default" onclick="order()"><span>구매하기</span></div>
+                            <div class="add-to-cart btn-border-default" th:onclick="addCart([[${item.id}]]);"><span>장바구니</span></div>
+                            <div class="go-to-order btn-full-default" onclick="order();" th:data-id="${item.id}"><span>구매하기</span></div>
                         </div>
 
                         <div class="order-btns common-btns" th:unless="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">
@@ -261,7 +278,7 @@
                                 <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
                                 <span class="like-count hide">99</span>
                             </div>
-                            <div class="add-to-cart btn-border-default" onclick="addCart()"><span>장바구니</span></div>
+                            <div class="add-to-cart btn-border-default" th:onclick="addCart([[${item.id}]]);"><span>장바구니</span></div>
                         </div>
                     </div>
                     <div class="exp-character char-list">
@@ -335,6 +352,7 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide item-element" th:each="item : ${relatedItems}">
                                     <input type="hidden" id="itemId" th:value="${item.id}">
+                                    <input type="hidden" id="count" name="count" th:value="1">
                                     <div class="products-entry">
                                         <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                         <div class="products-thumb">
@@ -371,13 +389,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-btn swiper-button-prev" th:style="'background-image: url(/images/slide-arrow.png)'"></div>
-                        <div class="swiper-btn swiper-button-next" th:style="'background-image: url(/images/slide-arrow.png)'"></div>
+                        <div class="swiper-btn swiper-button-prev" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
+                        <div class="swiper-btn swiper-button-next" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
+
+    <div id="reviewLayerPop">
+        <div class="layerDimmed"></div>
+        <div class="reviewCont">
+            <form role="form" name="Frm" method="post" enctype="multipart/form-data" th:object="${itemFormDto}" class="form-wrap">
+
+            </form>
+        </div>
+    </div>
+
     <script src="/js/like.js"></script>
 </div>
 </html>

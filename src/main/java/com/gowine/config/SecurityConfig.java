@@ -36,7 +36,7 @@ public class SecurityConfig {
             "/item/**",
             "/img/**",
             "/login/**",
-            "/list",
+            "/product/list",
             "/searchResult",
             "/searchMbtiItem",
             "/about",

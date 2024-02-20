@@ -1281,33 +1281,25 @@
 }
 
 .search-pannel .filter-label {
-    width: auto;
+    position: relative;
     display: inline-block;
+    width: auto;
     padding: 8px 16px;
     margin-right: 8px;
     margin-bottom: 8px;
     border-radius: 50rem;
+    border: 1px solid var(--point-color);
+    background-color: var(--main-bg);
+    cursor: pointer;
     font-size: 15px;
     font-family: 'Pretendard';
     font-weight: 500;
-    border: 1px solid var(--point-color);
     color: var(--point-color);
-    background-color: var(--main-bg);
-    cursor: pointer;
-}
-
-.search-pannel .filter-input {
-    position: absolute;
-    left: -9999999px;
-}
-
-.search-pannel .filter-txt {
-
 }
 
 .search-pannel .filter-label._active {
+    color: var(--main-bg);
     background-color: var(--point-color);
-    color: #fff;
 }
 
 /***** 장바구니, 커뮤니티 상품 레이아웃 공통 *****/
