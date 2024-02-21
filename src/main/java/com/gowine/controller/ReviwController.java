@@ -62,7 +62,7 @@ public class ReviwController {
         Long reviewItemId;
 
         try {
-            reviewItemId = reviewService.saveReview(reviewFormDto, reviewImgFileList, itemId, loginMember);
+            reviewItemId = reviewService.saveReview(reviewFormDto, reviewImgFileList, itemId, loginMember.getId());
             System.out.println("review save");
 
         } catch (Exception e){

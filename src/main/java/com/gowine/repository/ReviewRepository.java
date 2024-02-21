@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Optional<Review> findById(Long id);
+    Optional<Review> findByItemId(Long itemId);
 
     Optional<Review> findByItem(Item item);
 

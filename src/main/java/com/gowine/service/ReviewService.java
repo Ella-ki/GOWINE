@@ -3,8 +3,10 @@ package com.gowine.service;
 import com.gowine.dto.*;
 import com.gowine.entity.*;
 import com.gowine.repository.ItemRepository;
+import com.gowine.repository.MemberRepository;
 import com.gowine.repository.ReviewImgRepository;
 import com.gowine.repository.ReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,17 +24,16 @@ public class ReviewService {
     private final ReviewImgService reviewImgService;
     private final ReviewImgRepository reviewImgRepository;
     private final ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
 
     public Long saveReview(ReviewFormDto reviewFormDto, List<MultipartFile> reviewImgFileList,
-                           Long itemId, Member member) throws Exception {
-
+                           Long itemId, Long memberId) throws Exception {
         Item item = itemRepository.findById(itemId).orElseThrow();
+        Member member = memberRepository.findById(memberId).orElseThrow();
 
-        System.out.println("서비스 아이템 : " + item);
-        System.out.println("멤버 : " + member);
-        System.out.println("reviewFormDto : " + reviewFormDto);
-
-        Review review = reviewFormDto.createReview();
+        Review review = reviewFormDto.createReview(member, item);
+        review.setMember(member);
+        review.setItem(item);
 
         if( isNotAlreadyReview(member, item) ) {
             reviewRepository.save(review);
@@ -55,5 +56,12 @@ public class ReviewService {
 
     private boolean isNotAlreadyReview(Member member, Item item) {
         return reviewRepository.findByMemberAndItem(member, item).isEmpty();
+    }
+
+    public ReviewDto getReviewById(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Review not found"));
+
+        return ReviewDto.of(review);
     }
 }

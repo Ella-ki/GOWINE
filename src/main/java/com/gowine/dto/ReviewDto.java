@@ -17,8 +17,13 @@ import java.util.List;
 @Getter
 @Setter
 public class ReviewDto {
-    private Long id;
+    private Long itemId; // 아이템 ID
+    private Long memberId; // 멤버 ID
     private String text;
     private Integer grade;
     private Long reviewCount;
+
+    public static ReviewDto of(Review review) {
+        return null;
+    }
 }

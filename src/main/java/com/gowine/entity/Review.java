@@ -35,4 +35,12 @@ public class Review extends BaseEntity {
         this.grade = reviewFormDto.getGrade();
         this.text = reviewFormDto.getText();
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setItem(Item item) {
+        this.item  = item;
+    }
 }
