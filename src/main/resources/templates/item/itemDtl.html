@@ -128,8 +128,7 @@
             let form = $("#uploadForm")[0];
             let formData = new FormData(form);
             let itemId = $("input[name=mainItemId]").val();
-
-            formData.append('mainItemId', itemId);
+            formData.append('itemId', itemId);
 
             $.ajax({
                 url : "/review/new",
@@ -143,6 +142,8 @@
                 success: function(data){
                     console.log("완료");
                     console.log(data);
+                    $("#reviewLayerPop").css({"display": "none"});
+                    $("#reviewCont").empty();
                 },
                 error: function(jqXHR, status, error){
                     if(jqXHR.status == '401'){

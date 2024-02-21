@@ -3,6 +3,8 @@ package com.gowine.controller;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.dto.ReviewDto;
 import com.gowine.dto.ReviewFormDto;
+import com.gowine.entity.Member;
+import com.gowine.repository.MemberRepository;
 import com.gowine.service.ReviewImgService;
 import com.gowine.service.ReviewService;
 import jakarta.validation.Valid;
@@ -28,6 +30,9 @@ public class ReviwController {
     @Autowired
     ReviewImgService reviewImgService;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @GetMapping(value = "/board/community")
     public String boardList(){
         return "board/communityList";
@@ -48,29 +53,16 @@ public class ReviwController {
     }
 
     @PostMapping(value = "/review/new")
-    ResponseEntity addReview(@Valid ReviewFormDto reviewFormDto, BindingResult bindingResult, Model model,
+    ResponseEntity addReview(@Valid ReviewFormDto reviewFormDto, Model model,
                            @RequestParam("reviewImgFile") List<MultipartFile> reviewImgFileList,
                            @RequestParam("itemId") Long itemId, Principal principal) {
 
-        if(bindingResult.hasErrors()){
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            for(FieldError fieldError : fieldErrors) {
-                sb.append(fieldError.getDefaultMessage());
-            }
-            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
-        }
-
-        if(reviewImgFileList.get(0).isEmpty() && reviewFormDto.getId() == null){
-            model.addAttribute("errorMsg", "상품 이미지는 필수 입력 값입니다.");
-            return (ResponseEntity) bindingResult;
-        }
-
         String email = principal.getName();
+        Member loginMember = memberRepository.findByEmail(email).orElseThrow();
         Long reviewItemId;
 
         try {
-            reviewItemId = reviewService.saveReview(reviewFormDto, reviewImgFileList, itemId, email);
+            reviewItemId = reviewService.saveReview(reviewFormDto, reviewImgFileList, itemId, loginMember);
             System.out.println("review save");
 
         } catch (Exception e){

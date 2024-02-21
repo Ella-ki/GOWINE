@@ -12,11 +12,7 @@ import java.util.List;
 @Data
 public class ReviewFormDto {
     private Long id;
-
-    @NotBlank(message = "리뷰 내용은 필수 입력 값입니다.")
     private String text;
-
-    @NotNull(message = "별점은 필수 입력 값입니다.")
     private int grade;
 
     // --------------------------------------------------------------------------------

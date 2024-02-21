@@ -1,5 +1,6 @@
 package com.gowine.entity;
 
+import com.gowine.dto.ReviewFormDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -7,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "item_reviews")
-@Builder
 @Getter
 @ToString
 @NoArgsConstructor
@@ -31,11 +31,8 @@ public class Review extends BaseEntity {
 
     private String text;
 
-    public void changeGrade(int grade){
-        this.grade = grade;
-    }
-
-    public void changeText(String text){
-        this.text = text;
+    public void updateReview(ReviewFormDto reviewFormDto) {
+        this.grade = reviewFormDto.getGrade();
+        this.text = reviewFormDto.getText();
     }
 }

@@ -25,16 +25,15 @@
 
 <body>
     <form role="form" th:formaction="@{/review/new}" name="Frm" id="uploadForm" method="post" enctype="multipart/form-data" th:object="${reviewFormDto}" class="form-wrap">
-        <input type="hidden" th:field="*{id}">
-
+<!--        <input type="hidden" th:field="*{id}">-->
         <div class="form-area">
             <dl>
                 <dt>별점</dt>
                 <dd>
                     <div class="starrr"></div>
+                    <input type="number" th:field="*{grade}" class="input-field">
                 </dd>
             </dl>
-<!--            <p th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}" class="fieldError">Incorrect data</p>-->
         </div>
 
         <div class="form-area">
@@ -44,7 +43,6 @@
                     <input type="text" th:field="*{text}" class="input-field">
                 </dd>
             </dl>
-            <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="fieldError">Incorrect data</p>
         </div>
 
         <div class="form-area">
