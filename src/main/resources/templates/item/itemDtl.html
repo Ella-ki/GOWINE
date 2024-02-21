@@ -127,7 +127,9 @@
         function reviewSave() {
             let form = $("#uploadForm")[0];
             let formData = new FormData(form);
-            let itemId = $("input[name=mainItemId]").value();
+            let itemId = $("input[name=mainItemId]").val();
+
+            formData.append('mainItemId', itemId);
 
             $.ajax({
                 url : "/review/new",
@@ -403,7 +405,7 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide item-element" th:each="item : ${relatedItems}">
                                     <input type="hidden" id="itemId" th:value="${item.id}">
-                                    <input type="hidden" id="count" name="count" th:value="1">
+                                    <input type="hidden" th:id="'count_' + ${item.id}" name="count" th:value="1">
                                     <div class="products-entry">
                                         <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                         <div class="products-thumb">

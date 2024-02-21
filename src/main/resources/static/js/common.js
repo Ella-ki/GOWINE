@@ -118,12 +118,11 @@ function fnOpen(){
 function addCart(itemId){
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-
     var url = "/cart";
 
     var paramData = {
         itemId: itemId,
-        count: $("#count").val()
+        count: $("#count_" + itemId).val(),
     };
 
     var param = JSON.stringify(paramData);

@@ -150,7 +150,7 @@
                         <ul>
                             <li class="item-element" th:each="item, status: ${items.getContent()}">
                                 <input type="hidden" id="itemId" th:value="${item.id}">
-                                <input type="hidden" id="count" name="count" th:value="1">
+                                <input type="hidden" th:id="'count_' + ${item.id}" name="count" th:value="1">
                                 <div class="products-entry">
                                     <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                     <div class="products-thumb">
