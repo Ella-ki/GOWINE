@@ -61,9 +61,6 @@ public class Item extends BaseEntity{
     @Column(nullable = false)
     private int stockNumber;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY)
-    Set<Review> reviews = new HashSet<>();
-
     // 상품 평균 평점
     @Column(name = "avg_rating")
     private Double avgRating;
@@ -81,6 +78,9 @@ public class Item extends BaseEntity{
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     Set<ItemLike> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    Set<Review> reviews = new HashSet<>();
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();

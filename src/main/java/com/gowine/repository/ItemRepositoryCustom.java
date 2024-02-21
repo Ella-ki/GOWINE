@@ -3,6 +3,7 @@ package com.gowine.repository;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
+import com.gowine.dto.ReviewDto;
 import com.gowine.entity.Item;
 import com.gowine.entity.Member;
 import org.springframework.data.domain.Page;
@@ -27,5 +28,7 @@ public interface ItemRepositoryCustom {
 
     Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion,
                                           Integer winePrice, Double vivinoRate, Pageable pageable);
+
+    //Page<ReviewDto> getReview(Long itemId);
 
 }

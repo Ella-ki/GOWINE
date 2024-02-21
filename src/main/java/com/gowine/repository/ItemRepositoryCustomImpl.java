@@ -3,7 +3,7 @@ package com.gowine.repository;
 import com.gowine.constant.WineGrape;
 import com.gowine.constant.WineRegion;
 import com.gowine.constant.WineType;
-import com.gowine.dto.ItemFormDto;
+import com.gowine.dto.*;
 import com.gowine.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
@@ -12,9 +12,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.gowine.constant.ItemSellStatus;
-import com.gowine.dto.ItemSearchDto;
-import com.gowine.dto.MainItemDto;
-import com.gowine.dto.QMainItemDto;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -272,8 +269,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         long total = results.getTotal();
         return content;
     }
-
-
 
 }
 

@@ -97,16 +97,67 @@
             });
         }
 
-        function reviewLayer() {
+        function reviewLayer(itemId) {
             var itemId = itemId;
 
             $.ajax({
-                url : "reviewLayer.html",
+                url : "/review/new",
+                type: "GET",
+                //dataType: "json",
+				//contentType: 'application/json; charset=utf-8',
                 data: { itemId: itemId },
-                success : function(result) {
-                    $("#layerPop").html(result);
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header,token);
+                },
+                success: function(fragment){
+                    $("#reviewCont").html(fragment);
+                    $("#reviewLayerPop").css({"display": "block"});
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else { // 로그인 접근 에러 외의 모든 에러
+                        console.log(jqXHR.responseText);
+                    }
                 }
-            });
+            })
+        }
+
+        function reviewSave() {
+            let form = $("#uploadForm")[0];
+            let formData = new FormData(form);
+            let itemId = $("input[name=mainItemId]").value();
+
+            $.ajax({
+                url : "/review/new",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header,token);
+                },
+                success: function(data){
+                    console.log("완료");
+                    console.log(data);
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else { // 로그인 접근 에러 외의 모든 에러
+                        alert(jqXHR.responseText);
+                    }
+                }
+            })
+        }
+
+        function fnClose(e){
+            $(e).parents('#reviewLayerPop').hide();
+            //$('.modal-container').find('input[name=searchQuery]').val('');
+            //$("#searchCount").text(0);
+            $("#reviewCont").children().remove();
         }
     </script>
 </th:block>
@@ -233,7 +284,7 @@
                     </div>
                 </div>
                 <div class="product-exp right-side item-element">
-                    <input type="hidden" id="itemId" th:value="${item.id}">
+                    <input type="hidden" id="itemId" th:value="${item.id}" name="mainItemId">
                     <div class="product-sub-name" th:text="${item.winary}"></div>
                     <div class="product-name txt-line-2" th:text="${item.itemNm}"></div>
                     <div class="exp-fun">
@@ -398,11 +449,9 @@
     </div>
 
     <div id="reviewLayerPop">
-        <div class="layerDimmed"></div>
-        <div class="reviewCont">
-            <form role="form" name="Frm" method="post" enctype="multipart/form-data" th:object="${itemFormDto}" class="form-wrap">
+        <div class="layerDimmed" onclick="fnClose(this)"></div>
+        <div class="layerCont" id="reviewCont">
 
-            </form>
         </div>
     </div>
 

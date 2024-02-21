@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>리뷰 등록</title>
+    <script th:src="@{/js/starrr.js}"></script>
+    <link th:href="@{/css/starrr.css}" rel="stylesheet">
+    <script>
+        $(function(){
+
+            var grade = 0;
+            $('.starrr').starrr({
+                rating: grade,
+                change: function(e, value){
+                    if (value) {
+                        console.log(value);
+                        grade = value;
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <form role="form" th:formaction="@{/review/new}" name="Frm" id="uploadForm" method="post" enctype="multipart/form-data" th:object="${reviewFormDto}" class="form-wrap">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-area">
+            <dl>
+                <dt>별점</dt>
+                <dd>
+                    <div class="starrr"></div>
+                </dd>
+            </dl>
+<!--            <p th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}" class="fieldError">Incorrect data</p>-->
+        </div>
+
+        <div class="form-area">
+            <dl>
+                <dt>내용</dt>
+                <dd>
+                    <input type="text" th:field="*{text}" class="input-field">
+                </dd>
+            </dl>
+            <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="fieldError">Incorrect data</p>
+        </div>
+
+        <div class="form-area">
+            <dl>
+                <dt>리뷰 이미지</dt>
+                <dd class="fileInputArea">
+                    <!-- 등록 :: S -->
+                    <div th:if="${#lists.isEmpty(reviewFormDto.reviewImgDtoList)}">
+                        <div class="file-box" th:each="num: ${#numbers.sequence(1,5)}">
+                            <div class="upload-display"></div>
+                            <input type="file" class="form-control imgFile" name="reviewImgFile" id="reviewImgFile">
+                            <label class="custom-file-label" for="reviewImgFile"></label>
+                        </div>
+                    </div>
+                    <!-- 등록 :: E -->
+
+                    <!-- 수정 :: S -->
+                    <div th:if="${not #lists.isEmpty(reviewFormDto.reviewImgDtoList)}">
+                        <div class="file-box" th:each="reviewImgDto, status: ${reviewDto.reviewImgDtoList}">
+                            <div class="upload-display imgOn"><img th:src="${reviewImgDto.imgUrl}"></div>
+                            <input type="file" class="form-control imgFile" name="reviewImgFile" id="reviewImgFile">
+                            <input type="hidden" name="reviewImgIds" th:value="${reviewImgDto.id}">
+                            <label class="custom-file-label" for="reviewImgFile"></label>
+                        </div>
+                    </div>
+                    <!-- 수정 :: E -->
+                </dd>
+            </dl>
+        </div>
+
+        <div class="common-btns">
+            <span class="btn-default" onclick="fnClose(this)">취소</span>
+            <span class="btn-default" onclick="reviewSave();">등록</span>
+        </div>
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    </form>
+</body>
+</html>

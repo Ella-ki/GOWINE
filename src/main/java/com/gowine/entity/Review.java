@@ -7,8 +7,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "item_reviews")
+@Builder
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,13 +27,15 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @Column(name = "review_text", length = 1000)
-    private String reviewText;
+    private int grade;
 
-    @Column(name = "review_rate")
-    private Double reviewRate;
+    private String text;
 
-    @Column(name = "reviewer_name")
-    private String reviewerName;
+    public void changeGrade(int grade){
+        this.grade = grade;
+    }
 
+    public void changeText(String text){
+        this.text = text;
+    }
 }
