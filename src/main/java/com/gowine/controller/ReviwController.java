@@ -62,8 +62,10 @@ public class ReviwController {
         Long reviewItemId;
 
         try {
+            System.out.println("reviewFormDto before: " + reviewFormDto);
             reviewItemId = reviewService.saveReview(reviewFormDto, reviewImgFileList, itemId, loginMember.getId());
             System.out.println("review save");
+            System.out.println("reviewFormDto : " + reviewFormDto);
 
         } catch (Exception e){
             model.addAttribute("errorMsg", "리뷰 등록 중 에러가 발생하였습니다.");

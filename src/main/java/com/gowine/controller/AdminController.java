@@ -6,8 +6,10 @@ import com.gowine.dto.ItemImgDto;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
 import com.gowine.entity.Item;
+import com.gowine.entity.Member;
 import com.gowine.service.ItemImgService;
 import com.gowine.service.ItemService;
+import com.gowine.service.MemberService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +40,9 @@ public class AdminController {
 
     @Autowired
     ItemImgService itemImgService;
+
+    @Autowired
+    MemberService memberService;
 
     @GetMapping("/admin/main")
     public String adminMainPage() {
@@ -137,5 +142,15 @@ public class AdminController {
         } catch (Exception e) {
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @GetMapping(value = {"/admin/members", "/admin/members/{page}"})
+    public String memberManage(@PathVariable("page") Optional<Integer> page, Model model) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Page<Member> members = memberService.getAdminMemberPage(pageable);
+
+        model.addAttribute("members", members);
+        model.addAttribute("maxPage", 5);
+        return "admins/member/memberList";
     }
 }

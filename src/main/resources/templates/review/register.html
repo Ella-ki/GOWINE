@@ -53,8 +53,8 @@
                     <div th:if="${#lists.isEmpty(reviewFormDto.reviewImgDtoList)}">
                         <div class="file-box" th:each="num: ${#numbers.sequence(1,5)}">
                             <div class="upload-display"></div>
-                            <input type="file" class="form-control imgFile" name="reviewImgFile" id="reviewImgFile">
-                            <label class="custom-file-label" for="reviewImgFile"></label>
+                            <input type="file" class="form-control imgFile" name="reviewImgFile" th:id="'reviewImgFile_' + ${num}">
+                            <label class="custom-file-label" th:for="'reviewImgFile_' + ${num}"></label>
                         </div>
                     </div>
                     <!-- 등록 :: E -->
@@ -63,9 +63,9 @@
                     <div th:if="${not #lists.isEmpty(reviewFormDto.reviewImgDtoList)}">
                         <div class="file-box" th:each="reviewImgDto, status: ${reviewDto.reviewImgDtoList}">
                             <div class="upload-display imgOn"><img th:src="${reviewImgDto.imgUrl}"></div>
-                            <input type="file" class="form-control imgFile" name="reviewImgFile" id="reviewImgFile">
+                            <input type="file" class="form-control imgFile" name="reviewImgFile" th:id="'reviewImgFile_' + ${num}">
                             <input type="hidden" name="reviewImgIds" th:value="${reviewImgDto.id}">
-                            <label class="custom-file-label" for="reviewImgFile"></label>
+                            <label class="custom-file-label" th:for="'reviewImgFile_' + ${num}"></label>
                         </div>
                     </div>
                     <!-- 수정 :: E -->

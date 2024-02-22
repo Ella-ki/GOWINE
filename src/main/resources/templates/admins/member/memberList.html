@@ -4,8 +4,52 @@
       layout:decorate="~{layouts/adminLayout}">
 
 <div layout:fragment="content">
-    <div class="main-container">
+    <div th:replace="~{fragments_admin/aside::aside}"></div>
 
-    </div>
+    <section class="section-cont">
+        <h3 class="section-title">회원 목록</h3>
+
+        <form th:action="@{'/admin/members/'+${members.number}}" role="form" method="get" th:object="${members}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>회원 정보</td>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member, status : ${members.getContent()}">
+                    <td th:textd="${member}">
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${not #lists.isEmpty(members)}">
+                <div th:with="start=${(members.number/maxPage)*maxPage + 1}, end=(${(members.totalPages == 0) ? 1 : (start + (maxPage-1) < members.totalPages ? start + (maxPage-1) : members.totalPages) })">
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${members.first}?'disabled'">
+                            <a th:onclick="'javascript:page('+${members.number - 1} + ')'" aria-label="Previous" class="page-link">
+                                <span aria-hidden="true" th:style="'background-image: url(/img/arrow-right.png)'" class="page-prev"></span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${members.number eq page-1} ? 'active' : '' ">
+                            <a th:onclick="'javascript:page(' + ${page-1} + ')'" th:inline="text" class="page-link">
+                                [[${page}]]
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${members.last} ? 'disabled'">
+                            <a th:onclick="'javascript:page(' + ${members.number + 1} + ')'" aria-label="Next" class="page-link">
+                                <span aria-hidden="true" th:style="'background-image: url(/img/arrow-right.png)'" class="page-next"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </form>
+
+    </section>
 </div>
 </html>

@@ -5,6 +5,8 @@ import com.gowine.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,6 +51,10 @@ public class MemberService implements UserDetailsService {
                 .roles(member.get().getRole().toString())
                 .build();
 
+    }
+
+    public Page<Member> getAdminMemberPage(Pageable pageable){
+        return memberRepository.findAll(pageable);
     }
 
 }

@@ -32,11 +32,11 @@ public class ReviewService {
         Member member = memberRepository.findById(memberId).orElseThrow();
 
         Review review = reviewFormDto.createReview(member, item);
-        review.setMember(member);
-        review.setItem(item);
 
         if( isNotAlreadyReview(member, item) ) {
+
             reviewRepository.save(review);
+
             for (int i = 0; i < reviewImgFileList.size(); i++) {
                 ReviewImg reviewImg = new ReviewImg();
                 reviewImg.setReview(review);

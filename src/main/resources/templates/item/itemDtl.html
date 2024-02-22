@@ -130,6 +130,8 @@
             let itemId = $("input[name=mainItemId]").val();
             formData.append('itemId', itemId);
 
+            console.log(formData);
+
             $.ajax({
                 url : "/review/new",
                 type: "POST",
@@ -140,8 +142,7 @@
                     xhr.setRequestHeader(header,token);
                 },
                 success: function(data){
-                    console.log("완료");
-                    console.log(data);
+                    alert("리뷰 등록이 완료되었습니다.");
                     $("#reviewLayerPop").css({"display": "none"});
                     $("#reviewCont").empty();
                 },
