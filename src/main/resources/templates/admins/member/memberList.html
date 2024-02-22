@@ -12,16 +12,22 @@
         <form th:action="@{'/admin/members/'+${members.number}}" role="form" method="get" th:object="${members}">
             <table class="table">
                 <thead>
-                <tr>
-                    <td>회원 정보</td>
-
-                </tr>
+                    <tr>
+                        <td>아이디</td>
+                        <td>구분</td>
+                        <td>성명</td>
+                        <td>가입일</td>
+                        <td>총 구매금액</td>
+                        <td>본인 인증 여부</td>
+                    </tr>
                 </thead>
                 <tbody>
                 <tr th:each="member, status : ${members.getContent()}">
-                    <td th:textd="${member}">
-
-                    </td>
+                    <td th:text="${member.email}"></td>
+                    <td th:text="${member.provider == null ? '일반가입 회원' : '소셜가입 회원'}"></td>
+                    <td th:text="${member.regTime}"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
