@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/pageLayout}">
 
@@ -7,15 +8,16 @@
     <div class="page-container container">
 
         <div class="page-title-wrapper">
-            <div class="page-title text-center">
-                <a href="/">Home</a>
-                <span class="brn_arrow">/</span>
-                <span class="current">My Dashboard</span>
+            <div class="page-title text-center title-process">
+                <h2><a href="/"></a>회원 정보 수정</h2>
+                <h2 class="_active"><a href="/orders" sec:authorize="isAuthenticated()"></a>구매 내역</h2>
             </div>
         </div>
 
         <div class="page-content">
-
+            <div class="mypage-cont">
+                마이페이지입니다.
+            </div>
         </div>
     </div>
 </div>

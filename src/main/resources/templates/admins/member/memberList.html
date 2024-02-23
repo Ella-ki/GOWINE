@@ -25,7 +25,8 @@
                 <tr th:each="member, status : ${members.getContent()}">
                     <td th:text="${member.email}"></td>
                     <td th:text="${member.provider == null ? '일반가입 회원' : '소셜가입 회원'}"></td>
-                    <td th:text="${member.regTime}"></td>
+                    <td th:text="${member.name}"></td>
+                    <td th:text="${#temporals.format(member.regTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td></td>
                     <td></td>
                 </tr>

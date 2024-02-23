@@ -51,7 +51,7 @@
                         </div>
                         <p th:if="${loginErrorMsg}" class="login-error text-center" th:text="${loginErrorMsg}">아이디 또는 비밀번호를 확인해주세요!</p>
                         <div class="login-remember">
-                            <input type="checkbox" id="remember-id">
+                            <input type="checkbox" id="remember-id" name="remember">
                             <label th:for="remember-id" >아이디 저장</label>
                         </div>
                         <ul class="find-link">

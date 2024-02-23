@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,6 +24,8 @@ public class SecurityConfig {
 
     @Autowired
     LoginHandler loginHandler;
+    @Autowired
+    UserDetailsService userDetailsService;
 
     private static final String[] AUTH_WHITELIST = {
             "/",
@@ -70,6 +73,13 @@ public class SecurityConfig {
 
         http.exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+        );
+
+        http.rememberMe(rememuser -> rememuser
+                .rememberMeParameter("remember")
+                .tokenValiditySeconds(604800) //604800 => 7일, default 는 14일
+                .alwaysRemember(false)
+                .userDetailsService(userDetailsService) // 사용자 계정 조회
         );
 
         return http.build();

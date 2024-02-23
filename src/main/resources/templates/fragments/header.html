@@ -50,8 +50,8 @@
                                     <h3 class="account-btn"><i class="fa fa-user-o ico-user"></i></h3>
                                     <div class="dropdown-container login-after-layer">
                                         <ul>
-                                            <li><a href="/members/my">마이페이지</a></li>
-                                            <li><a href="/favorite">찜 상품</a></li>
+                                            <li><a href="/orders" sec:authorize="isAuthenticated()">마이페이지</a></li>
+                                            <li><a href="/favorite" sec:authorize="isAuthenticated()">찜 상품</a></li>
                                             <li><a href="/members/logout">로그아웃</a></li>
                                         </ul>
                                     </div>

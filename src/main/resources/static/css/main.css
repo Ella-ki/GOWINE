@@ -535,7 +535,7 @@
 
 .page-container .page-title.title-process h2._active {
     color: var(--point-color);
-    border-bottom: 2px solid var(--point-color);
+    border-bottom: 3px solid var(--point-color);
 }
 
 .page-container .page-title.title-process h2:not(._active)::before {

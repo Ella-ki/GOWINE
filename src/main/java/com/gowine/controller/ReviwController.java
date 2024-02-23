@@ -33,14 +33,14 @@ public class ReviwController {
     @Autowired
     MemberRepository memberRepository;
 
-    @GetMapping(value = "/board/community")
-    public String boardList(){
-        return "board/communityList";
-    }
-
     @GetMapping(value = "/board/notice")
     public String noticeList(){
         return "board/noticeList";
+    }
+
+    @GetMapping(value = "/board/community")
+    public String boardList(){
+        return "review/communityList";
     }
 
     @GetMapping(value = "/review/new")

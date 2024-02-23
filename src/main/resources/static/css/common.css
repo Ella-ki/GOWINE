@@ -787,6 +787,39 @@ to{
     color: var(--main-bg);
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin: 20px auto;
+}
+
+.pagination .page-item {
+    width: 32px;
+    height: 32px;
+    margin: 0 4px;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+.pagination .page-item span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.pagination .page-item span.page-prev {
+    transform: rotate(-180deg);
+}
+
+.pagination .page-item.active a {
+    font-weight: bold;
+}
+
 /***** 미디어 쿼리 *****/
 @media (min-width: 1440px){
     .container{

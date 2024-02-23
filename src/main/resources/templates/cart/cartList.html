@@ -112,19 +112,12 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/payment";
-
-            var checkedBoxes = $("input[name=cartChkBox]:checked");
-
-            if (checkedBoxes.length === 0) {
-                alert("주문할 상품을 선택해주세요.");
-                return;
-            }
+            var url = "/cart/orders";
 
             var dataList = new Array(); // 배열 []
             var paramData = new Object(); // 객체 {}
 
-            checkedBoxes.each(function(){
+            $("input[name=cartChkBox]:checked").each(function(){
                 var cartItemId = $(this).val();
                 var data = new Object();
                 data["cartItemId"] = cartItemId;
@@ -132,6 +125,18 @@
             })
 
             paramData['cartOrderDtoList'] = dataList;
+
+            //   paramData {
+            //        cartOrderDtoList : [
+            //            {
+            //                cartItemId : 2
+            //            },
+            //            {
+            //                cartItemId : 3
+            //            }
+            //        ]
+            //    }
+            // CartOrderDto => List<CartOrderDto> cartOrderDtoList 여기에 paramData 들어감
 
             var param = JSON.stringify(paramData);
 
@@ -146,11 +151,9 @@
                 },
                 dataType: "json",
                 cache: false,
-                success: function(response){
-                    console.log(response);
-                    if (response === "OK") {
-                        location.href = "/orderBefore";
-                    }
+                success: function(result, status){
+                    alert("주문이 완료 되었습니다.");
+                    location.href = "/";
                 },
                 error: function(jqXHR, status, error){
                     if(jqXHR.state == '401'){
