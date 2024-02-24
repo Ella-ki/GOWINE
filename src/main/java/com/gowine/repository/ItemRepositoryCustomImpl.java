@@ -137,7 +137,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
         // winePrice 필터 추가
         if (winePrice != null) {
-            // 가격 필터링 조건에 따라 변경 필요
             if (winePrice == 1) {
                 predicate.and(item.price.lt(30000)); // 30,000원 미만
             } else if (winePrice == 2) {
@@ -149,7 +148,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
             }
         }
 
-        // vivinoRate 필터 추가
         if (vivinoRate != null) {
             predicate.and(item.vivinoRate.goe(vivinoRate));
         }
@@ -159,7 +157,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
                 .from(itemImg)
                 .join(itemImg.item, item)
-                .where(predicate) // 생성한 predicate를 where 절에 적용
+                .where(predicate)
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

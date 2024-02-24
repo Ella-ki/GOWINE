@@ -1,7 +1,6 @@
 package com.gowine.controller;
 
 import com.gowine.dto.ItemFormDto;
-import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
 import com.gowine.dto.ReviewFormDto;
 import com.gowine.entity.Member;
@@ -51,8 +50,8 @@ public class ItemController {
 
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, @PathVariable("itemId") Long itemId,
-                          Principal principal, @RequestParam(name = "page", defaultValue = "0") int page) {
-        Pageable pageable = PageRequest.of(page, 3); // 한 페이지에 최대 3개의 리뷰 표시
+                          Principal principal, Optional<Integer> page) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         // 관련 상품 리스트
@@ -69,18 +68,18 @@ public class ItemController {
             }
         }
 
-        Page<Review> reviewPage = reviewRepository.findByItem_Id(itemId, pageable);
+        Page<Review> reviewPage = reviewRepository.findByItem_IdOrderByRegTimeDesc(itemId, pageable);
         List<Review> reviews = reviewPage.getContent(); // 현재 페이지의 리뷰 목록 가져오기
 
         // 리뷰 평균 점수 계산
-        double averageGrade = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+        double averageRating = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
 
         // 리뷰 개수 계산
         int reviewCount = (int) reviewPage.getTotalElements(); // 전체 리뷰 개수 가져오기
 
         // 리뷰 평균 점수와 개수를 이용하여 리뷰 평균 정보 생성
         ReviewFormDto reviewFormDto = new ReviewFormDto();
-        reviewFormDto.setAverageGrade(averageGrade);
+        reviewFormDto.setAverageRating(averageRating);
         reviewFormDto.setReviewCount(reviewCount);
 
         // 리뷰 목록을 설정

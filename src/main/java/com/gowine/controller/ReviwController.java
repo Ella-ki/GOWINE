@@ -1,7 +1,5 @@
 package com.gowine.controller;
 
-import com.gowine.dto.ItemFormDto;
-import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.ReviewDto;
 import com.gowine.dto.ReviewFormDto;
 import com.gowine.entity.Item;
@@ -15,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -46,8 +45,14 @@ public class ReviwController {
         return "board/noticeList";
     }
 
-    @GetMapping(value = "/board/community")
-    public String boardList(){
+    @GetMapping(value = {"/board/community", "/board/community/{page}"})
+    public String boardList(Model model, @PathVariable("page") Optional<Integer> page, Principal principal){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+        Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
+
+        model.addAttribute("reviewItem", reviewDtos);
+        model.addAttribute("maxPage", 5);
         return "review/communityList";
     }
 
@@ -105,15 +110,17 @@ public class ReviwController {
         return "redirect:/";
     }
 
+    /*
     @GetMapping(value = {"/reviews", "/reviews/{page}"})
     public String reviewManage(@PathVariable("page") Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-        Page<Review> reviews = reviewService.getReviewPage(pageable);
+        Page<ReviewDto> reviews = reviewService.getReviewPage(pageable);
 
         model.addAttribute("reviews", reviews);
         model.addAttribute("maxPage", 5);
         return "review/communityList";
     }
+    */
 
     @DeleteMapping(value = "/delete/{reviewId}")
     public @ResponseBody ResponseEntity deleteItem(@PathVariable("reviewId") Long reviewId) {

@@ -24,36 +24,43 @@
             bindDomEvent();
         });
 
-        function bindDomEvent(){
-            $(".imgFile").on("change", function(){
-                const file = $("#itemImgFile")[0].files[0];
+        function bindDomEvent() {
+            $(".imgFile").on("change", function(event) {
+                const fileInput = event.target; // 변경된 input 요소 가져오기
+                const file = fileInput.files[0];
 
-                // 자바스크립트의 FileReader 내장 객체를 생성
-                const reader = new FileReader();
-                // file 객체를 base64 방식으로 인코딩해서 result 속성에 저장
-                reader.readAsDataURL(file);
-                reader.onload = function() {
-                    $(".upload-display").html("<img src='"+reader.result+"'>");
-                    $(".upload-display").addClass("imgOn");
+                // 파일이 선택되지 않았거나 파일 형식이 이미지가 아닌 경우 처리
+                if (!file || !file.type.startsWith('image/')) {
+                    alert("이미지 파일만 등록할 수 있습니다.");
+                    return;
                 }
 
-                return true;
+                // FileReader 객체 생성
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // 이미지를 선택된 input 요소의 형제 요소인 upload-display에 표시
+                    $(fileInput).siblings(".upload-display").html("<img src='" + e.target.result + "'>");
+                    $(fileInput).siblings(".upload-display").addClass("imgOn");
+                };
+
+                // 파일을 읽어들임
+                reader.readAsDataURL(file);
 
                 // a.jpg
-                let fileName = $(this).val().split("\\").pop();
+                let fileName = $(fileInput).val().split("\\").pop();
                 let fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
-                let fileInput = $(".upload-name");
 
                 // 확장자 추출
                 fileExt = fileExt.toLowerCase(); // 소문자 소환
 
                 if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp") {
                     alert("이미지 파일만 등록이 가능합니다.")
-                    $(this).val("");
+                    $(fileInput).val("");
                     return;
                 }
             });
         }
+
     </script>
 </head>
 
@@ -69,15 +76,17 @@
                     <input type="hidden" th:field="*{rating}" class="input-field">
                 </dd>
             </dl>
+            <p th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" class="fieldError">Incorrect data</p>
         </div>
 
         <div class="form-area">
             <dl>
                 <dt>내용</dt>
                 <dd>
-                    <input type="text" th:field="*{comment}" class="input-field">
+                    <textarea th:field="*{comment}" class="input-field"></textarea>
                 </dd>
             </dl>
+            <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="fieldError">Incorrect data</p>
         </div>
 
         <div class="form-area">
@@ -111,7 +120,7 @@
         <div th:if="${#strings.isEmpty(reviewFormDto.id)}" class="common-btns">
             <span class="btn-default" onclick="fnClose(this)">취소</span>
 <!--            <button th:formaction="@{/review/new}" type="submit" class="btn-default">등록</button>-->
-            <span class="btn-default" onclick="reviewSave()">등록</span>
+            <span class="btn-bg-default" onclick="reviewSave()">등록</span>
         </div>
 
         <div th:unless="${#strings.isEmpty(reviewFormDto.id)}" class="common-btns">

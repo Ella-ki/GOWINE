@@ -3,6 +3,7 @@ package com.gowine.dto;
 import com.gowine.entity.Item;
 import com.gowine.entity.Member;
 import com.gowine.entity.Review;
+import com.gowine.entity.ReviewImg;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class ReviewFormDto {
@@ -17,8 +19,7 @@ public class ReviewFormDto {
     private Long id;
     private String comment;
     private int rating;
-    // Summary information
-    private double averageGrade;
+    private double averageRating;
     private int reviewCount;
 
     // --------------------------------------------------------------------------------
@@ -42,9 +43,8 @@ public class ReviewFormDto {
         return modelMapper.map(review, ReviewFormDto.class);
     }
 
-    // Setters for summary information
-    public void setAverageGrade(double averageGrade) {
-        this.averageGrade = averageGrade;
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public void setReviewCount(int reviewCount) {
@@ -59,4 +59,5 @@ public class ReviewFormDto {
         }
         this.reviews.add(review);
     }
+
 }

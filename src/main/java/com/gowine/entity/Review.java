@@ -6,9 +6,13 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table
-@Data
+@Getter @Setter
 public class Review extends BaseEntity{
     @Id
     @Column(name = "review_id")

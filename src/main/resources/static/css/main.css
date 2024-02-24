@@ -970,6 +970,7 @@
 
 .product-detail-head .review-container .star-dl {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 42px;
     color: #706D6A;
 }
@@ -978,8 +979,30 @@
     margin-right: 58px;
 }
 
-.product-detail-head .review-container .star-dl dt .review-cont {
+.product-detail-head .review-container .star-dl .review-cont {
     margin-top: 12px;
+}
+
+.product-detail-head .review-container .star-dl .review-avg {
+    vertical-align: top;
+    margin-left: 26px;
+    font-size: 34px;
+    font-weight: 600;
+    color: #000;
+}
+
+.product-detail-head .review-container .star-dl .review-more-btn {
+    font-weight: 600;
+}
+
+.product-detail-head .review-container .star-dl .review-more-btn img {
+    width: 20px;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.product-detail-head .review-container .star-dl .review-more-btn:hover img {
+    transform: translateX(5px);
 }
 
 .product-detail-head .review-container .review-status > div {
@@ -1428,6 +1451,14 @@
     border-bottom: none;
 }
 
+.review-list .item-list-row {
+    align-items:flex-start;
+}
+
+.review-list .item-list-row dd {
+    padding: 8px 0;
+}
+
 .review-list dd .user-info .userNm {
     vertical-align: middle;
 }
@@ -1468,10 +1499,42 @@
     display: none;
 }
 
+.review-list dd .review-star {
+    line-height: 24px;
+}
+
+.review-list dd .review-star > span {
+    margin-right: 8px;
+    vertical-align: middle;
+    font-weight: 600;
+}
+
+.review-list dd .review-star img {
+    width: 15px;
+}
+
 .review-list dd .review-txt {
     width: calc(100% - 150px);
     margin-top: 12px;
     line-height: 1.5;
+}
+
+.review-list dd .review-img-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+}
+
+.review-list dd .review-img-wrap .review-img {
+    width: 140px;
+    height: 140px;
+    margin-right: 8px;
+}
+
+.review-list dd .review-img-wrap .review-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /***** 장바구니 *****/
@@ -1687,6 +1750,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 2;
 }
 
 #reviewLayerPop .layerDimmed {
@@ -1704,4 +1768,35 @@
     background-color: #fff;
     padding: 30px;
     border-radius: 12px;
+}
+
+.layerCont .form-area {
+    margin-bottom: 20px;
+}
+
+.layerCont .form-area dt {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.layerCont .form-area textarea {
+    height: 140px;
+    padding: 14px;
+}
+
+.layerCont .form-area .starrr a {
+    font-size: 20px;
+}
+
+.layerCont .fileInputArea .file-box {
+    margin-right: 8px;
+}
+
+.layerCont .common-btns {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.layerCont .common-btns span:first-child {
+    margin-right: 8px;
 }

@@ -2,13 +2,11 @@ package com.gowine.service;
 
 import com.gowine.dto.*;
 import com.gowine.entity.*;
-import com.gowine.repository.ItemRepository;
-import com.gowine.repository.MemberRepository;
-import com.gowine.repository.ReviewImgRepository;
-import com.gowine.repository.ReviewRepository;
+import com.gowine.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.gowine.entity.QItem.item;
 
@@ -27,6 +26,7 @@ public class ReviewService {
     private final ReviewImgService reviewImgService;
     private final ReviewImgRepository reviewImgRepository;
     private final ItemRepository itemRepository;
+    private final ItemImgRepository itemImgRepository;
     private final MemberRepository memberRepository;
 
     public Long saveReview(ReviewFormDto reviewFormDto, List<MultipartFile> reviewImgFileList, Long itemId, Member loginMember) throws Exception {
@@ -77,7 +77,86 @@ public class ReviewService {
             return review.getId(); // 새로운 리뷰의 ID를 반환합니다.
         }
     }
+/*
+    @Transactional(readOnly = true)
+    public Page<ReviewDto> getReviewListPage(Pageable pageable){
+       return reviewRepository.getReviewListPage(pageable);
+    }
+*/
 
+    public Page<ReviewDto> getAllReviews(Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findAll(pageable);
+        return reviews.map(review -> {
+            Item item = review.getItem();
+            Member member = review.getMember();
+
+            Long itemId = review.getItem().getId();
+
+            List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+
+            // 아이템 이미지 정보를 ItemImgDto 리스트로 변환
+            List<ItemImgDto> itemImgDtoList = itemImgList.stream()
+                    .map(ItemImgDto::of)
+                    .collect(Collectors.toList());
+
+            ItemFormDto itemFormDto = ItemFormDto.of(item);
+            itemFormDto.setItemImgDtoList(itemImgDtoList);
+
+            Long reviewId = review.getId();
+
+            List<ReviewImg> reviewImgList = reviewImgRepository.findByReviewIdOrderByIdAsc(reviewId);
+
+            List<ReviewImgDto> reviewImgDtoList = reviewImgList.stream()
+                    .map(ReviewImgDto::of)
+                    .collect(Collectors.toList());
+
+            ReviewFormDto reviewFormDto = ReviewFormDto.of(review);
+            reviewFormDto.setReviewImgDtoList(reviewImgDtoList);
+
+            ReviewDto reviewDto = new ReviewDto();
+            reviewDto.setReviewId(review.getId());
+            reviewDto.setRating(review.getRating());
+            reviewDto.setComment(review.getComment());
+            reviewDto.setItemNm(review.getItem().getItemNm());
+            reviewDto.setMemberName(review.getMember().getName());
+            reviewDto.setWinary(item.getWinary());
+            reviewDto.setWineType(item.getWineType());
+            reviewDto.setWineRegion(item.getWineRegion());
+            reviewDto.setWineGrape(item.getWineGrape());
+            reviewDto.setWineType(item.getWineType());
+            reviewDto.setRegTime(review.getRegTime());
+            reviewDto.setVivinoRate(review.getItem().getVivinoRate());
+
+            reviewDto.setItemImgUrlList(itemImgDtoList.stream()
+                    .map(ItemImgDto::getImgUrl)
+                    .collect(Collectors.toList()));
+
+            reviewDto.setReviewImgUrlList(reviewImgDtoList.stream()
+                    .map(ReviewImgDto::getImgUrl)
+                    .collect(Collectors.toList()));
+
+            return reviewDto;
+        });
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewFormDto getReviewImg(Long reviewId){
+        List<ReviewImg> reviewImgList = reviewImgRepository.findByReviewIdOrderByIdAsc(reviewId);
+
+        // DB 에서 데이터를 가지고옴
+        List<ReviewImgDto> reviewImgDtoList = new ArrayList<>();
+
+        for (ReviewImg reviewImg : reviewImgList) {
+            ReviewImgDto reviewImgDto = ReviewImgDto.of(reviewImg);
+            reviewImgDtoList.add(reviewImgDto);
+        }
+
+        Review review = reviewRepository.findById(reviewId).orElseThrow(EntityNotFoundException::new);
+        ReviewFormDto reviewFormDto = ReviewFormDto.of(review);
+        reviewFormDto.setReviewImgDtoList(reviewImgDtoList);
+        return reviewFormDto;
+
+    }
 
     @Transactional(readOnly = true)
     public ReviewFormDto getReviewDtl(Long reviewId){
@@ -111,11 +190,6 @@ public class ReviewService {
             reviewImgService.updateReviewImg(reviewImgIds.get(i), reviewImgFileList.get(i));
         }
         return review.getId();
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Review> getReviewPage(Pageable pageable){
-        return reviewRepository.getReviewPage(pageable);
     }
 
     public void deleteReview(Long reviewId) throws Exception {

@@ -16,81 +16,100 @@
         <div class="page-content">
             <div class="list-col-container">
                 <ul class="review-list">
+                    <th:block th:each="review : ${reviewItem}">
                     <li>
-                        <a href="#" class="info-link"></a>
+                        <input type="hidden" name="reviewId" th:value="${review.reviewId}">
                         <dl class="item-list-row">
-                            <dt><img th:src="@{/img/wine-1.png}" alt=""></dt>
-                            <dd>
-                                <div class="user-info"><span class="userNm">김교영</span><span class="regDate">2일전</span></div>
-                                <div class="wine-info">
-                                    <span class="wineNm">HRB Shiraz 2008 750ml</span>
-                                    <span>프랑스</span>
-                                    <span>진판델</span>
-                                    <span>레드</span>
-                                    <span>VIVINO 4.4</span>
+                            <dt class="review-item-img">
+                                <div th:each="imageUrl : ${review.itemImgUrlList}">
+                                    <img th:src="${imageUrl}" alt="Item Image">
                                 </div>
-                                <div class="review-txt txt-line-2">
-                                    영롱한 색 정말 맘에 들었습니다.
+                            </dt>
+                            <dd class="review-item-info">
+                                <div class="user-info"><span class="userNm" th:text="${#strings.substring(review.memberName, 0, 1)} + '**'"></span><span class="regDate" th:text="${T(com.gowine.utils.DateUtils).getRelativeDate(review.regTime)}"></span></div>
+                                <div class="wine-info">
+                                    <span class="wineNm" th:text="${review.itemNm}"></span>
+                                    <span th:text="${review.wineRegion}"></span>
+                                    <span th:text="${review.wineGrape}"></span>
+                                    <span th:text="${review.wineType}"></span>
+                                    <span>VIVINO <span th:text="${review.vivinoRate}"></span></span>
+                                </div>
+                                <div class="review-star">
+                                    <span th:if="${review.rating == 1}">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                    </span>
+                                    <span th:if="${review.rating == 2}">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                    </span>
+                                    <span th:if="${review.rating == 3}">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                    </span>
+                                    <span th:if="${review.rating == 4}">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-4">
+                                        <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                    </span>
+                                    <span th:if="${review.rating == 5}">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-4">
+                                        <img th:src="@{/img/star-icon-on.png}" alt="star-5">
+                                    </span>
+                                    <span th:text="${review.rating}"></span>
+                                </div>
+                                <div class="review-txt" th:text="${review.comment}"></div>
+                                <div class="review-img-wrap">
+                                    <div class="review-img" th:each="reviewImageUrl : ${review.reviewImgUrlList}">
+                                        <img th:if="${not #strings.isEmpty(reviewImageUrl)}" th:src="${reviewImageUrl}" alt="Review Image">
+                                    </div>
                                 </div>
                             </dd>
                         </dl>
+
+                        <!--
+                        <div th:if="${hasReviewed}" th:each="userReview : ${userReviews}">
+                            <div class="common-btns" th:if="${reviewFormDto.reviews.contains(userReview)}">
+                                <div class="btn-full-default" th:onclick="'reviewEditLayer(' + ${userReview.id} + ');'">
+                                    <span>리뷰 수정하기</span>
+                                </div>
+                            </div>
+                        </div>
+                        -->
+
                     </li>
-                    <li>
-                        <a href="#" class="info-link"></a>
-                        <dl class="item-list-row">
-                            <dt><img th:src="@{/img/wine-1.png}" alt=""></dt>
-                            <dd>
-                                <div class="user-info"><span class="userNm">김교영</span><span class="regDate">2024.02.10</span></div>
-                                <div class="wine-info">
-                                    <span class="wineNm">HRB Shiraz 2008 750ml</span>
-                                    <span>프랑스</span>
-                                    <span>진판델</span>
-                                    <span>레드</span>
-                                    <span>VIVINO 4.4</span>
-                                </div>
-                                <div class="review-txt txt-line-2">
-                                    영롱한 색 정말 맘에 들었습니다.
-                                </div>
-                            </dd>
-                        </dl>
+                    </th:block>
+                </ul>
+            </div>
+
+            <div th:with="start=${(reviewItem.number/maxPage)*maxPage +1}, end=(${(reviewItem.totalPages == 0) ? 1 : (start + (maxPage-1) < reviewItem.totalPages ? start + (maxPage-1) : reviewItem.totalPages)})" class="paginationWrap">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${reviewItem.number eq 0} ? 'disabled' : ''">
+                        <a th:href="@{'/board/community/' + ${reviewItem.number-1}}" aria-label="Previous" class="page-link">
+                            <span aria-hidden="true" th:style="'background-image: url(/img/arrow-right.png)'" class="page-prev"></span>
+                        </a>
                     </li>
-                    <li>
-                        <a href="#" class="info-link"></a>
-                        <dl class="item-list-row">
-                            <dt><img th:src="@{/img/wine-1.png}" alt=""></dt>
-                            <dd>
-                                <div class="user-info"><span class="userNm">김교영</span><span class="regDate">2024.02.10</span></div>
-                                <div class="wine-info">
-                                    <span class="wineNm">HRB Shiraz 2008 750ml</span>
-                                    <span>프랑스</span>
-                                    <span>진판델</span>
-                                    <span>레드</span>
-                                    <span>VIVINO 4.4</span>
-                                </div>
-                                <div class="review-txt txt-line-2">
-                                    영롱한 색 정말 맘에 들었습니다.
-                                </div>
-                            </dd>
-                        </dl>
+                    <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${reviewItem.number eq page-1} ? 'active' : ''">
+                        <a th:href="@{'/board/community/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
                     </li>
-                    <li class="last">
-                        <a href="#" class="info-link"></a>
-                        <dl class="item-list-row">
-                            <dt><img th:src="@{/img/wine-1.png}" alt=""></dt>
-                            <dd>
-                                <div class="user-info"><span class="userNm">김교영</span><span class="regDate">2024.02.10</span></div>
-                                <div class="wine-info">
-                                    <span class="wineNm">HRB Shiraz 2008 750ml</span>
-                                    <span>프랑스</span>
-                                    <span>진판델</span>
-                                    <span>레드</span>
-                                    <span>VIVINO 4.4</span>
-                                </div>
-                                <div class="review-txt txt-line-2">
-                                    영롱한 색 정말 맘에 들었습니다.
-                                </div>
-                            </dd>
-                        </dl>
+                    <li class="page-item" th:classappend="${reviewItem.number+1 ge reviewItem.totalPages} ? 'disabled' : ''">
+                        <a th:href="@{'/board/community/' + ${reviewItem.number+1}}" aria-label="Next" class="page-link">
+                            <span aria-hidden="true" th:style="'background-image: url(/img/arrow-right.png)'" class="page-next"></span>
+                        </a>
                     </li>
                 </ul>
             </div>

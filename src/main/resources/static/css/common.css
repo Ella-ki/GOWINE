@@ -169,6 +169,15 @@ input.input-text {
     cursor: pointer;
 }
 
+.btn-bg-default {
+    padding: 8px 16px;
+    background-color: var(--main-black);
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    border: 1px solid;
+}
+
 /***** 버튼 공통 효과 *****/
 .common-btns .btn-full-default,
 .common-btns .btn-border-default {

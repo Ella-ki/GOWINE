@@ -220,6 +220,11 @@
             //$("#searchCount").text(0);
             $("#reviewCont").children().remove();
         }
+
+        function formatDecimal(number, decimals) {
+            if (number == null) return '';
+            return number.toFixed(decimals);
+        }
     </script>
 </th:block>
 
@@ -240,15 +245,22 @@
                         <div class="review-cont">
                             <dl class="star-dl">
                                 <dt>
-                                    <div class="review-star">
-                                        <img th:src="@{/img/star-icon-on.png}">
-                                        <img th:src="@{/img/star-icon-on.png}">
-                                        <img th:src="@{/img/star-icon-on.png}">
-                                        <img th:src="@{/img/star-icon-on.png}">
-                                        <img th:src="@{/img/star-icon-on.png}">
+                                    <div style="display:inline-block;">
+                                        <div class="review-star">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                            <img th:src="@{/img/star-icon-on.png}">
+                                        </div>
+                                        <div class="review-cont"><span id="total-count" th:text="${reviewFormDto.reviewCount}"></span> reviews</div>
                                     </div>
-                                    <div class="review-cont"><span id="total-count">65</span> reviews</div>
+                                    <span class="review-avg" th:text="${reviewFormDto.averageRating}"></span>
                                 </dt>
+                                <dd>
+                                    <a href="/board/community" class="review-more-btn">리뷰 전체 보기<img th:src="@{/img/next-icon.png}" /></a>
+                                </dd>
+                                <!--
                                 <dd class="review-status">
                                     <div>
                                         <div class="review-star">
@@ -301,12 +313,69 @@
                                         <div class="review-cont"><span id="count-1">(0)</span></div>
                                     </div>
                                 </dd>
+                                -->
                             </dl>
 
                             <div class="common-btns" th:if="${!hasReviewed}">
                                 <div class="btn-full-default" th:onclick="reviewLayer([[${item.id}]]);"><span>리뷰 작성하기</span></div>
                             </div>
+                            <!--
+                            <div th:if="${hasReviewed}" th:each="userReview : ${userReviews}">
+                                <div class="common-btns" th:if="${reviewFormDto.reviews.contains(userReview)}">
+                                    <div class="btn-full-default" th:onclick="'reviewEditLayer(' + ${userReview.id} + ');'">
+                                        <span>리뷰 수정하기</span>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
 
+                            <div class="review-txt">
+                                <dl class="review-dl" th:each="review : ${reviewFormDto.reviews}">
+                                    <dt>
+                                        <div class="review-star">
+                                            <div th:if="${review.rating == 1}">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                            </div>
+                                            <div th:if="${review.rating == 2}">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                            </div>
+                                            <div th:if="${review.rating == 3}">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                            </div>
+                                            <div th:if="${review.rating == 4}">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-4">
+                                                <img th:src="@{/img/star-icon-off.png}" alt="star-off">
+                                            </div>
+                                            <div th:if="${review.rating == 5}">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-1">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-2">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-3">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-4">
+                                                <img th:src="@{/img/star-icon-on.png}" alt="star-5">
+                                            </div>
+                                        </div>
+                                        <span class="review-reg-date" th:text="${T(com.gowine.utils.DateUtils).getRelativeDate(review.regTime)}"></span>
+
+                                        <span class="review-reg-user" th:text="${#strings.substring(review.member.name, 0, 1)} + '**'"></span>
+                                    </dt>
+                                    <dd th:text="${review.comment}"></dd>
+                                </dl>
+                            </div>
 
                         </div>
                     </div>
