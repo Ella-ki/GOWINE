@@ -25,14 +25,11 @@ public class OrderItem extends BaseEntity { // 양방향에서 주인 관계임
 
     private int count;
 
-    //private LocalDateTime regTime;
-    // private LocalDateTime updateTime;
-
     public static OrderItem createOrderItem(Item item, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
         orderItem.setCount(count);
-        //orderItem.setOrderPrice(item.getPrice());
+        orderItem.setOrderPrice(item.getPrice());
         item.removeStock(count);
         return orderItem;
     }

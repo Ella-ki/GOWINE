@@ -124,13 +124,36 @@
             })
         }
 
+        function reviewEditLayer(reviewId) {
+            var reviewId = reviewId;
+
+            $.ajax({
+                url : "/review/" + reviewId,
+                type: "GET",
+                ContentType: 'text/html;charset=UTF-8',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header,token);
+                },
+                success: function(fragment){
+                    $("#reviewCont").html(fragment);
+                    $("#reviewLayerPop").css({"display": "block"});
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else { // 로그인 접근 에러 외의 모든 에러
+                        console.log(jqXHR.responseText);
+                    }
+                }
+            })
+        }
+
         function reviewSave() {
             let form = $("#uploadForm")[0];
             let formData = new FormData(form);
             let itemId = $("input[name=mainItemId]").val();
             formData.append('itemId', itemId);
-
-            console.log(formData);
 
             $.ajax({
                 url : "/review/new",
@@ -145,6 +168,40 @@
                     alert("리뷰 등록이 완료되었습니다.");
                     $("#reviewLayerPop").css({"display": "none"});
                     $("#reviewCont").empty();
+                    location.reload();
+                },
+                error: function(jqXHR, status, error){
+                    if(jqXHR.status == '401'){
+                        alert("로그인 후 이용해주세요.");
+                        location.href = "/members/login";
+                    } else { // 로그인 접근 에러 외의 모든 에러
+                        alert(jqXHR.responseText);
+                    }
+                }
+            })
+        }
+
+        function reviewEditSave(reviewId) {
+            let form = $("#uploadForm")[0];
+            let formData = new FormData(form);
+            let itemId = $("input[name=mainItemId]").val();
+            formData.append('itemId', itemId);
+            formData.append('reviewId', reviewId);
+
+            $.ajax({
+                url : "/review/" + reviewId,
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header,token);
+                },
+                success: function(data){
+                    alert("리뷰 수정이 완료되었습니다.");
+                    $("#reviewLayerPop").css({"display": "none"});
+                    $("#reviewCont").empty();
+                    location.reload();
                 },
                 error: function(jqXHR, status, error){
                     if(jqXHR.status == '401'){
@@ -246,44 +303,11 @@
                                 </dd>
                             </dl>
 
-                            <div class="common-btns">
+                            <div class="common-btns" th:if="${!hasReviewed}">
                                 <div class="btn-full-default" th:onclick="reviewLayer([[${item.id}]]);"><span>리뷰 작성하기</span></div>
                             </div>
 
-                            <div class="review-txt">
-                                <dl class="review-dl">
-                                    <dt>
-                                        <div class="review-star">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                        </div>
-                                        <span class="review-reg-date">25/09/2022</span>
-                                        <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 김교영 +')}'"></span>
-                                    </dt>
-                                    <dd>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                    </dd>
-                                </dl>
-                                <dl class="review-dl">
-                                    <dt>
-                                        <div class="review-star">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                            <img th:src="@{/img/star-icon-on.png}">
-                                        </div>
-                                        <span class="review-reg-date">25/09/2022</span>
-                                        <span class="review-reg-user" th:text="'${thymeleaf.utility.maskingName('+ 이황 +')}'"></span>
-                                    </dt>
-                                    <dd>
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                    </dd>
-                                </dl>
-                            </div>
+
                         </div>
                     </div>
                 </div>

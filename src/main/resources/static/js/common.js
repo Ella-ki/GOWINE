@@ -170,20 +170,3 @@ function addCart(itemId){
 $(document).on("click", ".popupCustom .btn-confirm", function(){
     $(".popupCustom").remove();
 });
-
-/*
-const maskingName = (strName) => {
-  if (strName.length > 2) {
-    const originName = strName.split('');
-    originName.forEach(function(name, i) {
-      if (i === 0 || i === originName.length - 1) return;
-      originName[i] = '*';
-    });
-    const joinName = originName.join();
-    return joinName.replace(/,/g, '');
-  } else {
-    const pattern = /.$/; // 정규식
-    return strName.replace(pattern, '*');
-  }
-};
-*/

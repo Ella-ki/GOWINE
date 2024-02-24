@@ -1134,6 +1134,89 @@
     font-weight: 600;
 }
 
+.form-area .input-field {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+/***** input file  *****/
+.fileInputArea .input-wrap {
+    display: flex;
+}
+
+.fileInputArea .file-box {
+    position: relative;
+}
+
+.fileInputArea .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid var(--border-color);
+    width: 79%;
+    color: #999;
+    font-size: 17px;
+    border-radius: 6px;
+}
+
+.fileInputArea .upload-display {
+    position: relative;
+    display: block;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    line-height: 1.1;
+    font-family: 'Pretendard';
+    background-color: #fff;
+    border: 2px dashed #ddd;
+}
+
+.fileInputArea .upload-display::before {
+    content: ' \254B';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fileInputArea .upload-display img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.fileInputArea label.custom-file-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.fileInputArea input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
 /***** input range *****/
 .char-range {
     line-height: 24px;
@@ -1315,7 +1398,7 @@
     background-color: #f1f1f1;
     overflow: hidden;
     border-radius: 8px;
-    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .item-list-row dt img {
@@ -1445,6 +1528,40 @@
 
 .order-pannel .common-btns {
     margin-top: 80px;
+}
+
+/***** 주문내역 *****/
+.order-box td {
+    border-right: 1px solid var(--border-color);
+}
+
+.order-box .item-list-row:first-child {
+    margin-bottom: 18px;
+}
+
+.order-box .item-list-col {
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.order-box p {
+    line-height: 24px;
+}
+
+.order-box .btn-outline-secondary {
+    display: block;
+    cursor: pointer;
+    background-color: var(--main-black);
+    color: var(--main-bg);
+    text-align: center;
+    font-family: 'Pretendard';
+    width: 90px;
+    padding: 11px 0;
+    margin: 8px auto;
+    font-size: 15px;
 }
 
 .map-list li {

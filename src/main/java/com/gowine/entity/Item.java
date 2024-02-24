@@ -61,10 +61,6 @@ public class Item extends BaseEntity{
     @Column(nullable = false)
     private int stockNumber;
 
-    // 상품 평균 평점
-    @Column(name = "avg_rating")
-    private Double avgRating;
-    
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; // 상품 판매 상태
 
@@ -80,7 +76,7 @@ public class Item extends BaseEntity{
     Set<ItemLike> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    Set<Review> reviews = new HashSet<>();
+    List<Review> reviews = new ArrayList<>();
 
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();

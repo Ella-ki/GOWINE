@@ -13,10 +13,13 @@ import java.util.List;
 
 @Data
 public class ReviewFormDto {
-    private Long itemId; // 아이템 ID
-    private Long memberId; // 멤버 ID
-    private String text;
-    private int grade;
+    // Review
+    private Long id;
+    private String comment;
+    private int rating;
+    // Summary information
+    private double averageGrade;
+    private int reviewCount;
 
     // --------------------------------------------------------------------------------
     // ItemImg
@@ -29,14 +32,31 @@ public class ReviewFormDto {
     // ModelMapper
     private static ModelMapper modelMapper = new ModelMapper();
 
-    public Review createReview(Member member, Item item){
+    public Review createReview(){
         Review review = modelMapper.map(this, Review.class);
-        review.setMember(member);
-        review.setItem(item);
+
         return review;
     }
 
     public static ReviewFormDto of(Review review) {
         return modelMapper.map(review, ReviewFormDto.class);
+    }
+
+    // Setters for summary information
+    public void setAverageGrade(double averageGrade) {
+        this.averageGrade = averageGrade;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    private List<Review> reviews;
+
+    public void addReview(Review review) {
+        if (this.reviews == null) {
+            this.reviews = new ArrayList<>();
+        }
+        this.reviews.add(review);
     }
 }

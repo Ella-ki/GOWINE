@@ -3,9 +3,13 @@ package com.gowine.controller;
 import com.gowine.dto.ItemFormDto;
 import com.gowine.dto.ItemSearchDto;
 import com.gowine.dto.MainItemDto;
+import com.gowine.dto.ReviewFormDto;
 import com.gowine.entity.Member;
+import com.gowine.entity.Review;
 import com.gowine.repository.MemberRepository;
+import com.gowine.repository.ReviewRepository;
 import com.gowine.service.ItemService;
+import com.gowine.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +28,8 @@ import java.util.Optional;
 public class ItemController {
     private final ItemService itemService;
     private final MemberRepository memberRepository;
+    private final ReviewService reviewService;
+    private final ReviewRepository reviewRepository;
 
     @GetMapping(value = "/product/list")
     public String itemList(@RequestParam(name = "wineType", required = false) String wineType,
@@ -44,17 +50,50 @@ public class ItemController {
     }
 
     @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(Model model, @PathVariable("itemId") Long itemId) {
-        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+    public String itemDtl(Model model, @PathVariable("itemId") Long itemId,
+                          Principal principal, @RequestParam(name = "page", defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 3); // 한 페이지에 최대 3개의 리뷰 표시
 
+        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         // 관련 상품 리스트
         List<MainItemDto> relatedItems = itemService.getRelatedItem(itemId, itemId);
 
+        boolean hasReviewed = false;
+        if (principal != null) { // 로그인 객체 있다
+            String email = principal.getName();
+            Member loginMember = memberRepository.findByEmail(email).orElse(null);
+
+            if (loginMember != null) { // 로그인한 사용자가 있을 경우에만 실행
+                Long memberId = loginMember.getId();
+                hasReviewed = reviewService.hasReviewed(itemId, memberId);
+            }
+        }
+
+        Page<Review> reviewPage = reviewRepository.findByItem_Id(itemId, pageable);
+        List<Review> reviews = reviewPage.getContent(); // 현재 페이지의 리뷰 목록 가져오기
+
+        // 리뷰 평균 점수 계산
+        double averageGrade = reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);
+
+        // 리뷰 개수 계산
+        int reviewCount = (int) reviewPage.getTotalElements(); // 전체 리뷰 개수 가져오기
+
+        // 리뷰 평균 점수와 개수를 이용하여 리뷰 평균 정보 생성
+        ReviewFormDto reviewFormDto = new ReviewFormDto();
+        reviewFormDto.setAverageGrade(averageGrade);
+        reviewFormDto.setReviewCount(reviewCount);
+
+        // 리뷰 목록을 설정
+        reviewFormDto.setReviews(reviews);
+
         model.addAttribute("item", itemFormDto);
         model.addAttribute("relatedItems", relatedItems);
+        model.addAttribute("reviewFormDto", reviewFormDto);
+        model.addAttribute("hasReviewed", hasReviewed);
 
         return "item/itemDtl";
     }
+
 
     // 찜 상품
     @GetMapping(value = "/favorite")

@@ -7,14 +7,11 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "item_reviews")
-@Getter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class Review extends BaseEntity {
+@Table
+@Data
+public class Review extends BaseEntity{
     @Id
-    @Column
+    @Column(name = "review_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,22 +22,15 @@ public class Review extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Item item;
 
-    private int grade;
+    private int rating;
 
-    private String text;
+    private String comment;
 
     public void updateReview(ReviewFormDto reviewFormDto) {
-        this.grade = reviewFormDto.getGrade();
-        this.text = reviewFormDto.getText();
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-
-    public void setItem(Item item) {
-        this.item  = item;
+        this.rating = reviewFormDto.getRating();
+        this.comment = reviewFormDto.getComment();
     }
 }

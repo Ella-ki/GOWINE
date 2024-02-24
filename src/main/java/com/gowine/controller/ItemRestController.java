@@ -1,18 +1,18 @@
 package com.gowine.controller;
 
 import com.gowine.dto.MainItemDto;
-import com.gowine.service.CartService;
 import com.gowine.service.ItemService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Slf4j
 @RestController
-public class AjaxControll {
+public class ItemRestController {
     @Autowired
     ItemService itemService;
 
@@ -38,14 +38,4 @@ public class AjaxControll {
         List<MainItemDto> items = itemService.getMbtiItem(mbti);
         return items;
     }
-
 }
-
-
-
-
-
-
-
-
-

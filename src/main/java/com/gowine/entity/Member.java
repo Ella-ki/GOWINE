@@ -5,9 +5,7 @@ import com.gowine.constant.Role;
 import com.gowine.dto.Address;
 import com.gowine.dto.MemberFormDto;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
@@ -16,7 +14,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "member")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Member extends BaseEntity {
     @Id

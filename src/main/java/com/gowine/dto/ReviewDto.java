@@ -17,13 +17,30 @@ import java.util.List;
 @Getter
 @Setter
 public class ReviewDto {
-    private Long itemId; // 아이템 ID
-    private Long memberId; // 멤버 ID
-    private String text;
-    private Integer grade;
+    private Long reviewId;
+    private String comment;
+    private Integer rating;
     private Long reviewCount;
+    private String imgUrl;
+    private String itemNm;
+    private String winary;
+    private String wineType;
+    private String wineRegion;
+    private String wineGrape;
+    private Double vivinoRate;
 
-    public static ReviewDto of(Review review) {
-        return null;
+    public ReviewDto(Long reviewId, String comment, Integer rating, Long reviewCount, String imgUrl, String itemNm,
+                     String winary, String wineType, String wineRegion, String wineGrape, Double vivinoRate) {
+        this.reviewId = reviewId;
+        this.comment = comment;
+        this.rating = rating;
+        this.reviewCount = reviewCount;
+        this.imgUrl = imgUrl;
+        this.itemNm = itemNm;
+        this.winary = winary;
+        this.wineType = wineType;
+        this.wineRegion = wineRegion;
+        this.wineGrape = wineGrape;
+        this.vivinoRate = vivinoRate;
     }
 }

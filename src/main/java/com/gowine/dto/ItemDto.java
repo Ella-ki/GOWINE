@@ -26,4 +26,5 @@ public class ItemDto {
     private LocalDateTime regTime;
     private LocalDateTime updateTime;
     private Long likeCount;
+    private Long reviewCount;
 }

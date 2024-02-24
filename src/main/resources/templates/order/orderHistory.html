@@ -55,34 +55,70 @@
         </div>
 
         <div class="page-content">
-            <div th:each="order : ${orders.getContent()}" class="orderWrap"> <!-- OrderController 의  model.addAttribute("orders", orderHistDtoList) -->
-                <div class="d-flex mb-3 align-self-center">
-                    <h4 th:text="${order.orderDate} + '주문'"></h4>
-                    <div class="ml-3">
-                        <th:block th:if="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
-                            <button type="button" class="btn btn-outline-secondary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">주문취소</button>
-                        </th:block>
-                        <th:block th:unless="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
-                            <h4>(취소 완료)</h4>
-                        </th:block>
-                    </div>
-                </div>
 
-                <div class="card d-flex">
-                    <div th:each="orderItem : ${order.orderItemDtoList}" class="d-flex mb-3">
-                        <div class="repImgDiv">
-                            <img th:src="${orderItem.imgUrl}" class="rounded repImg" th:alt="${orderItem.itemNm}">
-                        </div>
-                        <div class="align-self-center w-75">
-                            <span th:text="${orderItem.itemNm}" class="fs24 font-weight-bold"></span>
-                            <div class="fs18 font-weight-light">
-                                <span th:text="${orderItem.orderPrice} + '원'"></span>
-                                <span th:text="${orderItem.count} + '개'"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <table class="table" width="100%">
+                <colgroup>
+                    <col>
+                    <col width="350">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr class="text-center">
+                        <td>주문일자/번호</td>
+                        <td class="text-left">상품정보</td>
+                        <td>주문금액</td>
+                        <td>진행현황</td>
+                        <td>주문확인</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="order : ${orders.getContent()}" class="order-box">
+                        <td>
+                            <p>[[${order.orderDate}]]</p>
+                            <p>(주문 번호 : [[${order.orderId}]] )</p>
+                        </td>
+                        <td>
+                            <th:block th:each="orderItem : ${order.orderItemDtoList}">
+                                <dl class="item-list-row">
+                                    <dt><img th:src="${orderItem.imgUrl}" th:alt="${orderItem.itemNm}"></dt>
+                                    <dd class="text-left">
+                                        <span th:text="${orderItem.itemNm}"></span>
+                                    </dd>
+                                </dl>
+                            </th:block>
+                        </td>
+                        <td>
+                            <th:block th:each="orderItem : ${order.orderItemDtoList}">
+                                <div class="item-list-col">
+                                    <p th:text="${orderItem.orderPrice} + '원'"></p>
+                                    <p th:text="${orderItem.count} + '개'"></p>
+                                </div>
+                            </th:block>
+                        </td>
+                        <td>
+                            <th:block th:if="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
+                                <h4>구매 완료</h4>
+                                <a href="/">리뷰 작성</a>
+                            </th:block>
+                            <th:block th:unless="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
+                                <h4>취소 완료</h4>
+                            </th:block>
+                        </td>
+                        <td>
+                            <th:block th:if="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
+                                <button type="button" class="btn-outline-secondary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">주문취소</button>
+                            </th:block>
+                            <th:block th:unless="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
+                                <h4>취소 완료</h4>
+                            </th:block>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div th:with="start=${(orders.number/maxPage)*maxPage +1}, end=(${(orders.totalPages == 0) ? 1 : (start + (maxPage-1) < orders.totalPages ? start + (maxPage-1) : orders.totalPages)})" class="paginationWrap">
                 <ul class="pagination">
