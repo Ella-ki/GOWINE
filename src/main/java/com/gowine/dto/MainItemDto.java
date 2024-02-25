@@ -1,5 +1,6 @@
 package com.gowine.dto;
 
+import com.gowine.constant.ItemSellStatus;
 import com.gowine.constant.WineGrape;
 import com.gowine.constant.WineRegion;
 import com.gowine.constant.WineType;
@@ -20,10 +21,13 @@ public class MainItemDto {
     private Double vivinoRate;
     private String imgUrl;
     private Integer price;
+    private Integer rating;
+    private ItemSellStatus itemSellStatus;
 
     @QueryProjection // Querydsl 결과 조회 시 MainItemDto 객체로 바로 오도록 활용, entity 없이 Q만 만들도록
     public MainItemDto(Long id, String itemNm, String winary, WineType wineType,
-                       WineRegion wineRegion, WineGrape wineGrape, Double vivinoRate, String imgUrl, Integer price) {
+                       WineRegion wineRegion, WineGrape wineGrape, Double vivinoRate,
+                       String imgUrl, Integer price, Integer rating, ItemSellStatus itemSellStatus) {
         this.id = id;
         this.itemNm = itemNm;
         this.winary = winary;
@@ -33,5 +37,7 @@ public class MainItemDto {
         this.vivinoRate = vivinoRate;
         this.imgUrl = imgUrl;
         this.price = price;
+        this.rating = rating;
+        this.itemSellStatus = itemSellStatus;
     }
 }

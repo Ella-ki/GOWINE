@@ -330,6 +330,10 @@
     cursor: pointer;
 }
 
+.products-entry .products-content .wishitem-btn .like-icon.isLiked {
+    color: red;
+}
+
 /***** 상품 레이블 공통 *****/
 .product-label {
     position: absolute;
@@ -1349,10 +1353,12 @@
     float: left;
 }
 
+/*
 .list-box .list-filter.fixed {
     position: fixed;
     top: 100px;
 }
+*/
 
 .list-box .list-item {
     width: calc(100% - 340px);

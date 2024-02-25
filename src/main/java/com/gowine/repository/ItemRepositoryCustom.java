@@ -18,7 +18,7 @@ public interface ItemRepositoryCustom {
 
     List<MainItemDto> getSearchItemPage(String keyword);
 
-    Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable);
+    Page<MainItemDto> getMainItemPage(Pageable pageable);
 
     List<MainItemDto> getMbtiItemPage(String mbti);
 
@@ -26,7 +26,7 @@ public interface ItemRepositoryCustom {
 
     List<MainItemDto> getRelatedItemPage(Long itemid, Long excludedItemId);
 
-    Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion,
-                                          Integer winePrice, Double vivinoRate, Pageable pageable);
+    Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion, Integer winePrice,
+                                          Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable);
 
 }

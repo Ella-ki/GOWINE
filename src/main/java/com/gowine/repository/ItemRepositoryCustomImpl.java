@@ -18,26 +18,22 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
 
-import java.security.PublicKey;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
-    private JPAQueryFactory queryFactory; // 동적쿼리 사용하기 위해 JPAQueryFactory 변수 선언
+    private JPAQueryFactory queryFactory;
 
-    // 생성자
     public ItemRepositoryCustomImpl(EntityManager em){
         this.queryFactory = new JPAQueryFactory(em); // JPAQueryFactory 실질적인 객체가 만들어집니다
     }
 
-    // BooleanExpression => 메소드화 할 수 있음. 재사용성 좋아짐 ( BooleanBuilder 대신에 씀)
     private BooleanExpression searchSellStatusEq(ItemSellStatus searchSellStatus){
         return searchSellStatus == null ? null : QItem.item.itemSellStatus.eq(searchSellStatus);
-        // ItemSellStatus null 이면 null 리턴, 아니면 SELL,SOLD 둘 중 하나 리턴
     }
 
-    private BooleanExpression regDtsAfter(String searchDateType){ // all, 1d, 1w, 1m, 6m
-        LocalDateTime dateTime = LocalDateTime.now(); // 현재 시간을 추출해서 변수에 대입
+    private BooleanExpression regDtsAfter(String searchDateType){
+        LocalDateTime dateTime = LocalDateTime.now();
 
         if(StringUtils.equals("all", searchDateType) || searchDateType == null){
             return null;
@@ -53,7 +49,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
         return QItem.item.regTime.after(dateTime);
         // dateTime 을 시간에 맞게 세팅 후 시간에 맞는 등록된 상품이 조회하도록 조건값 반환
-
     }
 
     private BooleanExpression searchByLike(String searchBy, String searchQuery) {
@@ -101,22 +96,43 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public Page<MainItemDto> getListItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                        item.id,
+                        item.itemNm,
+                        item.winary,
+                        item.wineType,
+                        item.wineRegion,
+                        item.wineGrape,
+                        item.vivinoRate,
+                        itemImg.imgUrl,
+                        item.price,
+                        review.rating,
+                        item.itemSellStatus
+                    )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .leftJoin(review).on(item.id.eq(review.id))
                 .where(itemNmLike(itemSearchDto.getSearchQuery()))
-                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }
 
     @Override
-    public Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion,
-                                                 Integer winePrice, Double vivinoRate, Pageable pageable) {
+    public Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion, Integer winePrice,
+                                                 Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable) {
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
         BooleanBuilder predicate = new BooleanBuilder();
 
@@ -153,10 +169,24 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         }
 
         QueryResults<MainItemDto> results = queryFactory
-                .select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                        item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
+                .select(
+                        new QMainItemDto(
+                                item.id,
+                                item.itemNm,
+                                item.winary,
+                                item.wineType,
+                                item.wineRegion,
+                                item.wineGrape,
+                                item.vivinoRate,
+                                itemImg.imgUrl,
+                                item.price,
+                                review.rating,
+                                item.itemSellStatus
+                        )
+                )
                 .from(itemImg)
                 .join(itemImg.item, item)
+                .leftJoin(review).on(item.id.eq(review.id))
                 .where(predicate)
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
@@ -172,28 +202,65 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<MainItemDto> getSearchItemPage(String keyword){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                        item.id,
+                        item.itemNm,
+                        item.winary,
+                        item.wineType,
+                        item.wineRegion,
+                        item.wineGrape,
+                        item.vivinoRate,
+                        itemImg.imgUrl,
+                        item.price,
+                        review.rating,
+                        item.itemSellStatus
+                    )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .leftJoin(review).on(item.id.eq(review.id))
                 .where(itemNmLike(keyword))
-                .orderBy(item.id.desc()).fetchResults();
+                .orderBy(item.id.desc())
+                .fetchResults();
+
         List<MainItemDto> content = results.getResults();
-        long total = results.getTotal();
         return content;
     }
 
     @Override
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+    public Page<MainItemDto> getMainItemPage(Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
-        // QMainItemDto @QueryProjection을 허용하면 DTO 로 바로 조회 가능
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
-                .where(itemNmLike(itemSearchDto.getSearchQuery()))
-                .orderBy(item.id.desc()).offset(pageable.getOffset()).limit(pageable.getPageSize()).fetchResults();
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                        item.id,
+                        item.itemNm,
+                        item.winary,
+                        item.wineType,
+                        item.wineRegion,
+                        item.wineGrape,
+                        item.vivinoRate,
+                        itemImg.imgUrl,
+                        item.price,
+                        review.rating,
+                        item.itemSellStatus
+                    )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .leftJoin(review)
+                .on(item.id.eq(review.id))
+                .where(item.stockNumber.loe(5))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
         List<MainItemDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
@@ -203,15 +270,30 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<MainItemDto> getMbtiItemPage(String mbti){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                        item.id,
+                        item.itemNm,
+                        item.winary,
+                        item.wineType,
+                        item.wineRegion,
+                        item.wineGrape,
+                        item.vivinoRate,
+                        itemImg.imgUrl,
+                        item.price,
+                        review.rating,
+                        item.itemSellStatus
+                    )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
                 .where(wineGrapeLike(mbti))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
                 .limit(3).fetchResults();
+
         List<MainItemDto> content = results.getResults();
-        long total = results.getTotal();
         return content;
     }
 
@@ -221,9 +303,23 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItemImg itemImg = QItemImg.itemImg;
         QItemLike itemLike = QItemLike.itemLike;
         QMember member = QMember.member;
+        QReview review = QReview.review;
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                                item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                        item.id,
+                        item.itemNm,
+                        item.winary,
+                        item.wineType,
+                        item.wineRegion,
+                        item.wineGrape,
+                        item.vivinoRate,
+                        itemImg.imgUrl,
+                        item.price,
+                        review.rating,
+                        item.itemSellStatus
+                    )
+                )
                 .from(itemImg)
                 .join(itemImg.item, item)
                 .leftJoin(item.likes, itemLike)
@@ -242,6 +338,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<MainItemDto> getRelatedItemPage(Long itemId, Long excludedItemId){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
+        QReview review = QReview.review;
 
         Tuple itemInfo = queryFactory.select(item.wineGrape, item.wineRegion, item.wineType)
                 .from(item)
@@ -252,9 +349,24 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         WineRegion wineRegion = itemInfo.get(item.wineRegion);
         WineType wineType = itemInfo.get(item.wineType);
 
-        QueryResults<MainItemDto> results = queryFactory.select(new QMainItemDto(item.id, item.itemNm, item.winary, item.wineType,
-                        item.wineRegion, item.wineGrape, item.vivinoRate, itemImg.imgUrl, item.price))
-                .from(itemImg).join(itemImg.item, item)
+        QueryResults<MainItemDto> results = queryFactory.select(
+                new QMainItemDto(
+                            item.id,
+                            item.itemNm,
+                            item.winary,
+                            item.wineType,
+                            item.wineRegion,
+                            item.wineGrape,
+                            item.vivinoRate,
+                            itemImg.imgUrl,
+                            item.price,
+                            review.rating,
+                            item.itemSellStatus
+                    )
+                )
+                .from(itemImg)
+                .join(itemImg.item, item)
+                .leftJoin(review).on(item.id.eq(review.id))
                 .where(item.wineGrape.eq(wineGrape)
                         .or(item.wineRegion.eq(wineRegion))
                         .or(item.wineType.eq(wineType))
@@ -264,7 +376,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                 .fetchResults();
 
         List<MainItemDto> content = results.getResults();
-        long total = results.getTotal();
         return content;
     }
 

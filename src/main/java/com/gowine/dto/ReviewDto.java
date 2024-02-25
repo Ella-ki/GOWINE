@@ -27,8 +27,6 @@ public class ReviewDto {
     private WineRegion wineRegion;
     private WineGrape wineGrape;
     private Double vivinoRate;
-    //private String reviewImgUrl;
-    //private String itemImgUrl;
     private LocalDateTime regTime;
 
     // 아이템 이미지 URL 리스트

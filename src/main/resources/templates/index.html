@@ -123,6 +123,7 @@
         </div>
     </section>
 
+    <!--
     <section class="section-com container">
         <div class="product-wrapper sale-product">
             <a href="#" class="product-more-btn">SEE ALL</a>
@@ -190,93 +191,59 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
+                    </div>
+                </div>
+                <div class="swiper-btn swiper-button-prev" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
+                <div class="swiper-btn swiper-button-next" th:style="'background-image: url(/img/slide-arrow.png)'"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <section class="section-com container">
+        <div class="product-wrapper sale-product">
+            <div class="heading-box">
+                <h2 class="heading-tit">품절 임박! 얼른 구매하세요~</h2>
+            </div>
+            <div class="content-box">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" th:each="item, status: ${items.getContent()}">
+                            <input type="hidden" id="itemId" th:value="${item.id}">
+                            <input type="hidden" th:id="'count_' + ${item.id}" name="count" th:value="1">
                             <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
                                 <div class="products-thumb">
+                                    <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>
                                     <div class="product-image">
-                                        <img th:src="@{/img/wine-2.png}" alt="">
+                                        <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
                                     </div>
-                                    <div class="add-cart-btn">장바구니 담기</div>
+                                    <div th:unless="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="add-cart-btn" th:onclick="addCart([[${item.id}]]);">장바구니 담기</div>
                                 </div>
                                 <div class="products-content">
-                                    <div class="product-subname">Hardys</div>
-                                    <div class="product-name txt-line-2">HRB Shiraz 2008 750ml</div>
+                                    <div class="product-subname">[[${item.winary}]]</div>
+                                    <div class="product-name txt-line-2">[[${item.itemNm}]]</div>
                                     <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>90,000</bdi>원</span>
-                                        </del>
+                                        <!--                                            <del class="origin-price" aria-hidden="true">-->
+                                        <!--                                                <span class="amount"><bdi>250,000</bdi>원</span>-->
+                                        <!--                                            </del>-->
                                         <div class="current-price">
-                                            <span class="amount"><bdi>63,000</bdi>원</span>
+                                            <span class="amount"><bdi data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></bdi></span>
                                         </div>
-                                        <div class="per">18%</div>
                                     </div>
+                                    <!--
                                     <div class="product-rate">
                                         <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
                                     </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    -->
+
+                                    <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
+                                        <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
+                                        <span class="like-count hide">99</span>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-3.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">장바구니 담기</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Château Couhdiv-Lurton</div>
-                                    <div class="product-name txt-line-2">Pessac-Léognan Blanc (Grand Cru Classé de Graves) 2011</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>132,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>105,600</bdi>원</span>
-                                        </div>
-                                        <div class="per">22%</div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="products-entry">
-                                <a href="/item/detail" class="info-link"></a>
-                                <div class="products-thumb">
-                                    <div class="product-label sold-out">품절</div>
-                                    <div class="product-image">
-                                        <img th:src="@{/img/wine-4.png}" alt="">
-                                    </div>
-                                    <div class="add-cart-btn">장바구니 담기</div>
-                                </div>
-                                <div class="products-content">
-                                    <div class="product-subname">Château Rabaud-Promis</div>
-                                    <div class="product-name txt-line-2">Sauternes (Premier Grand Cru Classé) 1955</div>
-                                    <div class="product-price">
-                                        <del class="origin-price" aria-hidden="true">
-                                            <span class="amount"><bdi>468,000</bdi>원</span>
-                                        </del>
-                                        <div class="current-price">
-                                            <span class="amount"><bdi>411,840</bdi>원</span>
-                                        </div>
-                                        <div class="per">15%</div>
-                                    </div>
-                                    <div class="product-rate">
-                                        <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
-                                    </div>
-                                    <div class="wishitem-btn">
-                                        <span class="like-icon material-symbols-outlined">favorite</span>
+                                    <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
+                                        <i class="fa fa-heart like-icon isLiked" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                        <span class="like-count hide">99</span>
                                     </div>
                                 </div>
                             </div>
@@ -324,5 +291,6 @@
             </div>
         </div>
     </section>
+    <script src="/js/like.js"></script>
 </div>
 </html>

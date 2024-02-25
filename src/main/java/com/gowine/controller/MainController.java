@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -18,25 +19,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MainController {
     private final ItemService itemService;
+
     @GetMapping(value = "/")
-    public String main(){
+    public String main(Optional<Integer> page, Model model){
+        Pageable pageable = PageRequest.of(page.orElse(0), 8);
+        Page<MainItemDto> items = itemService.getMainItemPage(pageable);
+
+        model.addAttribute("items", items);
+        model.addAttribute("maxPage", 8);
         return "index";
     }
-
-    /*
-    @GetMapping(value = "/") // localhost/호출
-    public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5); // 페이지 유무 확인
-        if(itemSearchDto.getSearchQuery() == null){ // 서치 데이터 x
-            itemSearchDto.setSearchQuery(""); // 빈 문자열로 변환
-        }
-        Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
-        System.out.println(items.getNumber()+"!!!!!!!!!");
-        System.out.println(items.getTotalPages()+"##########");
-        model.addAttribute("items", items);
-        model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 5);
-        return "main";
-    }
-    */
 }

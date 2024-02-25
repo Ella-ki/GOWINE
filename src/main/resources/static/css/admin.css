@@ -424,6 +424,72 @@ aside {
     font-family: 'Pretendard';
 }
 
+/***** 장바구니, 커뮤니티 상품 레이아웃 공통 *****/
+.item-list-row {
+    display: flex;
+    align-items:center;
+}
+
+.item-list-row dt {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    margin-right: 20px;
+    background-color: #f1f1f1;
+    overflow: hidden;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.item-list-row dt img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+    transform: translate(-50%,-50%);
+}
+
+.item-list-row dd {
+    padding: 14px 0;
+    font-size: 16px;
+}
+
+/***** 주문내역 *****/
+.order-box td {
+    border-right: 1px solid var(--border-color);
+}
+
+.order-box .item-list-row:first-child {
+    margin-bottom: 18px;
+}
+
+.order-box .item-list-col {
+    height: 130px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.order-box p {
+    line-height: 24px;
+}
+
+.order-box .btn-outline-secondary {
+    display: block;
+    cursor: pointer;
+    background-color: var(--main-black);
+    color: var(--main-bg);
+    text-align: center;
+    font-family: 'Pretendard';
+    width: 90px;
+    padding: 11px 0;
+    margin: 8px auto;
+    font-size: 15px;
+}
+
 .sch-area {
     margin-top: 40px;
     text-align: right;

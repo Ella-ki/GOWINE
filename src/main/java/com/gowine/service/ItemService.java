@@ -1,5 +1,6 @@
 package com.gowine.service;
 
+import com.gowine.constant.ItemSellStatus;
 import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.ItemImg;
@@ -63,8 +64,8 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public Page<MainItemDto> getFilteredItem(String wineType, String wineGrape, String wineRegion,
-                                             Integer winePrice, Double vivinoRate, Pageable pageable) {
-        return itemRepository.getFilteredItemPage(wineType, wineGrape, wineRegion, winePrice, vivinoRate, pageable);
+                                             Integer winePrice, Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable) {
+        return itemRepository.getFilteredItemPage(wineType, wineGrape, wineRegion, winePrice, vivinoRate, rating, itemSellStatus, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -113,8 +114,8 @@ public class ItemService {
     }
 
     @Transactional(readOnly = true)
-    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        return itemRepository.getMainItemPage(itemSearchDto, pageable);
+    public Page<MainItemDto> getMainItemPage(Pageable pageable){
+        return itemRepository.getMainItemPage(pageable);
     }
 
     @Transactional(readOnly = true)
@@ -125,6 +126,15 @@ public class ItemService {
     @Transactional(readOnly = true)
     public Page<MainItemDto> getLikeItemPage(Member loginMember, Pageable pageable) {
         return itemRepository.getLikeItemPage(loginMember, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public ItemSellStatus getItemSellStatus(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElse(null);
+        if (item != null) {
+            return item.getItemSellStatus();
+        }
+        return null; // 해당하는 아이템이 없는 경우
     }
 
 }

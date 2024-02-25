@@ -20,8 +20,7 @@ public class ItemDto {
     private Integer bodyPercent;
     private Integer tanninPercent;
     private Integer regularPrice;
-    private Integer discountPrice; // 타임세일에 사용
-    private Double avgRating; // 평점 평균
+    private Double avgRating; // 리뷰 평균
     private String sellStatCd;
     private LocalDateTime regTime;
     private LocalDateTime updateTime;

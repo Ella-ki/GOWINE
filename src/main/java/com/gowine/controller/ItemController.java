@@ -1,11 +1,11 @@
 package com.gowine.controller;
 
-import com.gowine.dto.ItemFormDto;
-import com.gowine.dto.MainItemDto;
-import com.gowine.dto.ReviewFormDto;
+import com.gowine.dto.*;
 import com.gowine.entity.Member;
 import com.gowine.entity.Review;
+import com.gowine.entity.ReviewImg;
 import com.gowine.repository.MemberRepository;
+import com.gowine.repository.ReviewImgRepository;
 import com.gowine.repository.ReviewRepository;
 import com.gowine.service.ItemService;
 import com.gowine.service.ReviewService;
@@ -21,6 +21,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,6 +30,7 @@ public class ItemController {
     private final MemberRepository memberRepository;
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
+    private final ReviewImgRepository reviewImgRepository;
 
     @GetMapping(value = "/product/list")
     public String itemList(@RequestParam(name = "wineType", required = false) String wineType,
@@ -36,12 +38,14 @@ public class ItemController {
                            @RequestParam(name = "wineRegion", required = false) String wineRegion,
                            @RequestParam(name = "winePrice", required = false) Integer winePrice,
                            @RequestParam(name = "vivinoRate", required = false) Double vivinoRate,
+                           @RequestParam(name = "rating", required = false) Integer rating,
+                           @RequestParam(name = "itemSellStatus", required = false) String itemSellStatus,
                            Optional<Integer> page, Model model){
 
         Pageable pageable = PageRequest.of(page.orElse(0), 8);
 
         // wineType, wineGrape, wineRegion, winePrice, wineRate 등을 활용하여 필터링된 상품 리스트를 가져옴
-        Page<MainItemDto> items = itemService.getFilteredItem(wineType, wineGrape, wineRegion, winePrice, vivinoRate, pageable);
+        Page<MainItemDto> items = itemService.getFilteredItem(wineType, wineGrape, wineRegion, winePrice, vivinoRate, rating, itemSellStatus, pageable);
         model.addAttribute("items", items);
         model.addAttribute("maxPage", 8);
 

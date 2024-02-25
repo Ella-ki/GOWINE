@@ -68,7 +68,8 @@
                     xhr.setRequestHeader(header, token);
                 },
                 success: function(response) {
-                    console.log("판매 상태 업데이트 성공");
+                    alert('진열 상태가 "' + sellStatus + '" 으로 변경되었습니다.');
+                    //console.log("판매 상태 업데이트 성공");
                 },
                 error: function(xhr, status, error) {
                     console.error("판매 상태 업데이트 실패:", error);

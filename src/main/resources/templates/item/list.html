@@ -129,11 +129,11 @@
                                     <span>3.0 이상 ~ 3.5 미만</span>
                                 </li>
                                 <li class="filter-label">
-                                    <a class="filter-input info-link" href="/product/list?vivinoRate=3">3.5 이상 ~ 4.0 미만</a>
+                                    <a class="filter-input info-link" href="/product/list?vivinoRate=3"></a>
                                     <span>3.5 이상 ~ 4.0 미만</span>
                                 </li>
                                 <li class="filter-label">
-                                    <a class="filter-input info-link" href="/product/list?vivinoRate=4">4.0 이상</a>
+                                    <a class="filter-input info-link" href="/product/list?vivinoRate=4"></a>
                                     <span>4.0 이상</span>
                                 </li>
                             </ul>
@@ -154,10 +154,11 @@
                                 <div class="products-entry">
                                     <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                     <div class="products-thumb">
+                                        <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>
                                         <div class="product-image">
                                             <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
                                         </div>
-                                        <div class="add-cart-btn" th:onclick="addCart([[${item.id}]]);">장바구니 담기</div>
+                                        <div th:unless="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="add-cart-btn" th:onclick="addCart([[${item.id}]]);">장바구니 담기</div>
                                     </div>
                                     <div class="products-content">
                                         <div class="product-subname">[[${item.winary}]]</div>
@@ -170,16 +171,18 @@
                                                 <span class="amount"><bdi data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></bdi></span>
                                             </div>
                                         </div>
+                                        <!--
                                         <div class="product-rate">
                                             <span class="star-review-icon" th:style="'background-image: url(/img/star-icon-on.png)'">0.0 (0)</span>
                                         </div>
+                                        -->
 
                                         <div class="wishitem-btn" th:id="'isNotLike_' + ${item.id}">
                                             <i class="fa fa-heart-o like-icon" aria-hidden="true" th:id="'like_' + ${item.id}"></i>
                                             <span class="like-count hide">99</span>
                                         </div>
                                         <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
-                                            <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                            <i class="fa fa-heart like-icon isLiked" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
                                             <span class="like-count hide">99</span>
                                         </div>
                                     </div>

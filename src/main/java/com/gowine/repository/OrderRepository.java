@@ -1,5 +1,7 @@
 package com.gowine.repository;
 
+import com.gowine.entity.Item;
+import com.gowine.entity.Member;
 import com.gowine.entity.Order;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("select count(o) from Order o where o.member.email = :email")
     Long countOrder(@Param("email") String email);
+
+    boolean existsByMemberIdAndOrderItems_Item_Id(Member member, Long itemId);
 }

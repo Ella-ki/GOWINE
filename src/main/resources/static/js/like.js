@@ -34,7 +34,7 @@ const eventHandler = {
     likeEvent: function (itemId) {
         const _this = this;
 
-        console.log("likeEvent: " + itemId);
+        //console.log("likeEvent: " + itemId);
 
         $.ajax({
             url: '/like/' + itemId,
@@ -86,7 +86,7 @@ const eventHandler = {
     },
 
     likeCount: function (itemId) {
-        console.log("likeCount : " + itemId);
+        //console.log("likeCount : " + itemId);
 
         let likeDiv = document.getElementById('isLike_' + itemId);
         let notLikeDiv = document.getElementById('isNotLike_' + itemId);

@@ -19,7 +19,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     // 조건2 CartItem(item.id) == ItemImg(item.id)
     // 조건3 ItemImg 대표이미지
     // 정렬 기준 CartItem 등록시간 내림차순
-    @Query("select new com.gowine.dto.CartDetailDto(ci.id, i.itemNm, i.price, ci.count, im.imgUrl) " +
+    @Query("select new com.gowine.dto.CartDetailDto(ci.id, i.id, i.itemNm, i.price, ci.count, im.imgUrl) " +
             "from CartItem ci, ItemImg im " +
             "join ci.item i " +
             "where ci.cart.id = :cartId " +

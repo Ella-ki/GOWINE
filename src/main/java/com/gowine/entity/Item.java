@@ -78,6 +78,10 @@ public class Item extends BaseEntity{
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     List<Review> reviews = new ArrayList<>();
 
+    // 리뷰 갯수와 평균 평점
+    //private int reviewCount;
+    //private double averageRating;
+
     public void updateItem(ItemFormDto itemFormDto) {
         this.itemNm = itemFormDto.getItemNm();
         this.price = itemFormDto.getPrice();

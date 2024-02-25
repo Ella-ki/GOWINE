@@ -6,6 +6,8 @@ import com.gowine.entity.Item;
 import com.gowine.entity.Member;
 import com.gowine.entity.Review;
 import com.gowine.repository.MemberRepository;
+import com.gowine.service.MemberService;
+import com.gowine.service.OrderService;
 import com.gowine.service.ReviewImgService;
 import com.gowine.service.ReviewService;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +43,12 @@ public class ReviwController {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
+    OrderService orderService;
+
     @GetMapping(value = "/board/notice")
     public String noticeList(){
         return "board/noticeList";
@@ -51,8 +60,21 @@ public class ReviwController {
 
         Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
 
+        List<Boolean> hasPurchasedList = new ArrayList<>();
+        if (principal != null) {
+            String email = principal.getName();
+            Member loginMember = memberRepository.findByEmail(email).orElseThrow();
+
+            for (ReviewDto reviewDto : reviewDtos.getContent()) {
+                boolean hasPurchased = reviewService.hasPurchasedItem(loginMember, reviewDto.getItemId());
+                hasPurchasedList.add(hasPurchased);
+            }
+        }
+
+
         model.addAttribute("reviewItem", reviewDtos);
         model.addAttribute("maxPage", 5);
+        model.addAttribute("hasPurchasedList", hasPurchasedList);
         return "review/communityList";
     }
 

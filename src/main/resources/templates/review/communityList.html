@@ -20,6 +20,7 @@
                     <li>
                         <input type="hidden" name="reviewId" th:value="${review.reviewId}">
                         <dl class="item-list-row">
+                            <div th:if="${hasPurchased}">구매자</div>
                             <dt class="review-item-img">
                                 <div th:each="imageUrl : ${review.itemImgUrlList}">
                                     <img th:src="${imageUrl}" alt="Item Image">

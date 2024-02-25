@@ -1,15 +1,13 @@
 package com.gowine.controller;
 
 import com.gowine.constant.ItemSellStatus;
-import com.gowine.dto.ItemFormDto;
-import com.gowine.dto.ItemImgDto;
-import com.gowine.dto.ItemSearchDto;
-import com.gowine.dto.MainItemDto;
+import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.Member;
 import com.gowine.service.ItemImgService;
 import com.gowine.service.ItemService;
 import com.gowine.service.MemberService;
+import com.gowine.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +41,9 @@ public class AdminController {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    OrderService orderService;
 
     @GetMapping("/admin/main")
     public String adminMainPage() {
@@ -152,5 +153,19 @@ public class AdminController {
         model.addAttribute("members", members);
         model.addAttribute("maxPage", 5);
         return "admins/member/memberList";
+    }
+
+    @GetMapping(value = {"/admin/orders", "/admin/orders/{page}"})
+    public String orderHist(@PathVariable("page") Optional<Integer> page, Model model){
+        // 페이지 및 인덱스 사이즈 정함
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+        Page<OrderHistDto> orderHistDtoList = orderService.getAllOrders(pageable);
+
+        // model 이름 지정 후 객체 연결
+        model.addAttribute("orders", orderHistDtoList);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+        return "admins/order/orderHistory";
     }
 }

@@ -375,6 +375,11 @@
                                     </dt>
                                     <dd th:text="${review.comment}"></dd>
                                 </dl>
+                                <div class="review-img-wrap">
+                                    <div class="review-img" th:each="reviewImg : ${reviewFormDto.reviewImgDtoList}">
+                                        <img th:if="${not #strings.isEmpty(reviewImg.url)}" th:src="${reviewImg.url}" alt="Review Image">
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -426,7 +431,7 @@
                                 <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
                                 <span class="like-count hide">99</span>
                             </div>
-                            <div class="add-to-cart btn-border-default" th:onclick="addCart([[${item.id}]]);"><span>장바구니</span></div>
+                            <div class="btn-bg-default"><span>품절</span></div>
                         </div>
                     </div>
                     <div class="exp-character char-list">
@@ -529,7 +534,7 @@
                                                 <span class="like-count hide">99</span>
                                             </div>
                                             <div class="wishitem-btn" th:id="'isLike_' + ${item.id}" style="display: none">
-                                                <i class="fa fa-heart like-icon" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
+                                                <i class="fa fa-heart like-icon isLiked" aria-hidden="true" th:id="'cancel-like_' + ${item.id}"></i>
                                                 <span class="like-count hide">99</span>
                                             </div>
                                         </div>

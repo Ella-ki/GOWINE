@@ -19,6 +19,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -70,6 +71,28 @@ public class OrderService {
         }
         return new PageImpl<OrderHistDto>(orderHistDtos, pageable, totalCount); // 페이지 단위로 orderHistDtos, pageable, totalCount 넘겨줌
     }
+
+    @Transactional(readOnly = true)
+    public Page<OrderHistDto> getAllOrders(Pageable pageable) {
+        Page<Order> orderList = orderRepository.findAll(pageable);
+
+        List<OrderHistDto> orderHistDtos = new ArrayList<>();
+
+        for (Order order : orderList) {
+            OrderHistDto orderHistDto = new OrderHistDto(order);
+            List<OrderItem> orderItems = order.getOrderItems();
+
+            for (OrderItem orderItem : orderItems) {
+                ItemImg itemImg = itemImgRepository.findByItemId(orderItem.getItem().getId());
+                OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
+                orderHistDto.addOrderItemDto(orderItemDto);
+            }
+            orderHistDtos.add(orderHistDto);
+        }
+
+        return new PageImpl<>(orderHistDtos, pageable, orderList.getTotalElements());
+    }
+
 
     @Transactional(readOnly = true)
     public boolean validateOrder(Long orderId, String email){

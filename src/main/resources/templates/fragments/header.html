@@ -16,7 +16,7 @@
                     $("#cart-count-text").text(data); // UI에 장바구니 수량을 반영
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error getting cart count:", error);
+                    //console.error("Error getting cart count:", error);
                 }
             });
         }
@@ -69,7 +69,10 @@
                                 <h3 class="account-btn">안녕하세요, 관리자님</h3>
                                 <div class="dropdown-container login-after-layer">
                                     <ul>
+                                        <!--
                                         <li><a href="/admin/main">관리자 페이지로 이동</a></li>
+                                        -->
+                                        <li><a href="/admin/items">관리자 페이지로 이동</a></li>
                                         <li><a href="/members/logout">로그아웃</a></li>
                                     </ul>
                                 </div>
@@ -82,9 +85,9 @@
                         <div class="header-menu">
                             <nav class="nav-center">
                                 <ul class="clfix">
-                                    <li><a href="/about" class="info-link"></a>MARKET</li>
+                                    <li class="hide"><a href="/about" class="info-link"></a>MARKET</li>
                                     <li><a href="/product/list" class="info-link"></a>SHOP WINES</li>
-                                    <li><a href="#" class="info-link"></a>EVENT</li>
+                                    <li><a href="javascript:alert('준비중입니다.')" class="info-link"></a>EVENT</li>
                                     <li><a href="/board/community" class="info-link"></a>COMMUNITY</li>
                                 </ul>
                             </nav>
