@@ -63,6 +63,7 @@ public class CartController {
         List<CartDetailDto> cartDetailDtoList = cartService.getCartList(principal.getName());
 
         model.addAttribute("cartItems", cartDetailDtoList);
+        model.addAttribute("username", principal.getName());
         return "/cart/cartList";
     }
 

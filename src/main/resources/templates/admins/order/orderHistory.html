@@ -6,10 +6,10 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        function cancelOrder(orderId){
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
 
+        function cancelOrder(orderId){
             var url = "/order/" + orderId + "/cancel";
             var paramData = {
                 orderId : orderId,
@@ -42,6 +42,7 @@
                 }
             })
         }
+
     </script>
 </th:block>
 
@@ -100,7 +101,10 @@
                 </td>
                 <td>
                     <th:block th:if="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
-                        <h4>구매 완료</h4>
+                        <h4>결제 완료</h4>
+                        <!--
+                        <a class="btn-default" href="javascript:chStatus([[${order.orderId}]]);">배송 준비 중</a>
+                        -->
                     </th:block>
                     <th:block th:unless="${order.orderStatus == T(com.gowine.constant.OrderStatus).ORDER}">
                         <h4>취소 완료</h4>

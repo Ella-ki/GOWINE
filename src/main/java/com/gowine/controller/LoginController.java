@@ -36,9 +36,7 @@ public class LoginController {
         try {
             Member member = Member.createMember(memberFormDto, passwordEncoder);
             memberService.saveMember(member);
-            log.info("InfoAgree : " + String.valueOf(memberFormDto.isInfoAgree()));
-            log.info("PrivacyAgree : " + String.valueOf(memberFormDto.isPrivacyAgree()));
-            log.info("UseAgree : " + String.valueOf(memberFormDto.isUseAgree()));
+
         }
 
         catch (IllegalStateException e) {

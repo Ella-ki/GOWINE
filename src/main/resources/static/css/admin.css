@@ -380,7 +380,7 @@ aside {
 }
 
 .table td {
-    padding: 8px 0;
+    padding: 12px;
     text-align: center;
 }
 
@@ -428,6 +428,45 @@ aside {
     line-height: 20px;
 }
 
+.table .reviewItemInfo {
+    padding: 8px;
+}
+
+.table .reviewItemInfo > div {
+    text-align: left;
+    margin: 8px 0;
+}
+
+.table .reviewItemInfo .item-list-row {
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table .reviewItemInfo .item-list-row dt {
+    width: 60px;
+    height: 60px;
+}
+
+.table .reviewItemInfo .review-star img {
+    width: 16px;
+}
+
+.table .reviewItemInfo .review-img-wrap {
+    display: flex;
+}
+
+.table .reviewItemInfo .review-img-wrap .review-img {
+
+}
+
+.table .reviewItemInfo .review-img-wrap .review-img img {
+    width: 140px;
+    height: 140px;
+    margin-right: 8px;
+    margin-top: 8px;
+    object-fit: cover;
+}
+
 /***** 장바구니, 커뮤니티 상품 레이아웃 공통 *****/
 .item-list-row {
     display: flex;
@@ -465,8 +504,8 @@ aside {
     border-right: 1px solid var(--border-color);
 }
 
-.order-box .item-list-row:first-child {
-    margin-bottom: 18px;
+.order-box .item-list-row:not(:first-child) {
+    margin-top: 18px;
 }
 
 .order-box .item-list-col {

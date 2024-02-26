@@ -1527,19 +1527,17 @@
 
 .review-list dd .review-img-wrap {
     display: flex;
-    justify-content: space-between;
-    margin-top: 22px;
 }
 
 .review-list dd .review-img-wrap .review-img {
-    width: 140px;
-    height: 140px;
-    margin-right: 8px;
+
 }
 
 .review-list dd .review-img-wrap .review-img img {
-    width: 100%;
-    height: 100%;
+    width: 140px;
+    height: 140px;
+    margin-right: 8px;
+    margin-top: 22px;
     object-fit: cover;
 }
 
@@ -1604,8 +1602,8 @@
     border-right: 1px solid var(--border-color);
 }
 
-.order-box .item-list-row:first-child {
-    margin-bottom: 18px;
+.order-box .item-list-row:not(:first-child) {
+    margin-top: 18px;
 }
 
 .order-box .item-list-col {
@@ -1805,4 +1803,9 @@
 
 .layerCont .common-btns span:first-child {
     margin-right: 8px;
+}
+
+.layerCont .common-btns .btn-bg-default {
+    padding: 10px 16px;
+    font-size: 14px;
 }

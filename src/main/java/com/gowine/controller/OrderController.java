@@ -29,10 +29,6 @@ public class OrderController {
 
     @PostMapping(value = "/order")
     public @ResponseBody ResponseEntity order(@RequestBody @Valid OrderDto orderDto, BindingResult bindingResult, Principal principal) {
-        // String a = "abc" + "def"
-        // StringBuilder a;
-        // a.append("abc");
-        // a.append("def");
         if(bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -40,12 +36,9 @@ public class OrderController {
                 sb.append(fieldError.getDefaultMessage());
             }
 
-            // sb.toString() => 유효성검사 BAD_REQUEST 올라가는거
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        // 로그인 정보 -> Spring Security
-        // principal.getName() => 현재 로그인된 정보
         String email = principal.getName();
         Long orderId;
         try {
@@ -54,17 +47,15 @@ public class OrderController {
             // item -> removeStock
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Long>(orderId, HttpStatus.OK); // ajax 의 success 로 들어옴
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
     @GetMapping(value = {"/orders", "/orders/{page}"})
     public String orderHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
-        // 페이지 및 인덱스 사이즈 정함
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
-        Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(principal.getName(), pageable); // 서비스에서 보낸 결과 받기
+        Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(principal.getName(), pageable);
 
-        // model 이름 지정 후 객체 연결
         model.addAttribute("orders", orderHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("maxPage", 5);
@@ -73,9 +64,7 @@ public class OrderController {
 
     @PostMapping("/order/{orderId}/cancel")
     public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal){
-        // validateOrder 주문서 유효성 검사
         if(!orderService.validateOrder(orderId, principal.getName())){
-            // 종료 리턴 주문 권한 X , HttpStatus.FORBIDDEN => 권한 없는 사용자 접근
             return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
         orderService.cancelOrder(orderId);

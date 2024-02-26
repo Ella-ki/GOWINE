@@ -79,7 +79,6 @@ public class ReviewService {
         return reviews.map(review -> {
             Item item = review.getItem();
             Member member = review.getMember();
-
             Long itemId = review.getItem().getId();
 
             List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
@@ -108,6 +107,7 @@ public class ReviewService {
             reviewDto.setRating(review.getRating());
             reviewDto.setComment(review.getComment());
             reviewDto.setItemNm(review.getItem().getItemNm());
+            reviewDto.setMemberEmail(review.getMember().getEmail());
             reviewDto.setMemberName(review.getMember().getName());
             reviewDto.setWinary(item.getWinary());
             reviewDto.setWineType(item.getWineType());

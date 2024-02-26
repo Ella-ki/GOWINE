@@ -10,9 +10,7 @@ import com.gowine.repository.MemberRepository;
 import com.gowine.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
@@ -74,8 +72,10 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public Page<OrderHistDto> getAllOrders(Pageable pageable) {
-        Page<Order> orderList = orderRepository.findAll(pageable);
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdBy");
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
 
+        Page<Order> orderList = orderRepository.findAll(pageable);
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
 
         for (Order order : orderList) {

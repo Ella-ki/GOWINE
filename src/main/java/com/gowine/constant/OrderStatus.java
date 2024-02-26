@@ -1,5 +1,5 @@
 package com.gowine.constant;
 
 public enum OrderStatus {
-    ORDER, CANCEL
+    ORDER, DELIVERY_BEFORE, CANCEL
 }

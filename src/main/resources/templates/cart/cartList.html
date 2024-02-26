@@ -4,12 +4,15 @@
       layout:decorate="~{layouts/pageLayout}">
 
 <th:block layout:fragment="script">
+    <!-- 포트원 결제 -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
     <!-- iamport.payment.js -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-    <script th:inline="javascript">
-       var IMP = window.IMP;
-       IMP.init("imp11861523");
+    <!-- 포트원 결제 -->
 
+    <script th:inline="javascript">
        $(document).ready(function(){
            $("input[name=cartChkBox]").change(function(){
                getOrderTotalPrice();
@@ -113,75 +116,84 @@
            }
        }
 
-       function orders(){
-           var token = $("meta[name='_csrf']").attr("content");
-           var header = $("meta[name='_csrf_header']").attr("content");
+       function orders() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
 
-           var url = "/cart/orders";
+            // 아임포트에 결제 정보 넘길 값
+            var today = new Date();
+            var hours = today.getHours();
+            var minutes = today.getMinutes();
+            var seconds = today.getSeconds();
+            var milliseconds = today.getMilliseconds();
+            var makeMerchantUid = `${hours}` + `${minutes}` + `${seconds}` + `${milliseconds}`;
+            var price = $("#orderTotalPrice").text();
+            var username = [[${username}]];
 
-           var dataList = new Array(); // 배열 []
-           var paramData = new Object(); // 객체 {}
 
-           $("input[name=cartChkBox]:checked").each(function(){
-               var cartItemId = $(this).val();
-               var data = new Object();
-               data["cartItemId"] = cartItemId;
-               dataList.push(data);
-           })
+            // 결제 요청
+            var IMP = window.IMP;
+            IMP.init("imp11861523");
 
-           paramData['cartOrderDtoList'] = dataList;
+            IMP.request_pay({
+                pg: "kakaopay.TC0ONETIME",
+                pay_method: "card",
+                merchant_uid: makeMerchantUid,
+                name: "wine",
+                amount: price,
+                buyer_email: username,
+                //buyer_name: "buyerName",
+                //buyer_tel: "010-4242-4242",
+                //buyer_addr: "인천광역시 연수구",
+                //buyer_postcode: "123-456"
+            }, function (rsp) {
+                if (rsp.success) {
+                    // 결제 성공 시에만 주문 요청 실행
+                    var url = "/cart/orders";
+                    var dataList = new Array();
+                    var paramData = new Object();
 
-           var param = JSON.stringify(paramData);
+                    $("input[name=cartChkBox]:checked").each(function(){
+                        var cartItemId = $(this).val();
+                        var data = new Object();
+                        data["cartItemId"] = cartItemId;
+                        dataList.push(data);
+                    });
 
-           $.ajax({
-               url: url,
-               type:"post",
-               contentType: "application/json",
-               data: param,
-               beforeSend: function(xhr){
-                   /* 데이터 전송하기 전에 헤더의 csrf 값을 설정*/
-                   xhr.setRequestHeader(header, token);
-               },
-               dataType: "json",
-               cache: false,
-               success: function(result, status){
-                   IMP.request_pay({
-                        pg: "{kakaopay}.{store-ecc808cc-8576-46ed-8aca-cba7c6c9360d}",
-                        pay_method: "card",
-                        merchant_uid: "ORD20180131-0000011",   // 주문번호
-                        name: "주문명 : 결제 테스트",
-                        amount: 64900,                         // 숫자 타입
-                        buyer_email: "gildong@gmail.com",
-                        buyer_name: "홍길동",
-                        buyer_tel: "010-4242-4242",
-                        buyer_addr: "서울특별시 강남구 신사동",
-                        buyer_postcode: "01181"
-                   }, function (rsp) { // callback
-                        $.ajax({
-                           type: 'POST',
-                           url: '/verify/' + rsp.imp_uid
-                        }).done(function(data) {
-                            if(rsp.paid_amount === data.response.amount){
-                                alert("결제 성공");
+                    paramData['cartOrderDtoList'] = dataList;
+                    var param = JSON.stringify(paramData);
+
+                    $.ajax({
+                        url: url,
+                        type: "post",
+                        contentType: "application/json",
+                        data: param,
+                        beforeSend: function(xhr){
+                            xhr.setRequestHeader(header, token);
+                        },
+                        dataType: "json",
+                        cache: false,
+                        success: function(result, status){
+                            alert("주문이 완료 되었습니다.");
+                            location.href = "/";
+                        },
+                        error: function(jqXHR, status, error){
+                            if(jqXHR.state == '401'){
+                                alert("로그인 후 이용해주세요.");
+                                location.href = "/members/login";
                             } else {
-                                alert("결제 실패");
+                                alert(jqXHR.responseText);
                             }
-                        });
-                   });
+                        }
+                    });
+                } else {
+                    var msg = "결제에 실패하였습니다.";
+                    msg += "에러 내용 : " + rsp.error_msg;
+                    alert(msg);
+                }
+            });
+        }
 
-                   alert("주문이 완료 되었습니다.");
-                   location.href = "/";
-               },
-               error: function(jqXHR, status, error){
-                   if(jqXHR.state == '401'){
-                       alert("로그인 후 이용해주세요.");
-                       location.href = "/members/login";
-                   } else {
-                       alert(jqXHR.responseText);
-                   }
-               }
-           })
-       }
 
     </script>
 </th:block>

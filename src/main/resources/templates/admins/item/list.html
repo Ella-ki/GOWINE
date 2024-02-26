@@ -25,7 +25,7 @@
         function fnDelItem(obj){
             if (confirm("삭제하시겠습니까?")) {
                 let itemId = obj.dataset.id;
-                let url = "/delete/" + itemId;
+                let url = "/admin/item/delete/" + itemId;
 
                 let header = $("meta[name='_csrf_header']").attr('content');
                 let token = $("meta[name='_csrf']").attr('content');
@@ -124,7 +124,6 @@
                 <tr th:each="item, status : ${items.getContent()}">
                     <td>
                         <span th:text="${item.id}"></span>
-
                         <select th:data-id="${item.id}" class="input-select" th:value="${item.itemSellStatus}" th:onchange="fnStatus(this)" th:style="'background-image: url(/img/select-down-arrow.png)'">
                             <option th:selected="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SELL}">진열중</option>
                             <option th:selected="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}">품절</option>

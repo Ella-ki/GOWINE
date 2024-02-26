@@ -145,6 +145,8 @@
                 }
 
                 alert("회원가입이 완료되었습니다.");
+
+                document.getElementById("frm").submit();
              }
 
              $(".form-row input").on("click keyup", function(){
@@ -193,12 +195,6 @@
         }
 
     </script>
-</th:block>
-
-<th:block layout:fragment="css">
-    <style>
-
-    </style>
 </th:block>
 
 <div layout:fragment="content">
@@ -299,7 +295,7 @@
                             </div>
                         </div>
 
-                        <button class="join-btn com-btn">회원가입</button>
+                        <button type="button" class="join-btn com-btn">회원가입</button>
                     </form>
                 </div>
             </article>

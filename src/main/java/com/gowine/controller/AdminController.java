@@ -4,10 +4,7 @@ import com.gowine.constant.ItemSellStatus;
 import com.gowine.dto.*;
 import com.gowine.entity.Item;
 import com.gowine.entity.Member;
-import com.gowine.service.ItemImgService;
-import com.gowine.service.ItemService;
-import com.gowine.service.MemberService;
-import com.gowine.service.OrderService;
+import com.gowine.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,15 +33,17 @@ import java.util.Optional;
 public class AdminController {
     @Autowired
     ItemService itemService;
-
     @Autowired
     ItemImgService itemImgService;
-
     @Autowired
     MemberService memberService;
-
     @Autowired
     OrderService orderService;
+    @Autowired
+    ReviewService reviewService;
+
+    @Autowired
+    ReviewImgService reviewImgService;
 
     @GetMapping("/admin/main")
     public String adminMainPage() {
@@ -134,7 +134,7 @@ public class AdminController {
         return "admins/item/list";
     }
 
-    @DeleteMapping(value = "/delete/{itemId}")
+    @DeleteMapping(value = "/admin/item/delete/{itemId}")
     public @ResponseBody ResponseEntity deleteItem(@PathVariable("itemId") Long itemId) {
         try {
             itemImgService.deleteItemImg(itemId);
@@ -148,6 +148,7 @@ public class AdminController {
     @GetMapping(value = {"/admin/members", "/admin/members/{page}"})
     public String memberManage(@PathVariable("page") Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
         Page<Member> members = memberService.getAdminMemberPage(pageable);
 
         model.addAttribute("members", members);
@@ -157,15 +158,36 @@ public class AdminController {
 
     @GetMapping(value = {"/admin/orders", "/admin/orders/{page}"})
     public String orderHist(@PathVariable("page") Optional<Integer> page, Model model){
-        // 페이지 및 인덱스 사이즈 정함
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
         Page<OrderHistDto> orderHistDtoList = orderService.getAllOrders(pageable);
 
-        // model 이름 지정 후 객체 연결
         model.addAttribute("orders", orderHistDtoList);
         model.addAttribute("page", pageable.getPageNumber());
         model.addAttribute("maxPage", 5);
         return "admins/order/orderHistory";
     }
+
+    @GetMapping(value = {"/admin/reviews", "/admin/reviews/{page}"})
+    public String boardList(Model model, @PathVariable("page") Optional<Integer> page){
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
+
+        model.addAttribute("reviewItem", reviewDtos);
+        model.addAttribute("maxPage", 5);
+        return "admins/review/reviewList";
+    }
+
+    @DeleteMapping(value = "/admin/review/delete/{reviewId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public @ResponseBody ResponseEntity deleteReview(@PathVariable("reviewId") Long reviewId) {
+        try {
+            reviewService.deleteReview(reviewId);
+            reviewImgService.deleteReviewImg(reviewId);
+            return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+    }
+
 }

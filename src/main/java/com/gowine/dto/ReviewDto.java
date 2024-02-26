@@ -16,7 +16,7 @@ import java.util.List;
 public class ReviewDto {
     private Long reviewId;
     private Long itemId;
-    private Long memberId;
+    private String memberEmail;
     private String memberName;
     private String comment;
     private Integer rating;
@@ -35,11 +35,11 @@ public class ReviewDto {
     // 리뷰 이미지 URL 리스트
     private List<String> reviewImgUrlList;
 
-    public ReviewDto(Long reviewId, Long itemId, Long memberId, String memberName, String comment, Integer rating, String itemNm,
+    public ReviewDto(Long reviewId, Long itemId, String memberEmail, String memberName, String comment, Integer rating, String itemNm,
                      String winary, WineType wineType, WineRegion wineRegion, WineGrape wineGrape, Double vivinoRate, LocalDateTime regTime) {
         this.reviewId = reviewId;
         this.itemId = itemId;
-        this.memberId = memberId;
+        this.memberEmail = memberEmail;
         this.memberName = memberName;
         this.comment = comment;
         this.rating = rating;

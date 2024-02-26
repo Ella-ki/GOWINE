@@ -143,7 +143,6 @@ public class ReviwController {
         model.addAttribute("maxPage", 5);
         return "review/communityList";
     }
-    */
 
     @DeleteMapping(value = "/delete/{reviewId}")
     public @ResponseBody ResponseEntity deleteItem(@PathVariable("reviewId") Long reviewId) {
@@ -155,4 +154,5 @@ public class ReviwController {
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
     }
+    */
 }

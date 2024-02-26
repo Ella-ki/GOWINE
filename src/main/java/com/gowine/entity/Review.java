@@ -29,6 +29,9 @@ public class Review extends BaseEntity{
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Item item;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImg> reviewImages = new ArrayList<>();
+
     private int rating;
 
     private String comment;

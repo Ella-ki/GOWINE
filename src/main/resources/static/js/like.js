@@ -10,7 +10,7 @@ const eventHandler = {
             const itemIdInput = item.querySelector('#itemId');
             const itemId = itemIdInput.value;
 
-            console.log(itemId);
+            //console.log(itemId);
 
             let likeButton = document.getElementById('like_' + itemId);
             let cancelLikeButton = document.getElementById('cancel-like_' + itemId);
@@ -95,7 +95,7 @@ const eventHandler = {
             url: '/like/' + itemId,
             type: 'GET',
             success: function (likeCount) {
-                console.log("likeCount :" + likeCount);
+                //console.log("likeCount :" + likeCount);
                 document.getElementsByClassName('like-count')[0].innerText = likeCount[0];
 
                 if (likeCount[1] === 'false') {
