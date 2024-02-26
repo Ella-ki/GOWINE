@@ -40,32 +40,42 @@ $(function() {
 
 function displayProduct(product) {
     let itemHtml = "";
-    itemHtml += "<li class='search-item'>";
-    itemHtml += "    <div class='products-entry'>";
+    itemHtml += "<li class='search-item item-element'>";
+    itemHtml += "   <input type='hidden' id='itemId' value='" + product.id + "'>";
+    itemHtml += "   <input type='hidden' id='count_'" + product.id + "' name='count' th:value='1'>";
+    itemHtml += "   <div class='products-entry'>";
     itemHtml += "        <a href='/item/" + product.id + "' class='info-link'></a>";
     itemHtml += "        <div class='products-thumb'>";
+    //itemHtml += "            <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>";
     itemHtml += "            <div class='product-image'>";
     itemHtml += "                <img src='" + product.imgUrl + "' alt='" + product.id + "'>";
     itemHtml += "            </div>";
-    itemHtml += "            <div class='add-cart-btn'>장바구니 담기</div>";
+    //itemHtml += "            <div class='add-cart-btn'>장바구니 담기</div>";
     itemHtml += "        </div>";
     itemHtml += "        <div class='products-content'>";
     itemHtml += "            <div class='product-subname'>" + product.winary + "</div>";
     itemHtml += "            <div class='product-name txt-line-2'>" + product.itemNm + "</div>";
     itemHtml += "            <div class='product-price'>";
-    itemHtml += "                <del class='origin-price' aria-hidden='true'>";
-    itemHtml += "                    <span class='amount'><bdi>250,000</bdi>원</span>";
-    itemHtml += "                </del>";
+    //itemHtml += "                <del class='origin-price' aria-hidden='true'>";
+    //itemHtml += "                    <span class='amount'><bdi>250,000</bdi>원</span>";
+    //itemHtml += "                </del>";
     itemHtml += "                <div class='current-price'>";
     itemHtml += "                    <span class='amount'><bdi>" + comma(product.price) + "</bdi>원</span>";
     itemHtml += "                </div>";
     itemHtml += "            </div>";
+    /*
     itemHtml += "            <div class='product-rate'>";
     itemHtml += "                <span class='star-review-icon' style='background-image: url(/img/star-icon-on.png)'>0.0 (0)</span>";
     itemHtml += "            </div>";
-    itemHtml += "            <div class='wishitem-btn'>";
-    itemHtml += "                <span class='like-icon material-symbols-outlined'>favorite</span>";
-    itemHtml += "            </div>";
+    itemHtml += "           <div class='wishitem-btn' id='isNotLike_" + product.id + "' onclick='fnLike(" + product.id + ")'>";
+    itemHtml += "               <i class='fa fa-heart-o like-icon' aria-hidden='true' id='like_" + product.id + "'></i>";
+    itemHtml += "               <span class='like-count hide'>99</span>";
+    itemHtml += "           </div>";
+    itemHtml += "           <div class='wishitem-btn' id='isLike_" + product.id + "' onclick='fnNotLike(" + product.id + ")' style='display: none'>";
+    itemHtml += "               <i class='fa fa-heart like-icon isLiked' aria-hidden='true' id='cancel-like_" + product.id + "'></i>";
+    itemHtml += "               <span class='like-count hide'>99</span>";
+    itemHtml += "           </div>";
+    */
     itemHtml += "        </div>";
     itemHtml += "    </div>";
     itemHtml += "</li>";

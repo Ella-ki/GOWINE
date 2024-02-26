@@ -100,7 +100,7 @@
              }
 
              submitBtn.onclick = async function(e) {
-                //e.preventDefault();
+                e.preventDefault();
 
                 let isEmailAvailable = await checkEmailAvailability(userEmail.value);
 
@@ -226,7 +226,9 @@
                                 <p>이미 가입된 이메일입니다.</p>
                                 <div class="failed-link">
                                     <a href="/members/login" class="btn-default link-to-login">로그인 하러가기</a>
+                                    <!--
                                     <a href="/findPassword" class="btn-default link-to-find">비밀번호 찾기</a>
+                                    -->
                                 </div>
                             </div>
                         </div>

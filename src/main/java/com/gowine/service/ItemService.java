@@ -65,7 +65,7 @@ public class ItemService {
     @Transactional(readOnly = true)
     public Page<MainItemDto> getFilteredItem(String wineType, String wineGrape, String wineRegion,
                                              Integer winePrice, Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable) {
-        return itemRepository.getFilteredItemPage(wineType, wineGrape, wineRegion, winePrice, vivinoRate, rating, itemSellStatus, pageable);
+        return itemRepository.getFilteredItemPage(wineType, wineGrape, wineRegion, winePrice, vivinoRate, itemSellStatus, pageable);
     }
 
     @Transactional(readOnly = true)

@@ -6,25 +6,6 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(function(){
-            let thymeleaf = {
-                utility: {
-                    maskingName: function(strName) {
-                        if (strName.length > 2) {
-                            const originName = strName.split('');
-                            originName.forEach(function(name, i) {
-                                if (i === 0 || i === originName.length - 1) return;
-                                originName[i] = '*';
-                            });
-                            const joinName = originName.join();
-                            return joinName.replace(/,/g, '');
-                        } else {
-                            const pattern = /.$/; // 정규식
-                            return strName.replace(pattern, '*');
-                        }
-                    }
-                }
-            };
-
             // 상품 스와이퍼 슬라이드 이벤트
             let relatedProd = new Swiper('.related-item-cont .swiper-container', {
                 paginationClickable : true,
@@ -509,6 +490,7 @@
                                     <div class="products-entry">
                                         <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                         <div class="products-thumb">
+                                            <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>
                                             <div class="product-image">
                                                 <img th:src="${item.imgUrl}" th:alt="${item.itemNm}">
                                             </div>

@@ -60,6 +60,7 @@ public class ReviwController {
 
         Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
 
+        /*
         List<Boolean> hasPurchasedList = new ArrayList<>();
         if (principal != null) {
             String email = principal.getName();
@@ -70,11 +71,11 @@ public class ReviwController {
                 hasPurchasedList.add(hasPurchased);
             }
         }
-
+        */
 
         model.addAttribute("reviewItem", reviewDtos);
         model.addAttribute("maxPage", 5);
-        model.addAttribute("hasPurchasedList", hasPurchasedList);
+        //model.addAttribute("hasPurchasedList", hasPurchasedList);
         return "review/communityList";
     }
 

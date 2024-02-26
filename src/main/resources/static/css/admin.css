@@ -424,6 +424,10 @@ aside {
     font-family: 'Pretendard';
 }
 
+.table p {
+    line-height: 20px;
+}
+
 /***** 장바구니, 커뮤니티 상품 레이아웃 공통 *****/
 .item-list-row {
     display: flex;

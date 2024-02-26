@@ -109,7 +109,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.vivinoRate,
                         itemImg.imgUrl,
                         item.price,
-                        review.rating,
                         item.itemSellStatus
                     )
                 )
@@ -129,7 +128,7 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
     @Override
     public Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion, Integer winePrice,
-                                                 Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable) {
+                                                 Double vivinoRate, String itemSellStatus, Pageable pageable) {
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
         QReview review = QReview.review;
@@ -180,7 +179,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                                 item.vivinoRate,
                                 itemImg.imgUrl,
                                 item.price,
-                                review.rating,
                                 item.itemSellStatus
                         )
                 )
@@ -215,7 +213,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.vivinoRate,
                         itemImg.imgUrl,
                         item.price,
-                        review.rating,
                         item.itemSellStatus
                     )
                 )
@@ -247,7 +244,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.vivinoRate,
                         itemImg.imgUrl,
                         item.price,
-                        review.rating,
                         item.itemSellStatus
                     )
                 )
@@ -270,7 +266,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<MainItemDto> getMbtiItemPage(String mbti){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
-        QReview review = QReview.review;
 
         QueryResults<MainItemDto> results = queryFactory.select(
                 new QMainItemDto(
@@ -283,7 +278,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.vivinoRate,
                         itemImg.imgUrl,
                         item.price,
-                        review.rating,
                         item.itemSellStatus
                     )
                 )
@@ -303,7 +297,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         QItemImg itemImg = QItemImg.itemImg;
         QItemLike itemLike = QItemLike.itemLike;
         QMember member = QMember.member;
-        QReview review = QReview.review;
 
         QueryResults<MainItemDto> results = queryFactory.select(
                 new QMainItemDto(
@@ -316,7 +309,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                         item.vivinoRate,
                         itemImg.imgUrl,
                         item.price,
-                        review.rating,
                         item.itemSellStatus
                     )
                 )
@@ -338,7 +330,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
     public List<MainItemDto> getRelatedItemPage(Long itemId, Long excludedItemId){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
-        QReview review = QReview.review;
 
         Tuple itemInfo = queryFactory.select(item.wineGrape, item.wineRegion, item.wineType)
                 .from(item)
@@ -360,13 +351,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
                             item.vivinoRate,
                             itemImg.imgUrl,
                             item.price,
-                            review.rating,
                             item.itemSellStatus
                     )
                 )
                 .from(itemImg)
                 .join(itemImg.item, item)
-                .leftJoin(review).on(item.id.eq(review.id))
+                //.leftJoin(review).on(item.id.eq(review.id))
                 .where(item.wineGrape.eq(wineGrape)
                         .or(item.wineRegion.eq(wineRegion))
                         .or(item.wineType.eq(wineType))

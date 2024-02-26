@@ -17,8 +17,8 @@
                         <td>구분</td>
                         <td>성명</td>
                         <td>가입일</td>
-                        <td>총 구매금액</td>
-                        <td>본인 인증 여부</td>
+                        <!--<td>총 구매금액</td>-->
+                        <td>정보 동의 여부</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,8 +27,11 @@
                     <td th:text="${member.provider == null ? '일반가입 회원' : '소셜가입 회원'}"></td>
                     <td th:text="${member.name}"></td>
                     <td th:text="${#temporals.format(member.regTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <p>이용약관 동의 : <span th:text="${member.useAgree == true ? 'Y' : 'N'}"></span></p>
+                        <p>개인정보 동의 : <span th:text="${member.privacyAgree == true ? 'Y' : 'N'}"></span></p>
+                        <p>쇼핑정보 수신 동의 : <span th:text="${member.infoAgree == true ? 'Y' : 'N'}"></span></p>
+                    </td>
                 </tr>
                 </tbody>
             </table>

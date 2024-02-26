@@ -47,7 +47,7 @@
                 type: "GET",
                 data : {"mbti": mbti},
                 success: function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $(".goResult").hide();
 
                     let itemHtml = "";
@@ -204,15 +204,16 @@
     <section class="section-com container">
         <div class="product-wrapper sale-product">
             <div class="heading-box">
-                <h2 class="heading-tit">품절 임박! 얼른 구매하세요~</h2>
+                <h2 class="heading-tit">품절 임박! 얼른 구매하세요~!</h2>
             </div>
             <div class="content-box">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" th:each="item, status: ${items.getContent()}">
+                        <div class="swiper-slide item-element" th:each="item, status: ${items.getContent()}">
                             <input type="hidden" id="itemId" th:value="${item.id}">
                             <input type="hidden" th:id="'count_' + ${item.id}" name="count" th:value="1">
                             <div class="products-entry">
+                                <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                 <div class="products-thumb">
                                     <div th:if="${item.itemSellStatus == T(com.gowine.constant.ItemSellStatus).SOLD_OUT}" class="product-label sold-out">품절</div>
                                     <div class="product-image">
@@ -291,6 +292,6 @@
             </div>
         </div>
     </section>
-    <script src="/js/like.js"></script>
+    <script type="text/javascript" src="/js/like.js"></script>
 </div>
 </html>

@@ -26,6 +26,8 @@ public class ItemFormDto { // 입력 받은 아이템 DTO
     @NotNull(message = "가격은 필수 입력 값입니다.")
     private Integer price;
 
+    private Integer discountRate;
+
     private String winary;
 
     @NotNull(message = "종류를 선택해주세요.")

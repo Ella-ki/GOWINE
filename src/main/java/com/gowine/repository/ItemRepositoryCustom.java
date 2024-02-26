@@ -27,6 +27,6 @@ public interface ItemRepositoryCustom {
     List<MainItemDto> getRelatedItemPage(Long itemid, Long excludedItemId);
 
     Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion, Integer winePrice,
-                                          Double vivinoRate, Integer rating, String itemSellStatus, Pageable pageable);
+                                          Double vivinoRate, String itemSellStatus, Pageable pageable);
 
 }
