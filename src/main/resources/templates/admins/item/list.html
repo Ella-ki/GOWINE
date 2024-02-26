@@ -138,7 +138,7 @@
                     </td>
                     <td data-th-text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}"></td>
                     <td th:text="${item.stockNumber}"></td>
-                    <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd')}"></td>
                     <td>
                         <a class="btn-default" th:href="'/admin/item/'+${item.id}" th:text="수정"></a>
                         <span class="btn-border" th:text="삭제" th:data-id="${item.id}" onclick="fnDelItem(this)"></span>
