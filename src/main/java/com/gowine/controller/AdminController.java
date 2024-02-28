@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -171,7 +172,7 @@ public class AdminController {
 
     @GetMapping(value = {"/admin/reviews", "/admin/reviews/{page}"})
     public String boardList(Model model, @PathVariable("page") Optional<Integer> page){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5, Sort.by("id").descending());
         Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
 
         model.addAttribute("reviewItem", reviewDtos);

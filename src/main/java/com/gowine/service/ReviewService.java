@@ -83,7 +83,6 @@ public class ReviewService {
 
             List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
 
-            // 아이템 이미지 정보를 ItemImgDto 리스트로 변환
             List<ItemImgDto> itemImgDtoList = itemImgList.stream()
                     .map(ItemImgDto::of)
                     .collect(Collectors.toList());

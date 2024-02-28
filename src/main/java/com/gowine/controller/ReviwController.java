@@ -14,10 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,7 +53,7 @@ public class ReviwController {
 
     @GetMapping(value = {"/board/community", "/board/community/{page}"})
     public String boardList(Model model, @PathVariable("page") Optional<Integer> page, Principal principal){
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5, Sort.by("id").descending());
 
         Page<ReviewDto> reviewDtos = reviewService.getAllReviews(pageable);
 
