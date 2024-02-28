@@ -34,6 +34,7 @@ public class Review extends BaseEntity{
 
     private int rating;
 
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     public void updateReview(ReviewFormDto reviewFormDto) {

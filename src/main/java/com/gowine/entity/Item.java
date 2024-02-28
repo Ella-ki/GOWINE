@@ -78,6 +78,10 @@ public class Item extends BaseEntity{
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL
+            , orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ItemImg> itemImgs = new ArrayList<>();
+
     // 리뷰 갯수와 평균 평점
     //private int reviewCount;
     //private double averageRating;

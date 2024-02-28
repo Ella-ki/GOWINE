@@ -135,10 +135,11 @@ public class AdminController {
     }
 
     @DeleteMapping(value = "/admin/item/delete/{itemId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseEntity deleteItem(@PathVariable("itemId") Long itemId) {
         try {
-            itemImgService.deleteItemImg(itemId);
             itemService.deleteItem(itemId);
+            itemImgService.deleteItemImg(itemId);
             return new ResponseEntity<Long>(itemId, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);

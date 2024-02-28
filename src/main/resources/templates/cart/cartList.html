@@ -120,6 +120,15 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
+            let len = $("input[name=cartChkBox]:checked").length;
+
+            console.log(len);
+
+            if( $("input[name=cartChkBox]:checked").length == 0 ) {
+                alert("주문 할 상품을 선택해주세요.")
+                return false;
+            }
+
             // 아임포트에 결제 정보 넘길 값
             var today = new Date();
             var hours = today.getHours();
@@ -129,7 +138,6 @@
             var makeMerchantUid = `${hours}` + `${minutes}` + `${seconds}` + `${milliseconds}`;
             var price = $("#orderTotalPrice").text();
             var username = [[${username}]];
-
 
             // 결제 요청
             var IMP = window.IMP;

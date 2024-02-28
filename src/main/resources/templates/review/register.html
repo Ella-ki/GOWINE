@@ -22,6 +22,14 @@
             });
 
             bindDomEvent();
+
+            const textArea = document.querySelector("#comment");
+            const counter = document.querySelector("#counter");
+
+            textArea.addEventListener("input", () => {
+              let text = textArea.value;
+              counter.innerHTML = text.length;
+            });
         });
 
         function bindDomEvent() {
@@ -83,7 +91,10 @@
             <dl>
                 <dt>내용</dt>
                 <dd>
-                    <textarea th:field="*{comment}" class="input-field"></textarea>
+                    <textarea th:field="*{comment}" class="input-field comment-field" id="comment" maxlength="400"></textarea>
+                    <div class="text-count">
+                        <span id="counter">0</span><span> / 250</span>
+                    </div>
                 </dd>
             </dl>
             <p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}" class="fieldError">Incorrect data</p>

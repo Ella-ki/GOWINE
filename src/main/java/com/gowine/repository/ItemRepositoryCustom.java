@@ -29,4 +29,7 @@ public interface ItemRepositoryCustom {
     Page<MainItemDto> getFilteredItemPage(String wineType, String wineGrape, String wineRegion, Integer winePrice,
                                           Double vivinoRate, String itemSellStatus, Pageable pageable);
 
+    //void deleteItem(Long itemId);
+
+
 }

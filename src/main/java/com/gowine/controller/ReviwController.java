@@ -129,30 +129,6 @@ public class ReviwController {
         } catch (Exception e) {
             model.addAttribute("errorMsg", "리뷰 수정 중 에러가 발생하였습니다.");
         }
-
         return "redirect:/";
     }
-
-    /*
-    @GetMapping(value = {"/reviews", "/reviews/{page}"})
-    public String reviewManage(@PathVariable("page") Optional<Integer> page, Model model) {
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-        Page<ReviewDto> reviews = reviewService.getReviewPage(pageable);
-
-        model.addAttribute("reviews", reviews);
-        model.addAttribute("maxPage", 5);
-        return "review/communityList";
-    }
-
-    @DeleteMapping(value = "/delete/{reviewId}")
-    public @ResponseBody ResponseEntity deleteItem(@PathVariable("reviewId") Long reviewId) {
-        try {
-            reviewImgService.deleteReviewImg(reviewId);
-            reviewService.deleteReview(reviewId);
-            return new ResponseEntity<Long>(reviewId, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
-    }
-    */
 }

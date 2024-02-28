@@ -1,13 +1,11 @@
 package com.gowine.controller;
 
-import com.gowine.constant.ItemSellStatus;
 import com.gowine.dto.CartDetailDto;
 import com.gowine.dto.CartItemDto;
 import com.gowine.dto.CartOrderDto;
 import com.gowine.service.CartService;
+import com.gowine.service.HttpService;
 import com.gowine.service.ItemService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +25,7 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
     private final ItemService itemService;
+    private final HttpService httpService;
 
     @PostMapping(value = "/cart")
     ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal) {
