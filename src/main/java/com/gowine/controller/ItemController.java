@@ -32,7 +32,7 @@ public class ItemController {
     private final ReviewRepository reviewRepository;
     private final ReviewImgRepository reviewImgRepository;
 
-    @GetMapping(value = "/product/list")
+    @GetMapping(value = {"/product/list", "/product/list/{page}"})
     public String itemList(@RequestParam(name = "wineType", required = false) String wineType,
                            @RequestParam(name = "wineGrape", required = false) String wineGrape,
                            @RequestParam(name = "wineRegion", required = false) String wineRegion,
@@ -42,7 +42,7 @@ public class ItemController {
                            @RequestParam(name = "itemSellStatus", required = false) String itemSellStatus,
                            Optional<Integer> page, Model model){
 
-        Pageable pageable = PageRequest.of(page.orElse(0), 8);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 8);
 
         // wineType, wineGrape, wineRegion, winePrice, wineRate 등을 활용하여 필터링된 상품 리스트를 가져옴
         Page<MainItemDto> items = itemService.getFilteredItem(wineType, wineGrape, wineRegion, winePrice, vivinoRate, rating, itemSellStatus, pageable);
@@ -70,6 +70,8 @@ public class ItemController {
                 Long memberId = loginMember.getId();
                 hasReviewed = reviewService.hasReviewed(itemId, memberId);
             }
+
+            model.addAttribute("loginMember", principal.getName());
         }
 
         Page<Review> reviewPage = reviewRepository.findByItem_IdOrderByRegTimeDesc(itemId, pageable);

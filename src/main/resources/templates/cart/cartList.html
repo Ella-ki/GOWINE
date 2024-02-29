@@ -121,10 +121,7 @@
             var header = $("meta[name='_csrf_header']").attr("content");
 
             let len = $("input[name=cartChkBox]:checked").length;
-
-            console.log(len);
-
-            if( $("input[name=cartChkBox]:checked").length == 0 ) {
+            if( len == 0 ) {
                 alert("주문 할 상품을 선택해주세요.")
                 return false;
             }
@@ -150,10 +147,6 @@
                 name: "wine",
                 amount: price,
                 buyer_email: username,
-                //buyer_name: "buyerName",
-                //buyer_tel: "010-4242-4242",
-                //buyer_addr: "인천광역시 연수구",
-                //buyer_postcode: "123-456"
             }, function (rsp) {
                 if (rsp.success) {
                     // 결제 성공 시에만 주문 요청 실행

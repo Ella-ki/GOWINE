@@ -1373,7 +1373,7 @@
     display:none;
 }
 
-.list-box .list-item ul {
+.list-box .list-item .product-wrapper ul {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-gap: 60px 30px;

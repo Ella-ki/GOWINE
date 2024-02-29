@@ -49,7 +49,7 @@
                     <ul class="favorite-list">
                         <li class="item-element clfix" th:each="item, status: ${items.getContent()}">
                             <input type="hidden" id="itemId" th:value="${item.id}">
-                            <input type="hidden" id="count" name="count" th:value="1">
+                            <input type="hidden" th:id="'count_' + ${item.id}" name="count" th:value="1">
                             <dl class="item-list-row">
                                 <a th:href="'/item/' + ${item.id}" class="info-link"></a>
                                 <dt><img th:src="${item.imgUrl}" th:alt="${item.itemNm}"></dt>

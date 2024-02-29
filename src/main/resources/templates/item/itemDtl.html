@@ -13,6 +13,8 @@
     <!-- 포트원 결제 -->
 
     <script th:inline="javascript">
+        /*<![CDATA[*/
+
         $(function(){
             // 상품 스와이퍼 슬라이드 이벤트
             let relatedProd = new Swiper('.related-item-cont .swiper-container', {
@@ -45,6 +47,12 @@
         function order(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
+            let loginMm = /*[[${loginMember}]]*/;
+
+            if( loginMm == null ) {
+                alert("로그인 후 이용해주세요.");
+                location.href = "/members/login";
+            }
 
             // 아임포트에 결제 정보 넘길 값
             var today = new Date();
@@ -53,8 +61,7 @@
             var seconds = today.getSeconds();
             var milliseconds = today.getMilliseconds();
             var makeMerchantUid = `${hours}` + `${minutes}` + `${seconds}` + `${milliseconds}`;
-            var price = $(".go-to-order").text();
-            var username = [[${username}]];
+            var price = $("#totalPrice").text();
 
             // 결제 요청
             var IMP = window.IMP;
@@ -66,17 +73,16 @@
                 merchant_uid: makeMerchantUid,
                 name: "wine",
                 amount: price,
-                buyer_email: username,
-                //buyer_name: "buyerName",
-                //buyer_tel: "010-4242-4242",
-                //buyer_addr: "인천광역시 연수구",
-                //buyer_postcode: "123-456"
+                buyer_email: loginMm,
             }, function (rsp) {
                 if (rsp.success) {
                     var itemId = $(".go-to-order").data("id");
                     var count = $("#count_" + itemId);
+                    var dataList = new Array();
+                    var paramData = new Object();
 
-                    var url = "/cart/orders";
+                    var url = "/order";
+
                     var paramData = {
                         itemId : itemId,
                         count : count.val()
@@ -244,6 +250,8 @@
             if (number == null) return '';
             return number.toFixed(decimals);
         }
+
+        /*]]>*/
     </script>
 </th:block>
 

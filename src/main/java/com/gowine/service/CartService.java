@@ -52,7 +52,6 @@ public class CartService {
         // Cart id, item id 를 조회 CartItem을 결과 값 받기
         CartItem savedCartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
-
         // CartItem 결과 값이 객체가 있는 경우 => 동일한 상품 있으면 수량만 증가
         if (savedCartItem != null) {
             // 수량만 증가 -> 변경감지

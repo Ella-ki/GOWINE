@@ -63,7 +63,7 @@ public class CartController {
 
         model.addAttribute("cartItems", cartDetailDtoList);
         model.addAttribute("username", principal.getName());
-        return "/cart/cartList";
+        return "cart/cartList";
     }
 
     @PatchMapping(value = "/cartItem/{cartItemId}")
@@ -107,7 +107,6 @@ public class CartController {
     // -> CartService -> CartController -> cartList.html
     @PostMapping(value = "/cart/orders")
     public @ResponseBody ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal) {
-        System.out.println(cartOrderDto.getCartItemId());
         List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
 
         // 1. 유효성 검사 후

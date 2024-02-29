@@ -51,7 +51,7 @@ const eventHandler = {
                     alert("로그인 후 이용해주세요.");
                     location.href = "/members/login";
                 } else {
-                    console.error("server error");
+                    //console.error("server error");
                 }
             }
         });
@@ -79,7 +79,7 @@ const eventHandler = {
                     alert("로그인 후 이용해주세요.");
                     location.href = "/members/login";
                 } else {
-                    console.error("server error");
+                    //console.error("server error");
                 }
             }
         });
