@@ -17,11 +17,11 @@ Wine E-Commerce Web Application with Spring Boot
 | Language  | <span><img src="https://img.shields.io/badge/java-507E9C?style=for-the-badge&logo=java&logoColor=white"></span> <span><img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"></span> <span><img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=javascript&logoColor=white"></span> <span><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"></span>  |
 | Framework  | <span><img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"></span> <span><img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"></span> |
 | Template | <span><img src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"></span>  |
-| IDE  | Content Cell  |
-| Build | <span><img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=javascript&logoColor=white"></span> |
+| IDE  | <span><img src="https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white"></span> <span><img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"></span> |
+| Build | <span><img src="https://img.shields.io/badge/apachemaven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white"></span> |
 | Library  | Content Cell  |
 | Server  | Content Cell  |
-| Database & <br/>Streaming flatform | Content Cell  |
+| Database & <br/>Streaming flatform | <span><img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"></span> <span><img src="https://img.shields.io/badge/mariadb-003545?style=for-the-badge&logo=mariadb&logoColor=white"></span> <span><img src="https://img.shields.io/badge/hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white"></span> <span><img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"></span> |
 | Cloud Env | Content Cell  |
 | API | Content Cell  |
 | Version control | Content Cell  |
