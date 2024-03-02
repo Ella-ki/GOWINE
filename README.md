@@ -12,7 +12,7 @@ Wine E-Commerce Web Application with Spring Boot
 ```
 
 ### 💡 개발 환경
-| OS  | Second Header |
+| OS  | <span><img src="https://img.shields.io/badge/windows10-0078D6?style=for-the-badge&logo=windows10&logoColor=white"></span> |
 | ------------- | ------------- |
 | Language  | <span><img src="https://img.shields.io/badge/java-507E9C?style=for-the-badge&logo=java&logoColor=white"></span> <span><img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"></span> <span><img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=javascript&logoColor=white"></span> <span><img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"></span>  |
 | Framework  | <span><img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"></span> <span><img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"></span> |
