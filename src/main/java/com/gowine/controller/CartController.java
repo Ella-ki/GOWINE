@@ -39,7 +39,7 @@ public class CartController {
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        String email = principal.getName();
+        String email = httpService.principalEmail(principal);
         Long cartItemId;
         Integer cartCount;
 
@@ -59,7 +59,7 @@ public class CartController {
 
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
-        List<CartDetailDto> cartDetailDtoList = cartService.getCartList(principal.getName());
+        List<CartDetailDto> cartDetailDtoList = cartService.getCartList(httpService.principalEmail(principal));
 
         model.addAttribute("cartItems", cartDetailDtoList);
         model.addAttribute("username", principal.getName());

@@ -7,6 +7,7 @@ import com.gowine.entity.ReviewImg;
 import com.gowine.repository.MemberRepository;
 import com.gowine.repository.ReviewImgRepository;
 import com.gowine.repository.ReviewRepository;
+import com.gowine.service.HttpService;
 import com.gowine.service.ItemService;
 import com.gowine.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class ItemController {
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
     private final ReviewImgRepository reviewImgRepository;
+    private final HttpService httpService;
 
     @GetMapping(value = {"/product/list", "/product/list/{page}"})
     public String itemList(@RequestParam(name = "wineType", required = false) String wineType,
@@ -105,7 +107,7 @@ public class ItemController {
     public String myFavoriteItem(Principal principal, Optional<Integer> page, Model model) {
         Pageable pageable = PageRequest.of(page.orElse(0), 8);
 
-        String email = principal.getName();
+        String email = httpService.principalEmail(principal);
         Member loginMember = memberRepository.findByEmail(email).orElseThrow();
 
         if(Objects.nonNull(loginMember)) {
