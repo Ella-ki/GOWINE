@@ -14,7 +14,7 @@ $(function(){
         slidesPerView: 4,
         spaceBetween: 30,
         //centeredSlides: true,
-        loop: true,
+        //loop: true,
         autoplayDisableOnInteraction: false,
     });
 
