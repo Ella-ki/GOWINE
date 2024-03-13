@@ -44,12 +44,12 @@ public class ItemController {
                            @RequestParam(name = "itemSellStatus", required = false) String itemSellStatus,
                            Optional<Integer> page, Model model){
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 8);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 9);
 
         // wineType, wineGrape, wineRegion, winePrice, wineRate 등을 활용하여 필터링된 상품 리스트를 가져옴
         Page<MainItemDto> items = itemService.getFilteredItem(wineType, wineGrape, wineRegion, winePrice, vivinoRate, rating, itemSellStatus, pageable);
         model.addAttribute("items", items);
-        model.addAttribute("maxPage", 8);
+        model.addAttribute("maxPage", 9);
 
         return "item/list";
     }
